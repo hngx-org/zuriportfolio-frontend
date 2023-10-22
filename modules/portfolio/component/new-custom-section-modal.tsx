@@ -114,30 +114,25 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     addItem(e);
   };
 
-  const removeField = (id: number) => {
-    console.log(id);
-    setRenderedFields((prev) => prev.filter((field, index) => index !== id));
-  };
-
   const addItem = (field: string) => {
     const newKey = Math.random();
     if (field === 'title') {
       form.setFieldValue('addList.0.title', '');
       form.setFieldValue('addList.0.id', Math.random());
-      setRenderedFields((prev) => [renderFields(field, newKey, removeField, form), ...prev]);
+      setRenderedFields((prev) => [renderFields(field, newKey, form), ...prev]);
     } else if (field === 'subtitle') {
       form.setFieldValue('addList.0.subtitle', { title: '', value: '' });
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey, removeField, form)]);
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
     } else if (field === 'dates') {
       form.setFieldValue('addList.0.dates', { from: '', to: '' });
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey, removeField, form)]);
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
     } else if (field === 'description') {
-      form.setFieldValue('addList.0.description', ''); 
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey, removeField,form)]);
+      form.setFieldValue('addList.0.description', '');
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
     } else {
       form.insertListItem('addList.0.fields', { [field]: '', value: '', key: newKey, type: field });
       const fieldIndex = form.values.addList[0].fields.length;
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey,removeField, form, fieldIndex)]);
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, form, fieldIndex)]);
     }
   };
 
@@ -244,9 +239,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     setRenderedFields([]);
     setGetNewSection(false);
     setNewSection(true);
-  }
-
-  
+  };
 
   return (
     <CreateCustomSection
@@ -265,7 +258,6 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
       isLoading={createNewCustomSectionOption.isLoading}
       isCreatingSection={createNewCustomSectionMutation.isLoading}
       createCustomSection={handleCreateNewCustomSection}
-      deleteSection={deleteSection}
     />
   );
 }
@@ -286,7 +278,6 @@ function CreateCustomSection({
   handleSubmit,
   onClose,
   createCustomSection,
-  deleteSection,
 }: {
   getNewSection: boolean;
   isLoading: boolean;
@@ -303,11 +294,14 @@ function CreateCustomSection({
   handleSubmit: (values: any) => void;
   onClose: () => void;
   createCustomSection: () => void;
-  deleteSection: () => void;
 }) {
   const errorMessages = Object.values(form.errors)
     .flat()
-    .map((error, index) => <p key={index}> - {error}</p>);
+    .map((error, index) => (
+      <p key={index} className="py-1">
+        - {error}
+      </p>
+    ));
 
   const isErrorsEmpty = Object.keys(form.errors).length === 0;
 
@@ -321,7 +315,6 @@ function CreateCustomSection({
           setGetNewSection={setGetNewSection}
           isLoading={isCreatingSection}
           createCustomSection={createCustomSection}
-          deleteSection={deleteSection}
         />
       )}
       <Transition show={newSection} as={React.Fragment} unmount={false}>
@@ -350,7 +343,7 @@ function CreateCustomSection({
                 </p>
               </Popover.Button>
 
-              <Popover.Panel className="absolute w-[250px] font-manropeB text-[12px] text-red-300 z-10 bg-white-100 p-2 border-white-300 border-2 space-y-2">
+              <Popover.Panel className="absolute w-[250px] font-manropeL text-[12px] text-red-300 z-10 bg-white-100 p-2 border-white-300 border-2">
                 {errorMessages}
               </Popover.Panel>
             </Popover>

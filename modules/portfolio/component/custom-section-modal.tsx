@@ -6,7 +6,7 @@ import { years } from '../data';
 import Modal from '@ui/Modal';
 import Button from '@ui/Button';
 import Portfolio from '../../../context/PortfolioLandingContext';
-import Demo from './new-custom-section-modal';
+import CreateCustomSectionContainer from './new-custom-section-modal';
 
 const CustomSectionModal = () => {
   const { openCustom, setOpenCustom, userId } = useContext(Portfolio);
@@ -17,7 +17,7 @@ const CustomSectionModal = () => {
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="max-w-4xl mx-auto my-5">
-        <Demo onClose={onClose} userId={userId} />
+        <CreateCustomSectionContainer onClose={onClose} userId={userId} />
       </div>
     </Modal>
   );

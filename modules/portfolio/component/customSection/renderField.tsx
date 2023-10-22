@@ -2,12 +2,10 @@ import { UseFormReturnType } from '@mantine/form';
 import { years } from '@modules/portfolio/data';
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { CloseCircle } from 'iconsax-react';
 
 export const renderFields = (
   field: string,
   id: number,
-  deleteField: (id: number) => void,
   form?: UseFormReturnType<
     { addList: { id: string; fields: any[] }[] },
     (values: { addList: { id: string; fields: any[] }[] }) => { addList: { id: string; fields: any[] }[] }
@@ -22,7 +20,7 @@ export const renderFields = (
           <div className="">
             <input
               className="border-brand-green-primary border-b-[5px] w-min-[9rem] pb-2 text-2xl inline-block focus:outline-none placeholder-black"
-              placeholder="Add Section Title"
+              placeholder="Section Title"
               {...form?.getInputProps(`addList.0.title`)}
             />
           </div>
@@ -31,14 +29,11 @@ export const renderFields = (
     case 'subtitle':
       return (
         <div className="flex flex-col gap-1 items-start" id={`${id}`}>
-          <div className="flex justify-between items-center w-full">
-            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#2 Subtitle</p>
-            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
-          </div>
+          <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#2 Subtitle</p>
           <input
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
-            placeholder="Add Field Title"
+            placeholder="Field Title"
             {...form?.getInputProps(`addList.0.subtitle.title`)}
           />
           <div className="w-full">
@@ -54,11 +49,8 @@ export const renderFields = (
     case 'links':
       return (
         <div className="flex text-left flex-col gap-1 items-start" id={`${id}`}>
-          <div className="flex justify-between items-center w-full">
-            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#4 Links</p>
-            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
-          </div>
           <div>
+            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#4 Links</p>
             <input
               type="text"
               className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL outline-none"
@@ -79,13 +71,10 @@ export const renderFields = (
     case 'description':
       return (
         <div className="flex flex-col text-left gap-1 items-start" id={`${id}`}>
-          <div className="flex justify-between items-center w-full">
+          <div>
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
               #5 Description
             </p>
-            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
-          </div>
-          <div>
             <p className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL">Description</p>
           </div>
           <div className="w-full">
@@ -100,16 +89,13 @@ export const renderFields = (
     case 'inputfield':
       return (
         <div className="flex flex-col gap-1 items-start" id={`${id}`}>
-          <div className="flex justify-between items-center w-full">
-            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
-              #3 Input field
-            </p>
-            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
-          </div>
+          <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
+            #3 Input field
+          </p>
           <input
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
-            placeholder="Add Input Title"
+            placeholder="Field Title"
             {...form?.getInputProps(`addList.0.fields.${index}.inputfield`)}
           />
           <div className="w-full">
@@ -125,51 +111,46 @@ export const renderFields = (
     case 'dates':
       return (
         <div className="flex flex-col gap-2 items-start" id={`${id}`}>
-          <div className="flex justify-between items-center w-full">
+          <div>
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#6 Dates</p>
-            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
-            <div>
-              <div className="w-full">
-                <p className="text-[#444846] mb-2 text-left font-semibold">From *</p>
-                <Select
-                  {...form?.getInputProps('addList.0.dates.from')}
-                  onValueChange={(value) => form?.setFieldValue('addList.0.dates.from', value)}
-                >
-                  <SelectTrigger className="w-full border-[1px] border-brand-disabled">
-                    <SelectValue placeholder="Year" />
-                  </SelectTrigger>
-                  <>
-                    <SelectContent>
-                      {years.map((year, index) => (
-                        <SelectItem key={index} value={year.value}>
-                          {year.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </>
-                </Select>
-              </div>
-              <div className="w-full">
-                <p className="text-[#444846] mb-2 text-left font-semibold">To *</p>
-                <Select
-                  {...form?.getInputProps('addList.0.dates.to')}
-                  onValueChange={(value) => form?.setFieldValue('addList.0.dates.to', value)}
-                >
-                  <SelectTrigger className="w-full border-[1px] border-brand-disabled">
-                    <SelectValue placeholder="Year" />
-                  </SelectTrigger>
-                  <>
-                    <SelectContent>
-                      {years.map((year, index) => (
-                        <SelectItem key={index} value={year.value}>
-                          {year.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </>
-                </Select>
-              </div>
-            </div>
+            <p className="text-[#444846] mb-2 text-left font-semibold">From *</p>
+            <Select
+              {...form?.getInputProps('addList.0.dates.from')}
+              onValueChange={(value) => form?.setFieldValue('addList.0.dates.from', value)}
+            >
+              <SelectTrigger className="w-full border-[1px] border-brand-disabled">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <>
+                <SelectContent>
+                  {years.map((year, index) => (
+                    <SelectItem key={index} value={year.value}>
+                      {year.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </>
+            </Select>
+          </div>
+          <div className="w-full">
+            <p className="text-[#444846] mb-2 text-left font-semibold">To *</p>
+            <Select
+              {...form?.getInputProps('addList.0.dates.to')}
+              onValueChange={(value) => form?.setFieldValue('addList.0.dates.to', value)}
+            >
+              <SelectTrigger className="w-full border-[1px] border-brand-disabled">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <>
+                <SelectContent>
+                  {years.map((year, index) => (
+                    <SelectItem key={index} value={year.value}>
+                      {year.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </>
+            </Select>
           </div>
         </div>
       );
