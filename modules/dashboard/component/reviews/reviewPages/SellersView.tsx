@@ -129,9 +129,17 @@ const SellersView = () => {
     if (view === 'topReviews') {
       filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
     } else if (view === 'newest') {
-      filteredReviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      filteredReviews.sort(
+        (a, b) =>
+          new Date(b.createdAtDate + ' ' + b.createdAtTime).getTime() -
+          new Date(a.createdAtDate + ' ' + a.createdAtTime).getTime(),
+      );
     } else if (view === 'oldest') {
-      filteredReviews.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      filteredReviews.sort(
+        (a, b) =>
+          new Date(a.createdAtDate + ' ' + a.createdAtTime).getTime() -
+          new Date(b.createdAtDate + ' ' + b.createdAtTime).getTime(),
+      );
     }
 
     return filteredReviews;
@@ -224,7 +232,7 @@ const SellersView = () => {
                         <SellerReview
                           key={review.reviewId}
                           buyerName={review.customerName}
-                          mainDate={review.createdAt}
+                          mainDate={review.createdAtDate + ' ' + review.createdAtTime}
                           adminDate={review.reply?.createdAt}
                           review={review.description}
                           noOfStars={review.rating}
