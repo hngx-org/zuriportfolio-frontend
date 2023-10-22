@@ -2,10 +2,15 @@ import { Manrope } from 'next/font/google';
 import React from 'react';
 import { OrderHistory } from '../../../../../@types';
 import { Clock } from 'iconsax-react';
+import Link from 'next/link';
 const manropeMD = Manrope({
   weight: ['500'],
   subsets: ['latin'],
 });
+const formatNum = (num: number) => {
+  const formatter = new Intl.NumberFormat();
+  return formatter.format(num);
+};
 
 const CancelledTab: React.FC = () => {
   return (
@@ -59,20 +64,23 @@ const PendingTab = () => {
     </div>
   );
 };
+
 const OrderHistoryRow = (props: OrderHistory) => {
   const padDate = (num: number) => {
     return String(num).padStart(2, '0');
   };
   const formatDate = () => {
-    const date = props.date;
+    const date = props.date as Date;
 
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
 
   return (
-    <tr className="font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
-      <td className={`text-custom-color10 ${manropeMD.className} text-center`}>#{props.id}</td>
-      <td>{props.productName}</td>
+    <tr className="w-full font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
+      <td className={`text-custom-color10 underline ${manropeMD.className} text-center`}>
+        <Link href={`/dashboard/orders/details/${(props as any)?.fullId}`}>#{props.id}</Link>
+      </td>
+      <td>₦{props.revenue}</td>
       <td className={`text-custom-color10 ${manropeMD.className}`}>{props.customerName}</td>
       <td>{formatDate()}</td>
       <td>
@@ -89,7 +97,7 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
     return String(num).padStart(2, '0');
   };
   const formatDate = () => {
-    const date = props.date;
+    const date = props.date as Date;
 
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
@@ -101,9 +109,10 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
       }}
     >
       <div className="flex flex-col">
-        <h2 className=" text-[14px] font-semibold mb-2 text-custom-color11  tracking-[0.014px] leading-[144%]">
-          {props.productName}
-        </h2>
+        {/* <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
+          {' '}
+          Revenue: #{formatNum(props.revenue)}
+        </p> */}
         <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
         <p className="text-custom-color22 font-semibold">
           Order ID: <span className="text-dark-110 font-manropeL font-normal">#{props.id}</span>

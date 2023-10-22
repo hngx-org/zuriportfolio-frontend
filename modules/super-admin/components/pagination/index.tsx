@@ -18,18 +18,21 @@ const PaginationBtn = ({ handleClick, disabledFn, title }: PaginationBtn) => {
   );
 };
 
-const SuperAdminPagination = ({ currentPage, totalPages, onPageChange }: AdminTablePagination) => {
+const SuperAdminPagination = ({ currentPage, totalPages, setCurrentPage }: AdminTablePagination) => {
   const handlePrevClick = () => {
     if (currentPage < 1) {
-      onPageChange(1);
+      window.scroll(0, 10);
+      setCurrentPage(1);
     } else {
-      onPageChange(currentPage - 1);
+      window.scroll(0, 10);
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      window.scroll(0, 10);
+      setCurrentPage(currentPage + 1);
     }
   };
 
@@ -48,9 +51,12 @@ const SuperAdminPagination = ({ currentPage, totalPages, onPageChange }: AdminTa
       pageNumbers.push(
         <button
           key={i}
-          onClick={() => onPageChange(i)}
+          onClick={() => {
+            window.scroll(0, 10);
+            setCurrentPage(i);
+          }}
           className={`w-9 h-8 rounded-md ${
-            i === currentPage ? 'bg-brand-green-primary text-white' : 'text-[gray-600] hover:bg-white-140'
+            i === currentPage ? 'bg-brand-green-primary text-white-100' : 'text-[gray-600] hover:bg-white-140'
           }`}
         >
           {i}

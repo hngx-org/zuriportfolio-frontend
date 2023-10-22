@@ -1,5 +1,9 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { WorkExperience } from '../../../@types';
+import { notify } from '@ui/Toast';
+import Portfolio from '../../../context/PortfolioLandingContext';
+import axios from 'axios';
+import { months } from '../data';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -16,7 +20,6 @@ interface WorkExperienceModalContextType {
   startYear: string;
   isChecked: boolean;
   isForm: boolean;
-  idCounter: number;
   setCompany: (text: string) => void;
   setRole: (text: string) => void;
   setDescription: (text: string) => void;
@@ -29,6 +32,8 @@ interface WorkExperienceModalContextType {
   resetForm: () => void;
   isEditMode: boolean;
   setIsEditMode: (value: boolean) => void;
+  isData: boolean;
+  setIsData: (value: boolean) => void;
 }
 
 export const WorkExperienceModalContext = createContext<any>(null);
@@ -42,9 +47,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [endYear, setEndYear] = useState('');
   const [endMonth, setEndMonth] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [idCounter, setIdCounter] = useState(1);
-  const [isForm, setIsForm] = useState(true);
+  const [isForm, setIsForm] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isData, setIsData] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const resetForm = () => {
     setRole('');
     setCompany('');
@@ -57,44 +63,113 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsForm(true);
   };
 
-  const getUserWorkExperience = async () => {
-    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
-    const response = await data.json();
-    const { workExperience } = response;
-    console.log('User work experience', workExperience);
-  };
-
+  const { userId, portfolioUrl, slug } = useContext(Portfolio);
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
-  const handleEditExperience = async (id: string) => {
-    console.log(id);
-    try {
-      const response = await fetch(`${API_BASE_URL}api/update-work-experience/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          company,
-          role,
-          startMonth,
-          startYear,
-          endMonth,
-          endYear,
-          description,
-          isEmployee: true,
-          userId,
-          sectionId: 2,
-        }),
-      });
-      // if (response.ok) {
-      // console.log(body);
-      const data = await response.text();
-      // console.log(response);
 
-      // console.log(data);
-      // }
+  const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
+    e?.preventDefault();
+    const experienceObject = JSON.stringify({
+      userId,
+      company,
+      role,
+      startMonth,
+      startYear,
+      endMonth,
+      endYear,
+      description,
+      isEmployee: isChecked,
+      sectionId: 2,
+    });
+    try {
+      const missingFields = [];
+      const numberFields = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (numbersOnlyRegex.test(role)) {
+        numberFields.push('Role');
+      }
+      if (numbersOnlyRegex.test(company)) {
+        numberFields.push('Company');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
+      if (role === '') {
+        missingFields.push('Role');
+      }
+      if (company === '') {
+        missingFields.push('Company');
+      }
+      if (description === '') {
+        missingFields.push('Description');
+      }
+      if (startMonth === '') {
+        missingFields.push('Start Month');
+      }
+      if (startYear === '') {
+        missingFields.push('Start Year');
+      }
+      if (endMonth === '') {
+        missingFields.push('End Month');
+      }
+      if (endYear === '') {
+        missingFields.push('End Year');
+      }
+
+      if (missingFields.length > 0) {
+        // Handle the case when required values are missing
+        const missingFieldsString = missingFields.join(', ');
+        // Notify the user about missing fields
+        notify({
+          message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}api/v1/updateexperience/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: experienceObject,
+      });
+      if (response.ok) {
+        setIsEditMode(false);
+        notify({
+          message: `Work experience edited successfully`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setIsData(true);
+        setIsForm(false);
+
+        getAllWorkExperience();
+      }
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const handleDeleteExperience = async (id: string, e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const experienceId = parseInt(id, 10); // Convert id to a number
@@ -102,86 +177,216 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       console.error('Invalid experience id:', id);
       return;
     }
+    setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}api/work-experience/${id}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/experience/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
-        const data = await response.json();
+        notify({
+          message: `Work experience deleted successfully`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      notify({
+        message: 'Was not able to delete work experience 😞',
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const getAllWorkExperience = async () => {
+  const getAllWorkExperience = useCallback(async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${portfolioUrl}/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
-        const { workExperience } = data;
+        const { workExperience } = data.data;
         setWorkExperiences(workExperience);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
-  };
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  }, [userId, slug]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e?.preventDefault();
+    setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/create-work-experience/${userId}`, {
+      const missingFields = [];
+      const numberFields = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (numbersOnlyRegex.test(role)) {
+        numberFields.push('Role');
+      }
+      if (numbersOnlyRegex.test(company)) {
+        numberFields.push('Company');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
+      if (role === '') {
+        missingFields.push('Role');
+      }
+      if (company === '') {
+        missingFields.push('Company');
+      }
+      if (description === '') {
+        missingFields.push('Description');
+      }
+      if (startMonth === '') {
+        missingFields.push('Start Month');
+      }
+      if (startYear === '') {
+        missingFields.push('Start Year');
+      }
+      if (endMonth === '') {
+        missingFields.push('End Month');
+      }
+      if (endYear === '') {
+        missingFields.push('End Year');
+      }
+
+      if (missingFields.length > 0) {
+        // Handle the case when required values are missing
+        const missingFieldsString = missingFields.join(', ');
+        // Notify the user about missing fields
+        notify({
+          message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      const endYearValue = isChecked ? 'Present' : endYear;
+
+      const response = await fetch(`${API_BASE_URL}api/v1/createexperience/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
         },
         body: JSON.stringify({
-          company, // Assuming `company` is a variable in your scope
-          // Add other data you want to send to the backend here
+          company,
           role,
           startMonth,
           startYear,
           endMonth,
-          endYear,
+          endYear: endYearValue,
           description,
-          isEmployee: true,
+          isEmployee: isChecked,
           userId,
           sectionId: 2,
         }),
       });
-
       if (response.ok) {
-        // Request was successful, you can handle the response here
-        const data = await response.json(); // Parse the response as JSON
         getAllWorkExperience();
+        notify({
+          message: 'Work experience created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         resetForm();
+        setIsForm(false);
+        setIsData(true);
       } else {
-        // Request failed, handle the error
+        const responseJson = await response.json();
         console.error('Request failed with status:', response.status);
+        if (
+          responseJson?.message &&
+          responseJson?.message?.includes('String must contain at least 13 character(s) in description')
+        ) {
+          notify({
+            message: 'Description must contain more than 13 characters',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
+        if (
+          responseJson?.message &&
+          responseJson?.message?.includes('End month must match or exceed start month in the same year')
+        ) {
+          notify({
+            message: 'End month must match or exceed start month in the same year',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
+        if (
+          responseJson?.message &&
+          responseJson?.message?.includes('End month must be at or after start month for the same year')
+        ) {
+          notify({
+            message: 'End month must be at or after start month for the same year',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
+        notify({
+          message: 'We had some issues adding ur work experience',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       }
-    } catch (error) {
+    } catch (error: any) {
       // Handle network or other errors
       console.error('Error:', error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getAllWorkExperience();
-  }, []);
+    if (userId.trim().length > 0) {
+      getAllWorkExperience();
+    }
+  }, [getAllWorkExperience, userId, slug]);
 
-  // useEffect(() => {
-  //   console.log('User work experience ', workExperiences);
-  // }, [workExperiences]);
+  useEffect(() => {
+    console.log('workExperiences', workExperiences);
+    if (workExperiences.length === 0) {
+      setIsForm(true);
+    }
+  }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider
       value={{
         role,
-        resetForm,
         company,
         description,
         startMonth,
@@ -190,6 +395,12 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         startYear,
         isChecked,
         isForm,
+        workExperiences,
+        isEditMode,
+        isData,
+        isLoading,
+        setIsLoading,
+        resetForm,
         setCompany,
         setIsChecked,
         setRole,
@@ -198,14 +409,13 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setEndMonth,
         setStartYear,
         setEndYear,
-        idCounter,
-        workExperiences,
         handleDeleteExperience,
         getAllWorkExperience,
         addWorkExperience,
         handleEditExperience,
-        isEditMode,
         setIsEditMode,
+        setIsForm,
+        setIsData,
       }}
     >
       {children}

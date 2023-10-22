@@ -117,6 +117,7 @@ module.exports = {
           100: '#258dfd',
           105: '#4055e4',
           200: '#4898f0',
+          250: '#EBF6F9',
           300: '#3F7EEE',
           301: '#59CBE8',
           302: '#102241',
@@ -211,6 +212,7 @@ module.exports = {
           color41: '#E0FFF0',
           color42: '#FCFCFD',
           color43: '#444846',
+          color44: '#4fa94d',
         },
       },
       fontFamily: {

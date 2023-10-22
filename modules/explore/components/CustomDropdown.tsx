@@ -30,7 +30,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   return (
     <div className="w-full relative">
       <div
-        className={`h-12 px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${className} ${
+        className={`h-12 px-5 py-3 bg-white rounded-lg border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${className} ${
           isOpen ? 'bg-white' : ''
         }`}
         onClick={toggleDropdown}
@@ -45,7 +45,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         </div>
       </div>
       {isOpen && (
-        <div className="list mt-2 bg-white border hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
+        <div className="list mt-2 bg-white shadow-lg hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
           {options.map((option, index) => (
             <div
               key={index}

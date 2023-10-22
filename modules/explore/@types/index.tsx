@@ -14,5 +14,11 @@ export interface UserInfo {
     skills: string[];
     tag: string;
     track: string;
+    slug: string;
   }[];
+}
+
+export interface alltracksType {
+  id: number;
+  name: string;
 }

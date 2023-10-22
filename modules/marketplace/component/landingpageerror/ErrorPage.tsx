@@ -16,7 +16,7 @@ const Error: React.FC = () => {
           There is nothing here
         </h1>
         <button className="w-44 sm:text-xl md:text-2xl lg:text-lg h-12 xl:w-44 rounded-lg text-lg mt-3 bg-brand-green-primary text-white-100">
-          <Link href="/">{btnText}</Link>
+          <Link href="/marketplace">{btnText}</Link>
         </button>
       </main>
     </MainLayout>

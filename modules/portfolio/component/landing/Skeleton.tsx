@@ -1,38 +1,172 @@
-import { ExportSquare } from 'iconsax-react';
+import { ArrowUp, ExportSquare } from 'iconsax-react';
 import Image from 'next/image';
+import AddShopErrorModal from '../addShopErrorModal';
+import { useContext, useEffect, useState } from 'react';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+import axios from 'axios';
+import Link from 'next/link';
+import CustomSectionModal from '../custom-section-modal';
+
+// types
 
 type AboutProps = {
   bio?: string;
-};
-
-export const About = ({ bio }: AboutProps) => {
-  return <p className="text-sm text-gray-300 font-semibold">{bio}</p>;
 };
 
 type SkeletonProps = {
   data?: any;
 };
 
+// styles
+
+const text = `text-gray-500 text-sm font-light leading-6 font-manropeL tracking-wide [word-spacing:3px]`;
+const description = `text-sm text-gray-600 leading-5 font-manropeL tracking-wide`;
+const main = `text-gray-800 text-xl font-semibold`;
+const date = `text-gray-500 text-sm font-semibold`;
+const array = 'grid place-content-center p-2 rounded-lg shadow-[0_0px_4px_1px_rgba(0,0,0,0.1)]';
+const arrayText = 'text-base text-gray-800 font-semibold opacity-70';
+
+// components
+export const About = ({ bio }: AboutProps) => {
+  return <p className={text}>{bio}</p>;
+};
+
 export const WorkExperience = ({ data }: SkeletonProps) => {
+  const endYear = data.isEmployee ? 'Present' : data.endYear;
+
+  function formatDuration(startMonth: string, startYear: string, endMonth: string, endYear: string): string {
+    const startDate = new Date(`${startMonth} 1, ${startYear}`);
+    const endDate = new Date(`${endMonth} 1, ${endYear}`);
+
+    const durationInMilliseconds = endDate.getTime() - startDate.getTime();
+    const millisecondsInYear = 1000 * 60 * 60 * 24 * 365.25;
+    const years = Math.floor(durationInMilliseconds / millisecondsInYear);
+    const remainingMilliseconds = durationInMilliseconds - years * millisecondsInYear;
+    const months = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24 * 30.44));
+
+    return `${years} yrs ${months} months`;
+  }
+
+  const duration = formatDuration(data.startMonth, data.startYear, data.endMonth, data.endYear);
+
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6">
-      <p className="text-gray-300 font-semibold text-base flex-[2]">
-        <span>
-          {data?.startMonth} {data?.startYear}
-        </span>{' '}
-        -{' '}
-        <span>
-          {data?.endMonth} {data?.endYear}
-        </span>
-      </p>
-      <div className="flex flex-col mb-2 md:gap-1 flex-[2]">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.company}</h3>
-        <p className="text-base font-manropeL text-brand-green-primary">{data?.role}</p>
+    <div className="flex flex-col justify-start md:justify-between  items-start gap-x-10 gap-y-2 mb-5">
+      <div className="">
+        <h3 className={`${main}`}>{data?.company}</h3>
+        <p className={`${date}`}>{duration}</p>
       </div>
-      <p className="font-semibold text-sm text-gray-400 flex-[2]">{data?.description}</p>
+      <div className="flex flex-col gap-1">
+        <h3 className={`font-bold text-gray-700 text-lg`}>{data?.role}</h3>
+        <p className={`${date}`}>
+          <span>
+            {data?.startMonth} {data?.startYear}
+          </span>{' '}
+          -{' '}
+          <span>
+            {data?.endMonth} {data?.endYear}
+          </span>
+        </p>
+        <p className={description}>{data?.description}</p>
+      </div>
     </div>
   );
 };
+
+export const Skill = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-wrap gap-5 justify-start items-start mt-2">
+      {data?.map((skill: any, i: number) => (
+        <span className={array} key={i}>
+          <p className={arrayText}>{skill.skills}</p>
+        </span>
+      ))}
+    </div>
+  );
+};
+
+export const Interests = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-wrap gap-5 justify-start items-start mt-2">
+      {data?.length > 0 &&
+        data?.map((interest: any, i: number) => {
+          return (
+            <span className={array} key={i}>
+              <p className={arrayText}>{interest}</p>
+            </span>
+          );
+        })}
+    </div>
+  );
+};
+
+export const Language = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-wrap gap-5 justify-start items-start">
+      {data?.map((language: any, i: number) => (
+        <span className={array} key={i}>
+          <p className={arrayText}>{language.language}</p>
+        </span>
+      ))}
+    </div>
+  );
+};
+
+export const Awards = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-col justify-start items-start gap-1 mb-6">
+      <p className={date}>Award year - {data?.year}</p>
+      <h3 className={main}>{data?.title}</h3>
+      <a
+        className="flex flex-row justify-center items-center text-base font-manropeB text-brand-green-primary break-all"
+        target="_blank"
+        href={data?.url}
+        rel="noreferrer"
+      >
+        {data?.url}{' '}
+        <span>
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </span>
+      </a>
+      <p className={description}>{data?.description}</p>
+    </div>
+  );
+};
+
+export const Reference = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-col flex-wrap mb-4">
+      <div className="flex flex-col" key={data.id}>
+        <span className={main}>{data.referer}</span>
+        <span className={text}>{data.position}</span>
+        <span className={text}>{data.company}</span>
+        <span className={text}>{data.email}</span>
+        <span className={text}>{data.phone_number}</span>
+      </div>
+    </div>
+  );
+};
+
+export const Certificate = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-col justify-center items-start gap-1 mb-6">
+      <h3 className={main}>{data?.title}</h3>
+      <p className={text}>{data?.organization}</p>
+      <p className={date}>Certificate year - {data?.year}</p>
+      <a
+        className="flex justify-center items-center text-base font-manropeB text-brand-green-primary cursor-pointer"
+        target="_blank"
+        href={data?.url}
+        rel="noreferrer"
+      >
+        {data?.url}
+        <ArrowUp size={20} className="rotate-45 inline ms-1" />
+      </a>
+      <p className={description}>{data?.description}</p>
+    </div>
+  );
+};
+
+// undone
 
 export const Education = ({ data }: SkeletonProps) => {
   return (
@@ -44,212 +178,118 @@ export const Education = ({ data }: SkeletonProps) => {
         <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
         <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
       </div>
-      <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
+      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
     </div>
   );
 };
-
-export const Certificate = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
-      <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>
-          {data?.month} {data?.year}
-        </span>
-      </p>
-      <div className="flex flex-col gap-1 mb-4 flex-1 items-start">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.certificate}</h3>
-        <p className="text-base font-manropeB text-gray-200">{data?.school}</p>
-        <a
-          className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary"
-          target="_blank"
-          href={data?.link}
-          rel="noreferrer"
-        >
-          {data?.linkTitle}
-          <ExportSquare size="17" color="#009254" />
-        </a>
-      </div>
-      <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
-    </div>
-  );
-};
-
-export const Awards = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
-      <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>
-          {data?.month} {data?.year}
-        </span>
-      </p>
-      <div className="flex flex-col items-start gap-1 mb-4 flex-1">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.award}</h3>
-        <p className="text-base font-manropeB text-gray-200">{data?.org}</p>
-        <a
-          className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary"
-          target="_blank"
-          href={data?.link}
-          rel="noreferrer"
-        >
-          {data?.linkTitle}
-          <ExportSquare size="17" color="#009254" />
-        </a>
-      </div>
-      <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
-    </div>
-  );
-};
-
-export let projects = [
-  {
-    id: 11,
-    title: 'Project title',
-    description: 'Description',
-    tags: 'Tag 1#Tag 2',
-    linkTitle: 'Link Title',
-    link: 'Link',
-    img: '',
-  },
-];
 
 export const Project = ({ data }: SkeletonProps) => {
-  const dataToMap = data?.tags?.split('#');
-  const image = data?.img ? (
+  const dataToMap = data?.tags?.split(',');
+  const image = data?.thumbnail ? (
     <Image
+      loading="lazy"
+      unoptimized
       width={0}
       height={0}
-      src={data?.img}
+      src={data?.thumbnail}
       alt="project image "
-      className="w-[290px] aspect-square rounded-xl order-2 md:order-1 border-[1px] border-gray-300 border-opacity-50"
+      className="w-full object-cover object-center aspect-square rounded-xl border-2 border-gray-300 border-opacity-5 shadow-md"
     />
   ) : (
-    ''
+    'Thumbnail not found'
   );
   return (
-    <div className="flex md:flex-row flex-col gap-4 md:gap-10">
-      {image}
-      <div className="order-1 md:order-2 flex flex-col gap-2">
-        <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
-        <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
-        <div className="order-2 md:order-1 flex gap-3 my-2">
-          {dataToMap?.map((tag: string, i: number) => (
-            <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
-              <p className="text-sm text-gray-400">{tag}</p>
-            </span>
-          ))}
-        </div>
-        <a className="text-blue-100 font-semibold" href={data?.url}>
-          Link to project
+    <div className="flex md:flex-row flex-col mb-10 gap-1">
+      <div className="min-w-[200px] w-[200px] order-2 md:order-1 rounded-xl md:mr-5 flex flex-col gap-4">
+        {image}{' '}
+        <a className="text-brand-green-primary font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+          Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
-    </div>
-  );
-};
 
-export const Skill = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((skill: any, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{skill.skills}</p>
-        </span>
-      ))}
-    </div>
-  );
-};
+      <div className="order-1 md:order-2 flex flex-col gap-2">
+        <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
+        <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
+        <div className="order-2 md:order-1 flex gap-2 md:mb-0 mb-3">
+          {dataToMap.length > 1 &&
+            dataToMap?.map((tag: string, i: number) => (
+              <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
+                <p className="text-sm text-gray-400">{tag}</p>
+              </span>
+            ))}
+        </div>
 
-export const Interests = ({ data }: SkeletonProps) => {
-  const dataToMap = data?.interest?.split(',');
-  return (
-    <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((interest: string, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
-        </span>
-      ))}
-    </div>
-  );
-};
-
-export const Language = ({ data }: SkeletonProps) => {
-  const dataToMap = data.split(',');
-  return (
-    <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((interest: string, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
-        </span>
-      ))}
+        <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+          Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </a>
+      </div>
     </div>
   );
 };
 
 export const Shop = () => {
-  const shops = [
+  //demo data
+  const shop = [
     {
       id: 1,
       image: '',
     },
   ];
-  return (
+
+  //state holding the shop items
+  const [shopItems, setShopItems] = useState(shop);
+
+  const { openShop, setOpenShop } = useContext(Portfolio);
+
+  async function fetchShopItems() {
+    try {
+      let shopsData: { id: number; image: string }[];
+      shopsData = await axios.get('/shops/id');
+      setShopItems(shopsData);
+    } catch (error) {
+      //console.log(error)
+    }
+  }
+
+  //Check if the users shop has items
+  const showShop = Object.keys(shopItems).length > 3;
+
+  useEffect(() => {
+    //fetchShopItems();
+    setOpenShop(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return showShop ? (
     <div className="flex flex-col gap-5 min-w-full">
-      {shops.map((shop) => (
+      {/* map through at most 5 shop images */}
+      {shopItems.slice(0, 5).map((shop) => (
         <div className="" key={shop.id}>
           <Image width={0} height={0} src={shop?.image} alt="" className="w-[290px] aspect-square rounded-xl" />
         </div>
       ))}
-      <a className="text-blue-100 font-semibold" href="">
-        Go to shop
-      </a>
+      <Link href={'/portfolio'} className="text-blue-100 font-semibold">
+        Go to Shop <ArrowUp size={20} className="rotate-45 inline ms-1" />
+      </Link>
     </div>
+  ) : (
+    <AddShopErrorModal />
   );
 };
 
 export const Contact = ({ data }: SkeletonProps) => {
   return (
     <div className="flex flex-col w-full gap-5">
-      {data?.map((contact: { title: string; info: string; link: string }, i: string) => (
-        <div key={i}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <a
-              className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
-              href={contact.link}
-            >
-              {contact.info}
-              <ExportSquare size={14} />
-            </a>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export const Reference = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex flex-col flex-wrap">
-      <div className="flex flex-col gap-2" key={data.id}>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-400 font-semibold text-lg min-w-min">{data.name}</span>
-          <span className="text-gray-300 font-semibold text-sm">{data.position}</span>
-        </div>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-300 font-semibold text-sm">{data.company}</span>
-          <span className="text-gray-300 font-semibold text-sm">{data.email}</span>
-        </div>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-300 font-semibold text-sm">{data.phone}</span>
+      <div>
+        <div className="flex justify-start items-center gap-10">
+          <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.title}</span>
+          <a
+            className="text-blue-100 font-semibold text-sm flex-[2] flex underline decoration-solid decoration-1 underline-offset-4 items-center text-center gap-3"
+            href={data.url}
+          >
+            {data.url}
+            <ExportSquare size={14} />
+          </a>
         </div>
       </div>
     </div>
@@ -261,16 +301,24 @@ type CustomProps = {
 };
 
 export const Custom = ({ contacts }: CustomProps) => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  useEffect(() => {
+    setOpenCustom(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div className="flex flex-col">
-      {contacts?.map((contact) => (
-        <div className="flex flex-col gap-2" key={contact.id}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
-          </div>
-        </div>
-      ))}
-    </div>
+    <CustomSectionModal />
+    // <div className="flex flex-col">
+    //   {contacts?.map((contact) => (
+    //     <div className="flex flex-col gap-2" key={contact.id}>
+    //       <div className="flex justify-start items-center gap-10">
+    //         <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
+    //         <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   );
 };

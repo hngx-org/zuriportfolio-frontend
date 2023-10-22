@@ -5,16 +5,15 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { verifyUser } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
-import isAuthenticated from '../../helpers/isAuthenticated';
 import { useAuth } from '../../context/AuthContext';
 import persistedToken from '../../helpers/persistedToken';
+import ResendVerification from './resendVerification';
 
 function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
-  const { handleAuth } = useAuth();
-
-  console.log(token);
+  const { handleAuth, userCameFrom } = useAuth();
+  const [isError, setIsError] = useState(false);
 
   let tokenFromLocalStorage: string = '';
 
@@ -24,60 +23,80 @@ function VerificationComplete() {
 
   const decodedToken = persistedToken(tokenFromLocalStorage as string);
 
-  console.log(decodedToken);
-
   const { mutate, isLoading, isSuccess } = useAuthMutation(verifyUser, {
     onSuccess: (response) => {
-      console.log(response);
-
-      console.log(isSuccess);
-
       if (response.status === 200) {
+        setIsError(false);
         handleAuth(response.data);
         localStorage.setItem('zpt', response?.data?.token);
 
         notify({
           message: 'Verification Successful!',
           type: 'success',
+          theme: 'light',
         });
 
-        router.push('/dashboard');
+        router.push(userCameFrom || '/explore');
         return;
       }
-      
-      notify({
-        message: 'Verification Unsuccessful!',
-        type: 'error',
-      });
-    },
-    onError: ({ response }: any) => {
-      console.log('verificaion error z', response);
 
-      if (response.data.message === 'timeout of 30000ms exceeded') {
+      // if (response.status !== 200) {
+      //   setIsError(true);
+      //   notify({
+      //     message: response.data.message,
+      //     type: 'error',
+      //   });
+      //   return;
+      // }
+
+      // notify({
+      //   message: 'Verification Unsuccessful!',
+      //   type: 'error',
+      // });
+    },
+    onError: (error: any) => {
+      console.log(error);
+      // if (!isSuccess) {
+      //   const resend = 'Invalid token / Expired token';
+
+      //   notify({ message: resend, type: 'error' });
+      //   setIsError(true);
+      //   return;
+      // }
+
+      if (error.respsonse && error.response.message === 'timeout of 30000ms exceeded') {
         const timeoutErrorMessage =
           'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-
-        console.log(response.data.message);
 
         notify({
           message: timeoutErrorMessage,
           type: 'error',
+          theme: 'light'
         });
-
+        setIsError(true);
         return;
       }
 
-      if (response.data.message) {
-        notify({ message: response.data.message, type: 'error' });
-        router.push('/auth/verification');
-        return;
-      }
+      // if (response.data.message) {
+      //   notify({ message: response.data.message, type: 'error' });
+      //   router.push('/auth/verification');
+      //   return;
+      // }
+
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light'
+      });
+      setIsError(true);
     },
   });
 
   const verifyQuery = async () => {
     if (token) {
       mutate({ token: token as any });
+    } else {
+      setIsError(true);
     }
   };
 
@@ -92,7 +111,7 @@ function VerificationComplete() {
 
   return (
     <VerificationLayout>
-      {isSuccess && (
+      {isSuccess && !isError && (
         <>
           <Image
             className="w-[218px] h-[159px] xl:w-[218px] xl:h-[218px] mx-auto mt-16 md:mt-16 lg:"
@@ -109,6 +128,8 @@ function VerificationComplete() {
           </div>
         </>
       )}
+
+      {!isLoading && isError && <ResendVerification />}
 
       {isLoading && (
         <div className=" sm:bg-brand-green-ttr px-4 max-w-[712px] sm:px-[40px] md:px-[58px] lg:px-[120px] py-5 sm:border sm:border-brand-disabled rounded-[32px] z-10">

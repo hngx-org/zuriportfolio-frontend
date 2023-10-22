@@ -4,40 +4,38 @@ import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
-import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
+import { useAuth } from '../../context/AuthContext';
+import Loader from '@modules/portfolio/component/landing/Loader';
 
 const View = () => {
   const router = useRouter();
-  const id = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
-  useEffect(() => {
-    if (!router.isReady) {
-      setIsLoading(true);
-    } else if (id) {
-      getUser(id);
-      getUserSections(id);
-    }
-  }, [id, router.isReady]);
+  const urlSlug = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState({ state: false, error: '' });
-  const [userSections, setUserSections] = useState([
-    { title: 'About', id: 'about', data: [] },
-    { title: 'Project', id: 'projects', data: [] },
-    { title: 'Work Experience', id: 'workExperience', data: [] },
-    { title: 'Education', id: 'education', data: [] },
-    { title: 'Skills', id: 'skills', data: [] },
-    { title: 'Interests', id: 'interests', data: [] },
-    { title: 'Awards', id: 'awards', data: [] },
-    { title: 'Certificate', id: 'certificate', data: [] },
-    { title: 'Language', id: 'language', data: [] },
-    { title: 'Reference', id: 'reference', data: [] },
-    { title: 'Shop', id: 'shop', data: [] },
-    { title: 'Contact', id: 'contact', data: [] },
-    { title: 'Custom', id: 'custom', data: [] },
-  ]);
+  // Auth to get userid
+  const { auth } = useAuth();
+
+  useEffect(() => {
+    // wait for router to be ready
+    if (!router.isReady) return;
+    if (!auth?.user?.slug) {
+      return;
+    }
+    // if user is logged in and user id is same as id in url, redirect to dashboard
+    if (auth?.user?.slug === urlSlug) {
+      router.push(`/portfolio`);
+    } else {
+      // if user is not logged in and id is not in url, fetch info with the id from url
+      if (urlSlug) {
+        getUser();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth?.user?.slug, urlSlug, router]);
+
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
@@ -47,34 +45,24 @@ const View = () => {
     tracks: [],
     coverImage: '',
   });
+  const [userSections, setUserSections] = useState<any>([]);
+  const [error, setError] = useState({ state: false, error: '' });
 
-  const getUser = async (userId: string) => {
+  const getUser = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
       const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
       setUserData({
-        firstName: data?.user?.firstName,
-        lastName: data?.user?.lastName,
-        avatarImage: data?.user?.profilePic,
-        city: data?.portfolio?.city,
-        country: data?.portfolio?.country,
-        tracks: data?.tracks,
-        coverImage: data?.user?.profileCoverPhoto,
+        firstName: data?.data?.user?.firstName,
+        lastName: data?.data?.user?.lastName,
+        avatarImage: data?.data?.user?.profilePic,
+        city: data?.data?.portfolio?.city,
+        country: data?.data?.portfolio?.country,
+        tracks: data?.data?.tracks,
+        coverImage: data?.data?.user?.profileCoverPhoto,
       });
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      setError({ state: true, error: error.message });
-    }
-  };
-
-  const getUserSections = async (userId: string) => {
-    try {
-      setIsLoading(true);
-      const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-
-      const response = await data.json();
       const {
         about,
         projects,
@@ -82,23 +70,23 @@ const View = () => {
         education,
         skills,
         contact,
-        interests,
+        interestArray,
         awards,
         language,
         reference,
-        certificate,
+        certificates,
         shop,
         custom,
-      } = response;
+      } = data.data;
       setUserSections([
         { title: 'About', id: 'about', data: about },
         { title: 'Project', id: 'projects', data: projects },
         { title: 'Work Experience', id: 'workExperience', data: workExperience },
         { title: 'Education', id: 'education', data: education },
         { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interests },
+        { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
+        { title: 'Certificate', id: 'certificate', data: certificates },
         { title: 'Language', id: 'language', data: language },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
@@ -107,13 +95,12 @@ const View = () => {
       ]);
       setIsLoading(false);
     } catch (error: any) {
-      setError({ state: true, error: error });
+      setError({ state: true, error: error.message });
     }
   };
-  const { firstName, lastName, city, country, coverImage } = userData;
+  const { firstName, lastName, city, country, coverImage, tracks } = userData;
 
-  const headerMargin =
-    'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';
+  const headerMargin = `w-full h-[200px] sm:h-[250px] md:h-[300px] object-center object-cover`;
 
   const cover = coverImage ? (
     <Image src={coverImage} priority unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
@@ -124,39 +111,52 @@ const View = () => {
   return (
     <PortfolioCtxProvider>
       <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
-        <div className="mx-auto w-[min(90vw,1200px)] font-manropeB pb-20 min-h-[50vh]">
-          {isLoading ? (
+        {isLoading ? (
+          <>
             <Loader />
-          ) : (
-            <>
-              <div className="h-[200px] md:h-[250px] lg:h-[300px]">
-                {cover}
-                <Cover userData={userData} isLoggedIn={false} />
-              </div>
-              <div className="flex justify-between items-center pt-8 md:pt-14">
-                <div>
-                  <h1 className="font-semibold text-lg md:text-2xl text-gray-600">
-                    {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
-                    {lastName === 'undefined' || !lastName ? '' : lastName}
-                  </h1>
-
-                  <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
-                    {city ? city : ``}
-                    {`${city && country ? ',' : ''}`} {country ? country : ''}
-                  </p>
+          </>
+        ) : (
+          <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
+            <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5 mb-10">
+              {cover}
+              <Cover userData={userData} />
+              <div className="flex justify-between items-baseline px-5 md:px-10 pb-5 pt-16">
+                <div className="flex justify-between items-center ">
+                  <div>
+                    <h1 className="font-semibold text-lg md:text-[23px] text-gray-700">
+                      {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
+                      {lastName === 'undefined' || !lastName ? '' : lastName}
+                    </h1>
+                    <div className="flex items-center space-x-2">
+                      {tracks.length > 0 && (
+                        <p className="flex flex-col text-gray-500 font-semibold text-[15px]">
+                          {(tracks[0] as { track: string }).track}
+                        </p>
+                      )}
+                    </div>
+                    <p className="text-gray-500 text-[14px] md:text-base font-semibold">
+                      {city ? city : ``}
+                      {`${city && country ? ',' : ''}`} {country ? country : ''}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="mt-10 md:mt-20">
-                <>
-                  <ExternalView userSections={userSections} />
-                </>
-              </div>
-            </>
-          )}
-        </div>
+            </div>
+            <ExternalView userSections={userSections} />
+          </div>
+        )}
       </MainLayout>
     </PortfolioCtxProvider>
   );
 };
 
 export default View;
+
+export async function getServerSideProps(context: any) {
+  const { id } = context.query;
+  return {
+    props: {
+      userId: id,
+    },
+  };
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import VerificationLayout from './component/verificationLayout';
@@ -6,17 +6,19 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { resendForgetPassword } from '../../http/auth';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
 
 function ForgotPasswordLinkSent() {
-  const { email } = useAuth();
+  const router = useRouter();
+  const { email } = router.query;
+
   const onResetLinkSentSuccess = (data: any) => {
-    console.log(data);
     if (data.status === 200) {
-      notify({ message: 'Reset Link has been resent.', type: 'success' });
+      notify({ message: 'Reset Link has been resent.', type: 'success', theme: 'light' });
       return;
     }
 
-    notify({ message: data.message, type: 'error' });
+    notify({ message: data.message, type: 'error', theme: 'light' });
   };
 
   const { mutate, isLoading } = useAuthMutation(resendForgetPassword, {
@@ -25,7 +27,7 @@ function ForgotPasswordLinkSent() {
   });
 
   const handleResetLinkResent = () => {
-    mutate({ email: email });
+    mutate({ email: email as string });
   };
 
   return (

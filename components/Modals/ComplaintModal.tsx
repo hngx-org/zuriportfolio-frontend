@@ -1,59 +1,118 @@
 import { useState } from 'react';
+import Modal from '@ui/Modal';
+import { toast } from 'react-toastify';
 
-export default function Home() {
-  const [title, setTitle] = useState('');
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+interface ComplaintModalProps extends ModalProps {
+  product: string;
+  customerID: string;
+}
+
+const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, customerID }) => {
   const [description, setDescription] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const payload = { user_id: customerID, product_id: product, complaint_text: description };
+  const stringifyData = JSON.stringify(payload);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await fetch('/api/complaints', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, description }),
-    });
-
-    setTitle('');
+    if (description.length == 0) {
+      setError('Complaint cannot be empty');
+    } else {
+      try {
+        const response = await fetch(
+          `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/register_complaints/`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: stringifyData,
+          },
+        );
+        if (response.ok) {
+          toast.success('Submitted Complaint, Successfully', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+          const res = await response.json();
+          console.log(res.data);
+          setError(''); // Clear any previous errors
+          onClose();
+        } else {
+          setError('Failed to submit complaint. Please try again.');
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error('An error occurred while submitting your complaint', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
+    }
     setDescription('');
+    // setError("");
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="p-4 container">
-      <h1 className="text-2xl font-bold">Submit a Complaint</h1>
-      <form className="mt-4" onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            Description
-          </label>
-          <textarea
-            id="description"
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            rows={4}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-brand-green-primary text-white-100 rounded-md hover:bg-green-100 hover:text-brand-green-primary "
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
+      <div className="p-4 container flex flex-col gap-7">
+        <h1 className="text-2xl font-bold">Submit your Complaint</h1>
+        <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+              Complaint Description
+            </label>
+            <textarea
+              id="description"
+              className="p-3 w-full border-2 border-brand-green-primary rounded-md"
+              rows={5}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            {error && <p className="error text-brand-red-primary">{error}</p>}
+          </div>
+
+          {/* buttons */}
+          <div className="flex justify-between flex-row-reverse">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-brand-green-primary text-white-100 rounded-md hover:bg-brand-green-pressed"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 border border-brand-red-primary text-brand-red-primary rounded-md hover:bg-brand-red-hover hover:text-white-100 cursor-pointer"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </Modal>
   );
-}
+};
+
+export default ComplaintModal;
