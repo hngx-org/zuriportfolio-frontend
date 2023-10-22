@@ -81,7 +81,11 @@ function LoginForm() {
     },
     onError: (e: any) => {
       // For a user who has not verified their account
-      if (e.status === 401) {
+
+
+
+      if (e.status === 403) {
+
         notify({
           message: e.message,
           type: 'error',
@@ -92,7 +96,7 @@ function LoginForm() {
       }
 
       notify({
-        message: e.message,
+        message: "Oops, there's an issue with logging in. Please try again.",
         type: 'error',
         theme: 'light',
       });

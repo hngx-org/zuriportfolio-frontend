@@ -4,6 +4,7 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import { useRouter } from 'next/router';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import EditDraft from '@modules/assessment/component/editDraft';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import Loader from '@ui/Loader';
@@ -177,7 +178,8 @@ const DraftPreviewEdit: React.FC = () => {
   };
 
   return (
-    <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+    <>
+      <SuperAdminNavbar />
       <main className="w-full">
         <AssessmentBanner
           title="Preview/Edit"
@@ -273,7 +275,7 @@ const DraftPreviewEdit: React.FC = () => {
           <FaSpinner color="#fff" className="animate-spin" size={100} />
         </Modal>
       </main>
-    </MainLayout>
+    </>
   );
 };
 
