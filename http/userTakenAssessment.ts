@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api/v1`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {
@@ -24,9 +24,6 @@ export const getAssessmentDetails = async (token: string, data: string) => {
         token: token,
       },
     });
-    if (!response.data) {
-      return;
-    }
     return response.data;
   } catch (error) {
     console.log('detail', error);
@@ -41,9 +38,6 @@ export const getAllAssessments = async (token: string) => {
         token: token,
       },
     });
-    if (!response.data) {
-      return;
-    }
     return response.data;
   } catch (error) {
     console.log(error);
@@ -69,9 +63,6 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
         },
       },
     );
-    if (!res.data) {
-      return;
-    }
     console.log('responce', res.data.data);
     return res.data;
   } catch (error) {
@@ -80,9 +71,9 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
   }
 };
 
-export const fetchUserAssessmentSession = async (token: string, id: any) => {
+export const fetchUserAssessmentSession = async (token: string) => {
   try {
-    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/${id}`, {
+    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/`, {
       headers: {
         'Content-Type': 'application/json',
         token: token,
@@ -123,7 +114,6 @@ export const submitAssessment = async ({
         answer_text: answer_text,
       },
     });
-    console.log(res);
   } catch (error) {
     console.error('Error submitting assessment:', error);
     throw error;
@@ -151,7 +141,6 @@ export const submitFinalAssessment = async ({
       is_submitted: true,
       time_spent: minutes,
     });
-    console.log(res);
     return res.data;
   } catch (error) {
     console.error('Error submitting assessment:', error);

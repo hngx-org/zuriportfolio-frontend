@@ -13,14 +13,13 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
-import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
-import { useQueries, UseQueryResult } from '@tanstack/react-query';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-modal/project-section-modal';
+import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
 type PortfolioContext = {
   portfolioUrl: string;
-  getUserInfo: UseQueryResult<any>;
   getUserSections: UseQueryResult<any>;
   hasPortfolio: boolean;
   setHasPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
@@ -67,7 +66,6 @@ type PortfolioContext = {
 };
 
 const Portfolio = createContext<PortfolioContext>({
-  getUserInfo: {} as UseQueryResult<any>,
   getUserSections: {} as UseQueryResult<any>,
   hasPortfolio: false,
   setHasPortfolio: () => {},
@@ -115,6 +113,7 @@ const Portfolio = createContext<PortfolioContext>({
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
+  const queryClient = useQueryClient();
   const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
@@ -129,21 +128,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
     city: '',
     country: '',
     tracks: [],
+    level: '',
+    icon: '',
+    badge: [],
   });
 
-  const [getUserInfo, getUserSections] = useQueries({
+  const [getUserSections] = useQueries({
     queries: [
-      {
-        queryKey: ['user'],
-        queryFn: () => getUser(),
-        enabled: !!userId,
-        // refetchInterval: 1000,
-      },
       {
         queryKey: ['sections'],
         queryFn: () => getSections(),
-        enabled: !!userId,
-        // refetchInterval: 1000,
+        enabled: slug != '',
       },
     ],
   });
@@ -153,19 +148,18 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setUserId(auth?.user?.id!);
       setSlug(auth?.user?.slug!);
     }
-
-    if (getUserInfo.data) {
-      setUserData({
-        firstName: getUserInfo.data?.data?.user?.firstName,
-        lastName: getUserInfo.data?.data?.user?.lastName,
-        avatarImage: getUserInfo.data?.data?.user?.profilePic,
-        city: getUserInfo.data?.data?.portfolio?.city,
-        country: getUserInfo.data?.data?.portfolio?.country,
-        tracks: getUserInfo.data?.data?.userTracks,
-        coverImage: getUserInfo.data?.data?.user?.profileCoverPhoto,
-      });
-    }
     if (getUserSections.data) {
+      const { user, badges, portfolio, tracks } = getUserSections?.data?.data;
+      setUserData({
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        avatarImage: user?.profilePic,
+        city: portfolio?.city,
+        country: portfolio?.country,
+        tracks: tracks,
+        coverImage: user?.profileCoverPhoto,
+        badge: badges,
+      });
       const {
         about,
         projects,
@@ -180,7 +174,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         certificates,
         shop,
         custom,
-      } = getUserSections.data;
+      } = getUserSections?.data?.data;
       if (
         about ||
         projects ||
@@ -213,20 +207,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Custom', id: 'custom', data: custom },
       ]);
     }
-  }, [auth?.user?.id, auth?.user?.slug, getUserInfo.data, getUserSections.data]);
-
-  const getUser = async () => {
-    try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
-      if (response.status === 200) {
-        return response.data;
-      } else {
-        throw new Error(`Request failed with status: ${response.status}`);
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+  }, [auth?.user?.id, auth?.user?.slug, getUserSections.data]);
 
   const getSections = async () => {
     try {
@@ -341,6 +322,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
+    queryClient.invalidateQueries({ queryKey: ['sections'] });
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -348,6 +330,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ...prevModalStates,
       [modalToClose]: false,
     }));
+    queryClient.invalidateQueries({ queryKey: ['sections'] });
   };
 
   const modals: any[] = [
@@ -516,7 +499,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     userId,
     openShop,
     setOpenShop,
-    getUser,
     openCustom,
     setOpenCustom,
     idToDelete,
@@ -525,7 +507,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowBuildPortfolio,
     hasPortfolio,
     setHasPortfolio,
-    getUserInfo,
     getUserSections,
     portfolioUrl,
     slug,

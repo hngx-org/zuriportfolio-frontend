@@ -8,7 +8,9 @@ import { UserInfo } from '../../../@types';
 import photo2 from '../assets/photo2.png';
 import Link from 'next/link';
 import { Location } from 'iconsax-react';
+import { FaShareAlt } from 'react-icons/fa';
 import { notify } from '@ui/Toast';
+import DefaultImage from './DefaultImage';
 
 interface CardProps {
   data: CardData;
@@ -23,7 +25,7 @@ const Card = ({ data }: { data: UserInfo }) => {
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const slashIndex = window.location.href.split('').findIndex((e, i, a) => i === a.lastIndexOf('/'));
-  const homepageURl = window.location.href.slice(0, slashIndex + 1);
+  const homepageURL = window.location.href.slice(0, slashIndex + 1);
 
   // const showButtons = () => {
   //   // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'block');
@@ -60,15 +62,12 @@ const Card = ({ data }: { data: UserInfo }) => {
 
   return (
     <div
-      className="relative transition-all ease-in-out duration-500 hover:scale-105 overflow-hidden rounded-lg shadow-md"
+      className="relative border-[1px] border-white-120 transition-all ease-in-out duration-500 overflow-hidden rounded-lg hover:shadow-md"
       // ref={cardRef}
       // onMouseEnter={showButtons}
       // onMouseLeave={hideButtons}
     >
-      <span
-        className="flex justify-center items-center gap-2 absolute top-6 left-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 cursor hover:animate-bounce"
-        title="Number of projects"
-      >
+      <span className="flex justify-center items-center gap-2 absolute top-6 left-6" title="Number of projects">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M12 7C12.5523 7 13 6.55228 13 6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6C11 6.55228 11.4477 7 12 7Z"
@@ -87,34 +86,30 @@ const Card = ({ data }: { data: UserInfo }) => {
       </span>
 
       <button
-        className="absolute top-6 right-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
+        className="absolute top-6 right-6 transition-all ease-in-out duration-500 hover:animate-bounce"
         title="Copy portfolio link"
         onClick={copyUrl}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M20 12L13.6 5V8.5C10.4 8.5 4 10.6 4 19C4 17.833 5.92 15.5 13.6 15.5V19L20 12Z"
-            stroke="#8592A3"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <FaShareAlt color="#8592A3" size={24} />
       </button>
 
       <div className="h-full p-10 mx-auto grid gap-6 border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm ">
         <div className="w-24 rounded-full overflow-hidden mx-auto aspect-square">
-          <Image
-            className="w-full h-full object-cover bg-center"
-            src={data?.profilePictureUrl ?? photo2}
-            alt="Avatar"
-            width={112}
-            height={112}
-          />
+          {data.profilePictureUrl ? (
+            <Image
+              className="w-full h-full object-cover bg-center"
+              src={data?.profilePictureUrl}
+              alt="Avatar"
+              width={112}
+              height={112}
+            />
+          ) : (
+            <DefaultImage name={`${data.firstName} ${data.lastName}`} />
+          )}
         </div>
 
         <div className="text-center text-[#32475c]">
-          <Link href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
+          <Link href={`/portfolio/${data?.slug}`} className="block w-fit mx-auto">
             <h3 className="w-fit font-manropeEB text-base capitalize md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
@@ -155,7 +150,7 @@ const Card = ({ data }: { data: UserInfo }) => {
         </div>
       </div>
 
-      <input type="text" value={`${homepageURl}portfolio/${data.id}`} disabled ref={urlInputRef} className="hidden" />
+      <input type="text" value={`${homepageURL}portfolio/${data.slug}`} disabled ref={urlInputRef} className="hidden" />
     </div>
   );
 };

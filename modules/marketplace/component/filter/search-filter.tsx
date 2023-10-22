@@ -6,7 +6,7 @@ import useSearchFilter from './hooks/useSearchFilter';
 import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 import useCategory from './hooks/useCategory';
 import { ProductList } from '@modules/marketplace/types/filter-types';
-import Modal from '../../../../components/ui/Modal'
+import Modal from '../../../../components/ui/Modal';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
@@ -35,8 +35,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
   return (
     <div>
       {isOpen ? (
-        <Modal closeModal={toggle} isOpen={isOpen} isCloseIconPresent={false} size='lg'
-        >
+        <Modal closeModal={toggle} isOpen={isOpen} isCloseIconPresent={false} size="lg">
           <div className="bg-white-100 md:max-w-2xl w-full py-5 px-7 rounded-md shadow-sm transition delay-500 ease-in-out">
             <section className="flex justify-between">
               <h3 className="text-xl font-medium">Filter Content Just for You</h3>

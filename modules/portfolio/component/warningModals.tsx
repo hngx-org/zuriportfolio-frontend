@@ -2,13 +2,14 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { SectionModalProps } from '../../../@types';
 import { CloseSquare } from 'iconsax-react';
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { redirect } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { useRouter } from 'next/navigation';
 import router from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -18,6 +19,7 @@ function SectionModal({
   primaryText,
   onClickAction,
   sectionToDelete,
+  loading,
 }: SectionModalProps) {
   //Destructure the useDisclosure hook
   const { openDelete, setOpenDelete } = useContext(Portfolio);
@@ -25,8 +27,6 @@ function SectionModal({
 
   return (
     <>
-      {/*Creating a button here because of the click event needed to open the Modal*/}
-
       <Modal closeOnOverlayClick isOpen={openDelete} closeModal={onClose} isCloseIconPresent={false} size="sm">
         <CloseSquare
           size="32"
@@ -36,12 +36,12 @@ function SectionModal({
           className="absolute top-6 right-6 cursor-pointer"
         />
 
-        <div className="box-border h-full w-full my-14 text-center font-normal flex justify-center items-center flex-col gap-6 py-8 px-1">
+        <div className="box-border h-full w-full my-10 mb-2 text-center font-normal flex justify-center items-center flex-col gap-6 py-4 px-1">
           <h1 className="text-[#FF5C5C] text-xl font-manropeEB">{heading}</h1>
 
           <p className="text-sm sm:w-3/5 text-[#737876] font-manropeE">{paragraph}</p>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-2 sm:px-5 w-9/12 sm:w-full">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-4 sm:px-3 w-9/12 sm:w-full">
             <Button
               intent={'secondary'}
               size={'md'}
@@ -56,10 +56,11 @@ function SectionModal({
             <Button
               intent={'primary'}
               size={'md'}
-              isLoading={false}
+              disabled={loading}
+              isLoading={loading}
               spinnerColor="#000"
               onClick={onClickAction}
-              className="w-full rounded-xl"
+              className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-xl`}
             >
               {primaryText}
             </Button>
@@ -72,9 +73,10 @@ function SectionModal({
 
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
-  const { toggleSection, setOpenDelete, idToDelete, setUserData, onSaveModal } = useContext(Portfolio);
-  const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
-  const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
+  const queryClient = useQueryClient();
+
+  const { setOpenDelete, idToDelete, onSaveModal } = useContext(Portfolio);
+  const [loading, setLoading] = useState<boolean>(false);
 
   //userID
   const { userId } = useContext(Portfolio);
@@ -84,6 +86,9 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
 
   //function to delete sections
   const deleteSection = async () => {
+    //make loader visible
+    setLoading(true);
+
     //Query the backend
     let myHeaders: any;
     myHeaders = new Headers();
@@ -115,15 +120,12 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         setOpenDelete(false);
         //Update the main page
         onSaveModal(idToDelete);
+        queryClient.invalidateQueries({ queryKey: ['sections'] });
       })
       .catch((error) => console.log({ error: error }));
 
-    // } else if (deleteLocal) {
-    //   const parts = sectionToDelete.split(' ');
-    //   const section = parts.slice(1).join(' ');
-    //   toggleSection(section);
-    //   setOpenDelete(false);
-    // }
+    //remove loader
+    setLoading(false);
   };
 
   return (
@@ -135,6 +137,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         primaryText={'Delete'}
         onClickAction={deleteSection}
         sectionToDelete={sectionToDelete}
+        loading={loading}
       />
 
       <ToastContainer />

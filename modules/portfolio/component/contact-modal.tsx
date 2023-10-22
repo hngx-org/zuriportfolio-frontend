@@ -9,6 +9,7 @@ import axios from 'axios';
 import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
 import { notify } from '@ui/Toast';
 import { Trash } from 'iconsax-react';
+import Loader from '@ui/Loader';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -29,7 +30,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [availableSocials, setAvailableSocials] = useState<{ Id: number; name: string }[] | []>([]);
 
   const handleAddNewSocial = () => {
@@ -43,25 +44,33 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     ]);
   };
 
-  const handleSocialInputChange = (id: string, newValue: string) => {
-    // Find the index of the object with the matching id
-    const index = socials.findIndex((item) => item.id === id);
+  const handleSocialInputChange = (index: number, newValue: string) => {
+    // Creates a new array with the updated content for the specific input
+    const updatedData = [...socials];
+    updatedData[index] = { ...updatedData[index], url: newValue };
 
-    if (index !== -1) {
-      // Creates a new array with the updated content for the specific input
-      const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], url: newValue };
-
-      // Update the state with the new array
-      setSocials(updatedData);
-    }
+    // Update the state with the new array
+    setSocials(updatedData);
   };
+  // const handleSocialInputChange = (id: string, newValue: string) => {
+  //   // Find the index of the object with the matching id
+  //   const index = socials.findIndex((item) => item.id === id);
+
+  //   if (index !== -1) {
+  //     // Creates a new array with the updated content for the specific input
+  //     const updatedData = [...socials];
+  //     updatedData[index] = { ...updatedData[index], url: newValue };
+
+  //     // Update the state with the new array
+  //     setSocials(updatedData);
+  //   }
+  // };
   const handleSocialSelectChange = (newId: number, index: number) => {
     const updatedData = [...socials];
     updatedData[index] = {
       ...updatedData[index],
       social_media_id: newId,
-      userId,
+      user_id: userId,
     };
     setSocials(updatedData);
   };
@@ -77,19 +86,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // const contactObj = {
-    //   url: "link.com",
-    //   social_media_id: 11,
-    //   user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
-    // };
-    // axios.post('https://hng6-r5y3.onrender.com/api/contacts', contactObj)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    // const data = socials.map(({ url, social_media_id, user_id }) => ({
-    //   social_media_id: Number(social_media_id),
-    // }));
-    // console.log('Data', data);
     const data = socials.map((social) => ({
       url: social.url,
       social_media_id: social.social_media_id,
@@ -97,7 +93,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     }));
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
-      .then((res) => {
+      .then((response: any) => {
         setLoading(false);
         notify({
           message: 'Contact created successfully',
@@ -105,12 +101,20 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           theme: 'light',
           type: 'success',
         });
-        console.log(res);
-        // onSaveModal();
+        console.log('responseresponseresponseresponse', response);
+        onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        if (err.response.data.message.includes('contact already exists')) {
+          notify({
+            message: 'Contact already exists',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -120,6 +124,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       });
   };
   const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log('delete clicked');
     const id = 5;
     try {
@@ -142,7 +147,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     try {
       const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
       const data = await response.data;
-      console.log(data);
+      console.log('getSocialsAvailable', data);
       setAvailableSocials(data?.data);
     } catch (error) {
       console.error(error);
@@ -157,12 +162,26 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     console.log(socials);
   }, [socials]);
 
+  const getAllSocials = async () => {
+    try {
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/contacts/${userId}`);
+      const data = await response.data;
+      console.log('responseData', data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllSocials();
+  }, []);
+
   return (
     <>
       <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y bg-white-100 sm:p-10">
-          <form className="flex flex-col gap-y-5">
-            <div className="flex flex-col gap-3 my-19">
+          <form className="flex flex-col ">
+            <div className="flex flex-col gap-3 mb-4">
               <div className="flex justify-between items-center">
                 <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Contact</p>
                 <CloseSquare
@@ -177,13 +196,15 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
             </div>
             ​
             <div className="flex mx-auto flex-col gap-[.5rem] w-full sm:w-[90%]">
-              <label className="font-semibold text-[#444846] text-[.9rem]">Email</label>
+              <label className="font-semibold text-[#444846] text-[.9rem]">
+                Email <span className="text-red-300">*</span>
+              </label>
               <Input
                 placeHolder="Enter email"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                className="border-[#E1E3E2] border w-[100%] font-manropeL rounded-md"
+                className="border-[#E1E3E2] border w-[100%] font-manropeL rounded-md  mb-3"
                 inputSize={'sm'}
               />
             </div>
@@ -200,8 +221,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                             if (selectedSocial) {
                               handleSocialSelectChange(selectedSocial.Id, index);
                             }
-                            console.log(value);
-                            console.log(social);
                           }}
                         >
                           <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
@@ -225,11 +244,11 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     <div className="flex flex-col justify-center w-[100%] h-full">
                       <label className="font-semibold text-[#444846] text-[.9rem] mb-[.1rem]">Link to social</label>
                       <div className="flex rounded-md justify-center items-center border h-[2.5rem] border-[#E1E3E2]">
-                        <span className="font-manropeL w-1/3 text-xs text-center">Type link</span>
+                        {/* <span className="font-manropeL w-1/3 text-xs text-center">Type link</span> */}
                         <Input
                           placeHolder="Enter social link"
                           onChange={(e) => {
-                            handleSocialInputChange(social.id, e.target.value);
+                            handleSocialInputChange(index, e.target.value);
                           }}
                           className="border-[#E1E3E2] w-[100%] rounded-none border-0 border-s h-full text-xs font-manropeL"
                           inputSize={'sm'}
@@ -239,15 +258,15 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     </div>
                   </div>
 
-                  <div className="mb-3 font-manropeL mx-auto w-full sm:w-[90%] text-right">
+                  <div className="mb- font-manropeL mx-auto w-full sm:w-[90%] text-right">
                     <span
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
                     >
-                     <Trash size="32" color="#f47373" variant="Outline"/>
+                      <Trash size="20" color="#f47373" variant="Outline" />
                     </span>
                   </div>
-                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+                  <hr className="mb-6 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
@@ -275,8 +294,9 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                 className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}
                 onClick={handleSubmit}
+                disabled={loading}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </div>

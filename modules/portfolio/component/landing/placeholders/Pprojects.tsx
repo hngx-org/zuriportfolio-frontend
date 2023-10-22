@@ -1,6 +1,6 @@
 import React from 'react';
 import Wrapper from './Wrapper';
-import { Project, WorkExperience } from '../Skeleton';
+import { Project } from '../Skeleton';
 
 type PprojectsProps = {
   id: string;
@@ -33,7 +33,7 @@ const Pprojects = ({
           </>
         );
       })}
-      {section.data.length > 1 && (
+      {section.data.length > 2 && (
         <div className="text-brand-green-primary font-semibold cursor-pointer" onClick={toggleShowMoreProjects}>
           {showMoreProjects === 2 ? 'View More' : 'View Less'}
         </div>

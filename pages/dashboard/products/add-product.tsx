@@ -99,7 +99,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/category',
         { name: newCategoryName },
         {
           headers: {
@@ -147,12 +147,15 @@ const AddProduct = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      const response = await axios.get(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
         },
-      });
+      );
 
       if (response.status === 200) {
         return response.data.data || [];
@@ -167,7 +170,7 @@ const AddProduct = () => {
   };
   const getShopId = async () => {
     try {
-      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/shops/merchant', {
+      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shops/merchant', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -207,7 +210,7 @@ const AddProduct = () => {
     try {
       // Make a POST request to your API endpoint with Axios
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/add',
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add',
         formData,
         {
           headers: {
@@ -327,7 +330,16 @@ const AddProduct = () => {
   return (
     <MainLayout showTopbar activePage="products">
       <Head>
-        <title>Add Product</title>
+        <title>Add Products</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Add Products" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="Add products" />
+        <meta name="keywords" content="Zuri, portfolio, prmotion, discount, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
@@ -348,7 +360,7 @@ const AddProduct = () => {
           </div>
           <h2 className="text-dark-400 font-manropeEB text-[32px] capitalize">Add new Product</h2>
         </div>
-        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'opacity-0'}`}>
+        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'hidden'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
             <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
@@ -388,12 +400,12 @@ const AddProduct = () => {
                 <p className="text-[red] text-lg my-3 font-semibold">
                   {form.errors.assets_link && form.errors.assets_link}
                 </p>
-                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Note</label>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Access Instructions</label>
                 <textarea
                   className={`w-full border-solid border-[2px]  placeholder:text-[#191C1E] text-black focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 ${
                     form.errors.assets_notes ? 'border-red-200' : 'border-slate-50'
                   }`}
-                  placeholder="Add note for your file"
+                  placeholder="Please provide notes, passwords or links to your file."
                   inputMode="none"
                   {...form.getInputProps('assets_notes')}
                 />
@@ -409,6 +421,7 @@ const AddProduct = () => {
                     className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
                       form.errors.email && 'border-red-20'
                     }`}
+                    onClick={handleImageUploadClick}
                   >
                     <center>
                       <Image
@@ -488,17 +501,18 @@ const AddProduct = () => {
 
                     {...form.getInputProps('category_id')}
                   >
-                    <option value="" className="placeholder:text-[#000] text-black capitalize">
+                    <option value="" className="placeholder:text-[#000] text-black capitalize" disabled>
                       Select product category
                     </option>
                     {categoriesData.map((category: any) => (
-                      <option
-                        value={category.id}
-                        key={category.id}
-                        className="placeholder:text-[#000] text-black capitalize"
-                      >
-                        {category.name}
-                      </option>
+                      <>
+                        {category.sub_categories?.length > 0 &&
+                          category.sub_categories.map((cat: any) => (
+                            <option className="" key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                      </>
                     ))}
                   </select>
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
@@ -617,7 +631,7 @@ const AddProduct = () => {
           </div>
         </div>
         {loading && (
-          <div className="absolute z-50 inset-0 min-h-[300px] max-h-[70vh]  bg-white-100">
+          <div className="z-50 inset-0 min-h-[30vh] grid place-items-center h-full max-h-[70vh]  bg-white-100">
             <Loader />
           </div>
         )}

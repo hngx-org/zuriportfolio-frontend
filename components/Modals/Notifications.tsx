@@ -49,105 +49,99 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
       id: 1,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: false,
-      date: '2023-10-20T12:34:56Z'
+      date: '2023-10-20T12:34:56Z',
     },
     {
       id: 2,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: false,
-      date: '2023-10-19T10:30:45Z'
+      date: '2023-10-19T10:30:45Z',
     },
     {
       id: 3,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: false,
-      date: '2023-10-18T08:45:32Z'
+      date: '2023-10-18T08:45:32Z',
     },
     {
       id: 4,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: true,
-      date: '2023-10-17T16:20:15Z'
+      date: '2023-10-17T16:20:15Z',
     },
     {
       id: 5,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: false,
-      date: '2023-10-16T14:10:55Z'
+      date: '2023-10-16T14:10:55Z',
     },
     {
       id: 6,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: true,
-      date: '2023-10-15T12:15:42Z'
+      date: '2023-10-15T12:15:42Z',
     },
     {
       id: 7,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: true,
-      date: '2023-10-14T11:05:30Z'
+      date: '2023-10-14T11:05:30Z',
     },
     {
       id: 8,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: true,
-      date: '2023-10-13T09:40:25Z'
+      date: '2023-10-13T09:40:25Z',
     },
     {
       id: 9,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: false,
-      date: '2023-10-12T07:55:20Z'
+      date: '2023-10-12T07:55:20Z',
     },
     {
       id: 10,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: true,
-      date: '2023-10-11T05:30:10Z'
+      date: '2023-10-11T05:30:10Z',
     },
     {
       id: 11,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: true,
-      date: '2023-10-10T03:25:05Z'
+      date: '2023-10-10T03:25:05Z',
     },
     {
       id: 12,
       text: 'Good news!, Your order has been shipped and is on its way',
       read: false,
-      date: '2023-10-09T01:15:00Z'
-    }
+      date: '2023-10-09T01:15:00Z',
+    },
   ]);
-  ;
-
   useEffect(() => {
-    const unreadCount = notifications.filter(notification => !notification.read).length;
+    const unreadCount = notifications.filter((notification) => !notification.read).length;
     unreadNotifications(unreadCount);
   }, [notifications, unreadNotifications]);
 
   const markAsRead = (id: number) => {
-    setNotifications(prevNotifications => {
-      const updatedNotifications = prevNotifications.map(notification =>
-        notification.id === id ? { ...notification, read: true } : notification
+    setNotifications((prevNotifications) => {
+      const updatedNotifications = prevNotifications.map((notification) =>
+        notification.id === id ? { ...notification, read: true } : notification,
       );
       return updatedNotifications;
     });
   };
 
   const markAllAsRead = () => {
-    setNotifications(prevNotifications =>
-      prevNotifications.map(notification => ({ ...notification, read: true }))
-    );
+    setNotifications((prevNotifications) => prevNotifications.map((notification) => ({ ...notification, read: true })));
   };
 
   const removeNotification = (id: number) => {
-    setNotifications(prevNotifications =>
-      prevNotifications.filter(notification => notification.id !== id)
-    );
+    setNotifications((prevNotifications) => prevNotifications.filter((notification) => notification.id !== id));
   };
 
-  const filteredNotifications = notifications.filter(notification =>
-    notification.text.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredNotifications = notifications.filter((notification) =>
+    notification.text.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (

@@ -9,6 +9,15 @@ const Promotions: React.FC = () => {
       <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar={true}>
         <Head>
           <title>Promotions</title>
+          <link rel="icon" href="/assets/zuriLogo.svg" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-title" content="Promotions" />
+
+          <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+          <meta key="metadescription" itemProp="description" name="description" content="View all promotions" />
+          <meta name="keywords" content="Zuri, portfolio, prmotion, discount, product, dashboard" />
+          <meta name="robots" content="index, follow" />
+          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         </Head>
         <div className="w-full">
           <PromotionHistory />

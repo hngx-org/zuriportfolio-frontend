@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { cardinfo } from '../../../@types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const AnalyticsAndReportingCards = () => {
-  const [bearerToken, setBearerToken] = useState('');
-
-  const fetchAnalyticsData = async () => {
-    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
+const fetchAnalyticsData = async (bearerToken: string) => {
+  try {
+    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/';
 
     const response = await fetch(apiUrl, {
       headers: {
         Authorization: `Bearer ${bearerToken}`,
       },
     });
+
+    if (!response.ok) {
+      throw new Error('Internal Server Error');
+    }
 
     const result = await response.json();
 
@@ -23,9 +27,21 @@ const AnalyticsAndReportingCards = () => {
       console.error('Data is not an array:', result.data);
       throw new Error('Data is not in the expected format');
     }
-  };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    if (!toast.isActive('error')) {
+      toast.error('Could not load card details. Try again!', { toastId: 'error' });
+    }
+    throw error;
+  }
+};
 
-  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(['analyticsData'], fetchAnalyticsData);
+const AnalyticsAndReportingCards = () => {
+  const [bearerToken, setBearerToken] = useState('');
+
+  const { data: analyticsData, isLoading } = useQuery<cardinfo[]>(['analyticsData', bearerToken], () =>
+    fetchAnalyticsData(bearerToken),
+  );
 
   const getTokenFromLocalStorage = () => {
     const tokenFromLocalStorage = localStorage.getItem('zpt');
@@ -33,6 +49,7 @@ const AnalyticsAndReportingCards = () => {
       setBearerToken(tokenFromLocalStorage);
     }
   };
+
   useEffect(() => {
     getTokenFromLocalStorage();
   }, []);
@@ -67,9 +84,8 @@ const AnalyticsAndReportingCards = () => {
                   </div>
                 </div>
               ))
-            : isError
-            ? 'Error fetching data. Please try again.'
-            : analyticsData.slice(0, 3).map((items, index) => (
+            : Array.isArray(analyticsData) &&
+              analyticsData.slice(0, 3).map((items, index) => (
                 <div
                   key={index}
                   className={`px-5 border border-white-200 bg-white-100  rounded-lg py-6 ${
@@ -117,9 +133,8 @@ const AnalyticsAndReportingCards = () => {
                   </div>
                 </div>
               ))
-            : isError
-            ? 'Error fetching data. Please try again.'
-            : analyticsData.slice(3).map((items, index) => (
+            : Array.isArray(analyticsData) &&
+              analyticsData.slice(3).map((items, index) => (
                 <div
                   key={index}
                   className="px-5 text= border border-white-200 bg-white-100  rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0"
@@ -146,6 +161,7 @@ const AnalyticsAndReportingCards = () => {
               ))}
         </div>
       </section>
+      <ToastContainer />
     </div>
   );
 };

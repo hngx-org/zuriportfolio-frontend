@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className="font-manropeL bg-brand-green-pressed text-md text-white-100 leading-[1.5]">
+    <footer className="mt-auto font-manropeL bg-brand-green-pressed text-md text-white-100 leading-[1.5]">
       <section
         className="px-6 py-[4rem] flex
       flex-col gap-12 md:py-[4rem] md:flex-row md:justify-between xl:max-w-[77.5rem] xl:mx-auto"
@@ -82,17 +82,17 @@ function Footer() {
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="https://training.zuri.team/" className="hover:underline">
+                <a href="https://training.zuri.team/" target="_blank" rel="noreferrer" className="hover:underline">
                   Zuri Training
                 </a>
               </li>
               <li>
-                <a href="https://internship.zuri.team/" className="hover:underline">
+                <a href="https://internship.zuri.team/" target="_blank" rel="noreferrer" className="hover:underline">
                   Zuri Internship
                 </a>
               </li>
               <li>
-                <a href="https://www.zuri.team/partner" className="hover:underline">
+                <a href="https://www.zuri.team/partner" target="_blank" rel="noreferrer" className="hover:underline">
                   Partner with Us
                 </a>
               </li>

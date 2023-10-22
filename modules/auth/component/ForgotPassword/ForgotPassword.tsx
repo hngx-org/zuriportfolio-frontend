@@ -10,6 +10,7 @@ import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
 import { forgetPassword } from '../../../../http/auth';
 import { useAuth } from '../../../../context/AuthContext';
+import { error } from 'console';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
@@ -41,12 +42,37 @@ const ForgotPassword = () => {
     },
   });
 
+  // const { mutate, isLoading } = useAuthMutation(forgetPassword, {
+  //   onSuccess: (data) => {
+  //     forgotPasswordSuccess(data);
+  //   },
+  //   onError: (error: any) => console.log(error),
+  // });
+
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
     onSuccess: (data) => {
+      console.log('Success', data);
       forgotPasswordSuccess(data);
     },
-    onError: (error: any) => console.log(error),
+    onError: (e: any) => {
+      console.log('Error', e);
+      if (e.status === 403) {
+        notify({
+          message: e.message,
+          type: 'error',
+          theme: 'light',
+        });
+        router.push('/auth/verification');
+        return;
+      }
+
+      notify({
+        message: e.message,
+        type: 'error',
+        theme: 'light',
+      });
+    },
   });
 
   // Handling email input

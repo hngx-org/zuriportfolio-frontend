@@ -5,6 +5,7 @@ import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
 import { BiTrash, BiCartAdd } from 'react-icons/bi';
 import Link from 'next/link';
+import { formatCurrency } from '../../../../../helpers/formatCurrency';
 
 export default function CartItem({
   id,
@@ -35,20 +36,20 @@ export default function CartItem({
         <RemoveCart productId={id as string} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5 cart-item">
-        <div className="max-w-[300px] w-[100%] h-[209px] h-[120px] md:h-[209px] overflow-hidden">
+        <div className="md:max-w-[300px] w-[100%] h-[220px] md:h-[209px] overflow-hidden">
           <Link href={`/marketplace/product-details/${productId}`}>
-          <Image
-            width={0}
-            height={0}
-            src={productImage}
-            alt={productTitle}
-            style={{ height: '100%', width: '100vw' }}
-            sizes="100vw"
-            className="rounded-[8px] object-cover h-[100%] w-[100%]"
-          />
+            <Image
+              width={0}
+              height={0}
+              src={productImage}
+              alt={productTitle}
+              style={{ height: '100%', width: '100vw' }}
+              sizes="100vw"
+              className="rounded-[8px] object-cover h-[100%] w-[100%]"
+            />
           </Link>
         </div>
-        <div className="flex flex-col md:w-2/4">
+        <div className="flex flex-col mt-3 md:mt-0 md:w-2/4">
           <h3 className="text-2xl font-manropeEB">{productTitle}</h3>
           <p className="text-[#6c7983] lg:w-[350px] text-truncate md:mt-4 leading-6 font-manropeL">
             {productDescription}
@@ -56,11 +57,11 @@ export default function CartItem({
 
           {productDiscount !== '0.00' ? (
             <div className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">
-              <span className="">₦ {productDiscount}</span>
-              <span className="lg:ms-[30px] line-through text-gray-300"> ₦{productPrice}</span>
+              <span className="">₦ {formatCurrency(productDiscount as string)}</span>
+              <span className="ms-[30px] line-through text-gray-300"> ₦{formatCurrency(productPrice)}</span>
             </div>
           ) : (
-            <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">₦ {productPrice}</p>
+            <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">₦ {formatCurrency(productPrice)}</p>
           )}
         </div>
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">

@@ -8,6 +8,7 @@ const Page: React.FC = () => {
 
   const [scorePercentage, setScorePercentage] = useState<number>(10);
   const [isdownloadOpen, setIsdownloadOpen] = useState<boolean>(false);
+  const [assessmentId, setAssessmentId] = useState<number>(0);
   const onClose = () => {
     setIsdownloadOpen(false);
   };
@@ -22,6 +23,7 @@ const Page: React.FC = () => {
           setIsdownloadOpen={setIsdownloadOpen}
           isdownloadOpen={isdownloadOpen}
           onClose={onClose}
+          assessmentId={assessmentId}
         />
       </MainLayout>
     </>

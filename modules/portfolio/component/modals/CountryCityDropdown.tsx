@@ -41,20 +41,18 @@ const CountryCityDropdown: React.FC<Props> = ({
   }, []);
   useEffect(() => {
     if (!selectedCountry) {
-        setCityError('Pick a country first');
-        setCities([]); // Clear the cities
-      } else {
-        setCityError(null);
-    if (selectedCountry) {
-        
-      // Find the selected country and its cities
-      const selectedCountryData = countries.find((country) => country.value === selectedCountry);
-      if (selectedCountryData) {
-        setCities(selectedCountryData.cities);
+      setCityError('Pick a country first');
+      setCities([]); // Clear the cities
+    } else {
+      setCityError(null);
+      if (selectedCountry) {
+        // Find the selected country and its cities
+        const selectedCountryData = countries.find((country) => country.value === selectedCountry);
+        if (selectedCountryData) {
+          setCities(selectedCountryData.cities);
+        }
       }
     }
-}
-    
   }, [selectedCountry, countries]);
 
   return (
@@ -69,7 +67,11 @@ const CountryCityDropdown: React.FC<Props> = ({
             value={selectedCountry || ''}
           >
             <SelectTrigger className="border-[#59595977]  h-[50px] rounded-[10px]">
-              <SelectValue defaultValue={selectedCountry || ''} placeholder={'Select Country'} className="hover:border-green-500"/>
+              <SelectValue
+                defaultValue={selectedCountry || ''}
+                placeholder='Select Country'
+                className="hover:border-green-500"
+              />
             </SelectTrigger>
             <SelectContent className="hover:border-green-500" style={{ maxHeight: '200px', overflowY: 'auto' }}>
               {countries.map((country) => (
@@ -91,7 +93,11 @@ const CountryCityDropdown: React.FC<Props> = ({
             value={selectedCity || ''}
           >
             <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
-              <SelectValue defaultValue={selectedCity || ''} placeholder="Select City" className="hover:border-green-500"/>
+              <SelectValue
+                defaultValue={selectedCity || ''}
+                placeholder='Select City'
+                className="hover:border-green-500"
+              />
             </SelectTrigger>
             <SelectContent
               className="border-[#FFFFFF]  hover:border-green-500 bg-white-100"
