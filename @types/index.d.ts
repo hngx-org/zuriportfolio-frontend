@@ -933,5 +933,5 @@ export type DashboardActivity = {
 };
 
 export interface ExtendedDashboardActivity extends DashboardActivity {
-    isPage?: boolean;
+  isPage?: boolean;
 }

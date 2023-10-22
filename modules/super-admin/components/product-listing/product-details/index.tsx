@@ -7,15 +7,18 @@ import StarRating from '../../StarRating';
 import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
 import useProdDetailsLogic from './useProdDetailsLogic';
 import SuperAdminProdHeader from './Header';
-import { useQueryClient } from '@tanstack/react-query';
 import StatusPill from '../../StatusPill';
 
 export function formatNumber(number: any) {
-  if (typeof number !== 'number') {
+  const numericValue = Number(number);
+
+  if (isNaN(numericValue)) {
     return 0;
   }
-  return new Intl.NumberFormat('en-US').format(number);
+
+  return new Intl.NumberFormat('en-US').format(numericValue);
 }
+
 
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
@@ -66,7 +69,7 @@ const SuperAdminProdDetails = ({
             <Image src={arrowRight} alt="arrowRight" onClick={() => handleBack(route)} className="cursor-pointer" />
             <p className="font-manropeB text-[18px] font-medium text-gray-900">Products Details</p>
           </div>
-          <div className="mt-6 lg:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
+          <div className="mt-6 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
             <div className="flex flex-col gap-[16px] lg:h-[520px] md:h-[600px] h-[340px] w-full lg:w-1/2">
               <Image
                 loader={() =>
@@ -144,9 +147,9 @@ const SuperAdminProdDetails = ({
                   ) : (
                     <div></div>
                   )}
-                  <p className="text-base font-manropeL text-[14px] leading-normal tracking-[0.035px] md:text-[16px] lg:tracking-[0.08px]">
+                  {/* <p className="text-base font-manropeL text-[14px] leading-normal tracking-[0.035px] md:text-[16px] lg:tracking-[0.08px]">
                     ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="flex space-y-8  lg:space-y-4 flex-col">
@@ -157,7 +160,7 @@ const SuperAdminProdDetails = ({
                     </p>
                     <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]">
                       {' '}
-                      ${new Intl.NumberFormat('en-US').format(+data?.price + +data?.tax)}
+                      ₦{new Intl.NumberFormat('en-US').format(+data?.price + +data?.tax)}
                     </p>
                   </div>
                   <div className="flex justify-between items-center">

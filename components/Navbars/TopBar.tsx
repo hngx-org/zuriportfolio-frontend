@@ -203,7 +203,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   onKeyUp={handleSearch}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
-                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%] font-manropeL"
+                  className="placeholder:text-neutral-400 text-gray-900 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%] font-manropeL"
                 />
               </div>
               <div className="justify-start items-center gap-4 flex ">
@@ -532,7 +532,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           )}
         </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
-
           <p className=" font-bold font-manropeEB">
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
           </p>
