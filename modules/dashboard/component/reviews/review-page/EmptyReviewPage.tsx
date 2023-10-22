@@ -20,7 +20,7 @@ function EmptyReviewPage() {
           <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">The Complete Ruby on Rails Developer Course</p>
         </div> */}
       </div>
-      <div className="flex flex-col justify-center items-center h-full w-full py-52">
+      <div className="flex flex-col justify-center items-center h-full w-full md:py-42 py-16">
         <Image src="/assets/reviews/Table.png" width={150} height={150} alt="Empty Grid" />
         <p className="font-semibold">There are no reviews for this product</p>
         {/* <div className="flex flex-col justify-center items-center">
