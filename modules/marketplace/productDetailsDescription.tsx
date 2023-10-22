@@ -21,8 +21,10 @@ import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import Loader from '@ui/Loader';
+import { API_URI } from './http';
 
-export default function ProductDetailsDescription({productId}:{productId: string}) {
+export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -33,9 +35,10 @@ export default function ProductDetailsDescription({productId}:{productId: string
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
+  console.log(token);
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/none/?guest=true`;
+    ? `${API_URI}/get-product/${productId}/${token?.id}/?guest=false`
+    : `${API_URI}/get-product/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -62,7 +65,7 @@ export default function ProductDetailsDescription({productId}:{productId: string
       try {
         const response = await axios.post(
           apiUrl,
-          { product_ids: [`${id}`] },
+          { product_ids: [`${productId}`] },
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
@@ -102,7 +105,7 @@ export default function ProductDetailsDescription({productId}:{productId: string
     };
 
     try {
-      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+      const response = await axios.post(`${API_URI}/user-wishlist/`, data);
 
       console.log(response);
       if (response.status === 201) {
@@ -148,11 +151,13 @@ export default function ProductDetailsDescription({productId}:{productId: string
     setShowAll(!showAll);
   };
 
+  const breadcrumbs: any = product?.name ? `/marketplace/${product?.name}` : '/marketplace/';
+
   return (
-    <CategoryLayout>
+    <CategoryLayout isBreadcrumb={true} pathName={breadcrumbs}>
       {!product ? (
         <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
-          Loading...
+          <Loader />
         </div>
       ) : (
         <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:px-0 px-4 lg:pt-6 pt-4 lg:pb-6 pb-4`}>

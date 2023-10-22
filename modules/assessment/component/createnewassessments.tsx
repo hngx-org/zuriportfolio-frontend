@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
-import { FaTimes } from 'react-icons/fa';
-import avatar from './avatar.svg';
 import minus from './minus.svg';
 import questions_and_answers from './newlist';
 import useDisclosure from '../../../hooks/useDisclosure';
@@ -92,13 +90,21 @@ const CreateTemplate = () => {
       toast.error('You have only one question, you can not delete it');
     }
   };
+  const [yesdel, setYesdel] = useState(false);
   const confirmDelQuest = () => {
-    const updatedData = [...list];
-    const newdata = splicearr(updatedData, delQuestId);
-    setList(newdata);
-    updatelistinobj;
+    setYesdel(true);
     setDelModal(false);
   };
+
+  useEffect(() => {
+    if (yesdel === true) {
+      const updatedData = [...list];
+      const newdata = splicearr(updatedData, delQuestId);
+      newobject.questions_and_answers = newdata;
+      setList(newobject.questions_and_answers);
+      setYesdel(false);
+    }
+  }, [delModal, newobject]);
 
   useEffect(() => {
     if (listupdate === 'addquest') {
@@ -107,9 +113,15 @@ const CreateTemplate = () => {
     }
 
     if (listupdate === 'save') {
+      const fixing = [...list];
+      fixing.forEach((child) => {
+        child.question_no = fixing.indexOf(child) + 1;
+      });
+      setList(fixing);
       const newt = { ...newobject };
       newt.questions_and_answers = list;
       setObject(newt);
+
       setListupdate('post');
     }
     if (listupdate === 'clear') {

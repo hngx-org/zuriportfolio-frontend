@@ -7,6 +7,7 @@ import Modal from '@ui/Modal';
 import { Award, AwardItemProps, AwardListProps } from '../../../@types';
 import Loader from '@ui/Loader';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { Edit2, Trash } from 'iconsax-react';
 
 import { notify } from '@ui/Toast';
 
@@ -213,7 +214,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-2 flex-1">
                     <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Award Title*
+                      Award Title <span className="text-red-300">*</span>
                     </label>
                     <Input
                       type="text"
@@ -230,7 +231,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
 
                   <div className="flex  flex-col gap-2 flex-1">
                     <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Year
+                      Year <span className="text-red-300">*</span>
                     </label>
                     <select
                       id="year"
@@ -261,7 +262,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-[10px] flex-1">
                     <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Organization*
+                      Organization <span className="text-red-300">*</span>
                     </label>
                     <Input
                       type="text"
@@ -294,7 +295,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
                 </div>
                 <div className="flex  flex-col gap-[10px]">
                   <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                    Description
+                    Description 
                   </label>
                   <Input
                     type="text"
@@ -328,8 +329,9 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
 
                       className="w-full rounded-md sm:w-[6rem]"
                       size={'md'}
+                      disabled={isLoading}
                     >
-                      Save
+                      {isLoading ? <Loader /> : 'Save'}
                     </Button>
                   </div>
                 </div>
@@ -388,7 +390,6 @@ const AwardList: React.FC<AwardListProps> = () => {
   const { refreshPage, setError, isModalOpen, setIsLoading } = useContext(myContext);
   const { userId } = useContext(Portfolio);
   const [awards, setAwards] = useState<Award[]>([]);
-  console.log('this are my awards', awards);
 
   const fetchAwards = async () => {
     try {
@@ -446,6 +447,7 @@ const AwardList: React.FC<AwardListProps> = () => {
       // Fetch data when the AwardRead modal is opened
       fetchAwards();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen, refreshPage]);
   useEffect(() => {}, [isModalOpen]);
 
@@ -471,8 +473,6 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
-
-  console.log('this is the award', award);
   // Function to close the Edit form
   const closeEditForm = () => {
     setIsEditFormOpen(false);
@@ -608,7 +608,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   };
 
   return (
-    <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
+    <div className="border-b-[1px] border-b-brand-disabled gap-12 py-2">
       <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[35%] gap-4  justify-between">
           <div>
@@ -639,13 +639,13 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            Edit
+            <Edit2 size="24" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            Delete
+            <Trash size="24" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>
@@ -702,7 +702,7 @@ const EditForm: React.FC<{
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
-        <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+        <div className="flex gap-6  border-b-4 border-brand-green-hover py-2 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
             <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700">Awards</h1>
@@ -715,7 +715,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Award Title*
+                Award Title 
               </label>
               <Input
                 type="text"
@@ -732,7 +732,7 @@ const EditForm: React.FC<{
 
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Year
+                Year 
               </label>
               <select
                 id="year"
@@ -763,7 +763,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-[10px] flex-1">
               <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Organization*
+                Organization 
               </label>
               <Input
                 type="text"
@@ -779,7 +779,7 @@ const EditForm: React.FC<{
             </div>
             <div className="flex  flex-col gap-[10px] flex-1">
               <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Url
+                Url 
               </label>
               <Input
                 type="url"
@@ -796,7 +796,7 @@ const EditForm: React.FC<{
           </div>
           <div className="flex  flex-col gap-[10px]">
             <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-              Description
+              Description 
             </label>
             <Input
               type="text"
