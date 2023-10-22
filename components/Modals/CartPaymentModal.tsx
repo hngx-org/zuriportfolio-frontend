@@ -10,7 +10,7 @@ const CartPaymentsuccessModal = () => {
   useEffect(() => {
     setTimeout(() => {
       window.location.href = `${STAGING_URL}/marketplace/cart`;
-    }, 50000);
+    }, 5000);
   });
 
 const closeModal = () => {
@@ -60,7 +60,7 @@ export const CartPaymentFailureModal = () => {
   useEffect(() => {
     setTimeout(() => {
       window.location.href = `${STAGING_URL}/marketplace/cart`;
-    }, 50000);
+    }, 5000);
   });
   const closeModal = () => {
     window.location.href = `${STAGING_URL}/marketplace/cart`;
