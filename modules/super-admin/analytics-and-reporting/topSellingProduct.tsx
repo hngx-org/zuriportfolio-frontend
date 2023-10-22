@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DateObject } from 'react-multi-date-picker';
-import SuperAdminPagination from '../components/pagination';
 import { ImSpinner8 } from 'react-icons/im';
 import { ToastContainer, toast } from 'react-toastify';
 import Link from 'next/link';
@@ -183,11 +182,6 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
             </div>
             <div>
               <div className="border-b-[0.0625rem] border-[#EAECF0]"></div>
-              {/* <SuperAdminPagination
-                currentPage={currentPage}
-                totalPages={Math.ceil(topSellingProducts?.length / pageSize)}
-                onPageChange={handlePageChange}
-              /> */}
               <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-t-0 border-[#EAECF0] max-[760px]:rounded-br-none"></div>
             </div>
           </div>

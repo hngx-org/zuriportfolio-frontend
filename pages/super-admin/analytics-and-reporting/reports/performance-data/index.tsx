@@ -10,11 +10,8 @@ import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { ImSpinner8 } from 'react-icons/im';
 import axios from 'axios';
 import { withAdminAuth } from '../../../../../helpers/withAuth';
+import Head from 'next/head';
 import Modal from '@ui/Modal';
-
-// interface zaProps {
-//   dateRange: DateObject[];
-// }
 
 const PerformanceDataPage: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -47,53 +44,6 @@ const PerformanceDataPage: React.FC = () => {
       setReportModalOpen(true);
     }, 2000);
   };
-
-  // useEffect(() => {
-  //   if (dateRange.length === 2) {
-  //     const starttDate = dateRange[0].format('YYYY-MM-DD');
-  //     const enddDate = dateRange[1].format('YYYY-MM-DD');
-  //     const bearerToken = localStorage.getItem('zpt');
-  //     setLoadingState(true);
-  //     fetch(
-  //       `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/?start_date=${starttDate}&end_date=${enddDate}`,
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           Authorization: `Bearer ${bearerToken}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       },
-  //     )
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setPerformanceDataArray(data.data);
-  //         setLoadingState(false);
-  //         toast.error('No performance data within that Date Range');
-  //       })
-  //       .catch((err) => {
-  //         setLoadingState(false);
-  //       });
-  //   } else {
-  //     const bearerToken = localStorage.getItem('zpt');
-  //     setLoadingState(true);
-  //     fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/', {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${bearerToken}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setPerformanceDataArray(data.data);
-  //         setLoadingState(false);
-  //       })
-  //       .catch((err) => {
-  //         setLoadingState(false);
-  //         toast.error('No performance data to Load');
-  //       });
-  //   }
-  // }, []);
 
   useEffect(() => {
     const bearerToken = localStorage.getItem('zpt');
@@ -252,8 +202,18 @@ const PerformanceDataPage: React.FC = () => {
   };
   return (
     <>
+      <Head>
+        <title>Super Admin - Performance Data Reports Page</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="description" content="Reports Main Page for zuriportfolio, marketplace, etc." />
+        <meta
+          name="keywords"
+          content="reports, get reports with date range, export reports in different filel formats"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       {loading ? (
-        <div className="mx-auto mt-[20rem] w-10 h-10 border-[0.25rem] border-b-transparent border-[#009254] border-t-[0.25rem] rounded-[50%] animate-spin"></div>
+        <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
       ) : (
         <>
           <SuperAdminNavbar />
@@ -380,14 +340,6 @@ const PerformanceDataPage: React.FC = () => {
           )}
           <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0 mb-[3rem]">
             <div className="max-w-[77.5rem] w-full mt-[3rem] min-[1536px]:max-w-[1536px] flex flex-col gap-[0.9375rem] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[760px]:rounded-tr-none">
-              {/* <div className="flex justify-between items-center px-[1rem] py-[0.75rem] border-b-[0.0625rem] border-[#EAECF0]">
-            <p className="font-manropeL font-medium leading-[1.75rem] text-[1.25rem] text-gray-900 max-[834px]:text-[1.125rem] max-[880px]:text-[1.125rem] max-[834px]:max-w-none">
-              Performance Data
-            </p>
-            <div className="flex justify-center items-center rounded-[0.5rem] bg-[rgba(210,255,231,0.15)] hover:bg-[#009444] hover:transition-all hover:ease-in-out hover:duration-500 hover:text-[#fff] text-[#009444] font-manropeL text-[1rem] tracking-[0.005rem] leading-[1.5rem] font-normal max-w-[9.25rem] w-full py-[0.75rem] cursor-pointer">
-              See all
-            </div>
-          </div> */}
               <div className="w-full">
                 <div className="max-[778px]:overflow-x-scroll no-scrollbar">
                   <div className="flex items-center justify-between gap-[1.5rem] py-[0.75rem] pb-0 border-[#EAECF0] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0">
@@ -485,10 +437,6 @@ const PerformanceDataPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              {/* <div>
-                <div className="max-w-77.5rem w-full h-[0.3125rem] bg-[#EAECF0]"></div>
-                <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[760px]:rounded-br-none"></div>
-              </div> */}
             </div>
             <div className="mt-[4rem] bottom-0 w-full flex justify-center">
               <SuperAdminPagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />

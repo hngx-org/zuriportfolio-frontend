@@ -10,10 +10,7 @@ import { useRouter } from 'next/router';
 import { ImSpinner8 } from 'react-icons/im';
 import { ToastContainer, toast } from 'react-toastify';
 import { withAdminAuth } from '../../../../../helpers/withAuth';
-
-// interface zaProps {
-//   dateRange: DateObject[];
-// }
+import Head from 'next/head';
 
 const PortfolioCreationPage: React.FC = () => {
   const [portfolioCreationArray, setPortfolioCreationArray] = useState<any>([]);
@@ -138,35 +135,6 @@ const PortfolioCreationPage: React.FC = () => {
     };
   }, [[], reportModalOpen]);
 
-  // useEffect(() => {
-  //   if (reportClicked && dateRange.length === 2) {
-  //     const startDate = dateRange[0].format('YYYY-MM-DD');
-  //     const endDate = dateRange[1].format('YYYY-MM-DD');
-  //     const bearerToken = localStorage.getItem('zpt');
-  //     setLoadingState(true);
-
-  //     const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/?start_date=${startDate}&end_date=${endDate}`;
-
-  //     axios
-  //       .get(apiUrl, {
-  //         headers: {
-  //           Authorization: `Bearer ${bearerToken}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       })
-  //       .then((response) => {
-  //         setPortfolioCreationArray(response.data.data);
-  //         setLoadingState(false);
-  //       })
-  //       .catch((error) => {
-  //         setLoadingState(false);
-  //         toast.error('No portfolio was created')
-  //       });
-  //   } else {
-
-  //   }
-  // }, [reportClicked]);
-
   function saveFile(data: BlobPart, filename: string, contentType: any) {
     const blob = new Blob([data], { type: contentType });
     const url = window.URL.createObjectURL(blob);
@@ -224,8 +192,18 @@ const PortfolioCreationPage: React.FC = () => {
 
   return (
     <>
+      <Head>
+        <title>Super Admin - Portfolio Creation Reports Page</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="description" content="Reports Main Page for zuriportfolio, marketplace, etc." />
+        <meta
+          name="keywords"
+          content="reports, get reports with date range, export reports in different filel formats"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       {loading ? (
-        <div className="mx-auto mt-[20rem] w-10 h-10 border-[0.25rem] border-b-transparent border-[#009254] border-t-[0.25rem] rounded-[50%] animate-spin"></div>
+        <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
       ) : (
         <>
           <SuperAdminNavbar />
@@ -352,14 +330,6 @@ const PortfolioCreationPage: React.FC = () => {
           )}
           <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0 mb-[3rem]">
             <div className="max-w-[77.5rem] w-full mt-[3rem] min-[1536px]:max-w-[1536px] flex flex-col gap-[0.9375rem] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[760px]:rounded-tr-none max-[760px]:rounded-br-none max-[760px]:border-r-0">
-              {/* <div className="flex justify-between items-center px-[1rem] py-[0.75rem] border-b-[0.0625rem] border-[#EAECF0]">
-            <p className="font-manropeL font-medium leading-[1.75rem] text-[1.25rem] text-gray-900 max-[834px]:text-[1.125rem] max-[880px]:text-[1.125rem] max-[834px]:max-w-none">
-              PortFolio Creation
-            </p>
-            <div className="flex justify-center items-center rounded-[0.5rem] bg-[rgba(210,255,231,0.15)] hover:bg-[#009444] hover:transition-all hover:ease-in-out hover:duration-500 hover:text-[#fff] text-[#009444] font-manropeL text-[1rem] tracking-[0.005rem] leading-[1.5rem] font-normal max-w-[9.25rem] w-full py-[0.75rem] cursor-pointer">
-              See all
-            </div>
-          </div> */}
               <div className="w-full">
                 <div className="max-[778px]:overflow-x-scroll no-scrollbar">
                   <div className="min-[1536px]:gap-[6rem] flex items-center px-[1.5rem] py-[0.75rem] max-[834px]:items-baseline bg-[#FCFCFD] border-b-[0.0625rem] border-[#EAECF0] max-[730px]:flex max-[950px]:w-[75.563rem]">
@@ -387,74 +357,6 @@ const PortfolioCreationPage: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  {/* <div className={`${showItems ? 'block' : 'hidden'}`}>
-              <div>
-                <div className="flex items-center pl-[1.5rem] pr-[1rem] py-[1rem] min-[1536px]:justify-between max-[730px]:pr-[2rem]">
-                  <div className="flex items-center max-w-[9.53rem] w-full max-[834px]:max-w-[8rem] max-[768px]:min-w-[8rem]">
-                    <p className="text-[#737876] font-manropeL text-[0.875rem] max-[834px]:tracking-[0.003rem] max-[834px]:leading-[1rem] font-semibold leading-[1.25rem] max-[834px]:font-normal max-[834px]:text-[0.75rem] tracking-[0.00219rem]">
-                      January
-                    </p>
-                  </div>
-                  <div className="max-w-[11.25rem] w-full max-[778px]:ml-0 max-[834px]:max-w-[7.875rem] max-[778px]:min-w-[11.25rem]">
-                    <p className="text-[#737876] font-manropeL text-[0.875rem] max-[834px]:tracking-[0.003rem] max-[834px]:leading-[1rem] font-semibold leading-[1.25rem] max-[834px]:font-normal max-[834px]:text-[0.75rem] tracking-[0.00219rem]">
-                      500
-                    </p>
-                  </div>
-                  <div className="flex justify-between items-center gap-[1.25rem] px-[1.5rem] min-[1536px]:gap-0 min-[1536px]:px-0 max-[834px]:pl-0">
-                  <div className='max-w-[11.3125rem] w-full max-[778px]:min-w-[11.3125rem]'>
-                    <p className="text-[#737876] font-manropeL text-[0.875rem] font-semibold max-[834px]:tracking-[0.003rem] max-[834px]:leading-[1rem] leading-[1.25rem] max-[834px]:text-[0.75rem] tracking-[0.00219rem] max-[834px]:font-normal">
-                      Product Manager - 190 (40%)
-                    </p>
-                    </div>
-                    <div className='max-w-[11.3125rem] w-full max-[778px]:min-w-[11.3125rem]'>
-                    <p className="text-[#737876] font-manropeL text-[0.875rem] font-semibold max-[834px]:tracking-[0.003rem] max-[834px]:leading-[1rem] leading-[1.25rem] max-[834px]:text-[0.75rem] tracking-[0.00219rem] max-[834px]:font-normal">
-                      Software Developer - 110 (34%)
-                    </p>
-                    </div>
-                    <div className='max-w-[11.3125rem] w-full max-[778px]:min-w-[11.3125rem]'>
-                    <p className="text-[#737876] font-manropeL text-[0.875rem] font-semibold max-[834px]:tracking-[0.003rem] max-[834px]:leading-[1rem] leading-[1.25rem] max-[834px]:text-[0.75rem] tracking-[0.00219rem] max-[834px]:font-normal">
-                      Product Designer - 105 (16%)
-                    </p>
-                    </div>
-                    <div className='max-w-[11.3125rem] w-full max-[778px]:min-w-[11.3125rem]'>
-                    <p className="text-[#737876] font-manropeL text-[0.875rem] font-semibold leading-[1.25rem] max-[834px]:text-[0.75rem] max-[834px]:tracking-[0.003rem] max-[834px]:leading-[1rem] tracking-[0.00219rem] max-[834px]:font-normal">
-                      DevOps Engineer - 95 (40%)
-                    </p>
-                    </div>
-                  </div>
-                  <Image src={`${showContent ? "/assets/images/reports/down.svg" : '/assets/images/reports/downny.svg'}`} className='cursor-pointer' onClick={checkContent} alt="arrow-up" width={16} height={16} />
-                </div>
-              </div>
-              <div className={`transition-all duration-500 ${showContent ? 'block' : 'hidden'}`}>
-              <div className='flex gap-[1.5rem] items-center px-[1.5rem] pt-[1.25rem] pb-[1rem] border-b-[#EAECF0] border-b-[0.2rem] max-[778px]:w-[73.25rem]'>
-                  <p className='text-[#737876] font-manropeL text-[0.875rem] font-bold leading-[1.25rem] tracking-[0.00219rem]'>All categories</p>
-                  <p className='text-[#737876] text-[1rem] leading-[1.5rem]'>-</p>
-                  <p className='text-[#009444] text-[1rem] font-manropeL font-bold leading-[1.25rem] tracking-[0.005rem]'>January</p>
-              </div>
-              <div className='flex items-center gap-[2.5rem] px-[1.5rem] pt-[1.5rem] pb-[2.5rem] border-b border-b-[#E1E3E2] max-[778px]:w-[73.25rem]'>
-                <div>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] max-[778px]:min-w-[12.5rem] text-[0.75rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>Software Developer  - 110 (34%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>UI Designer  - 0 (0%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem]'>Digital Marketer  - 0 (0%)</p>
-                </div>
-                <div>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>Product Manager  - 190 (40%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>Video Marketer  - 0 (0%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem]'>Virtual Assistant  - 0 (0%)</p>
-                </div>
-                <div>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>Product Designer  - 105 (16%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>Cloud Engineer   - 0 (0%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem]'>Motion Designer  - 0 (0%)</p>
-                </div>
-                <div>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>DevOps Engineer  - 95 (40%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem] mb-[2rem]'>Community Manager  - 0 (0%)</p>
-                  <p className='max-w-[12.5rem] w-full text-[#737876] text-[0.75rem] max-[778px]:min-w-[12.5rem] max-[834px]:font-normal font-bold tetxt-[0.75rem] font-manropeL leading-[1rem] tracking-[0.003rem]'>UX Researcher  - 0 (0%)</p>
-                </div>
-              </div>
-              </div>
-              </div> */}
                   {loadingState ? (
                     <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
                   ) : (
@@ -468,9 +370,6 @@ const PortfolioCreationPage: React.FC = () => {
                   )}
                 </div>
               </div>
-              {/* <div>
-            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-t-0 border-[#EAECF0] max-[760px]:rounded-br-none"></div>
-          </div> */}
             </div>
             <ToastContainer />
           </div>

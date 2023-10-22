@@ -199,7 +199,6 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             </div>
           </div>
           <div>
-            {/* <div className="max-w-77.5rem w-full h-[0.3125rem] bg-[#EAECF0]"></div> */}
             <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-t-0 border-[#EAECF0] max-[760px]:rounded-br-none"></div>
           </div>
         </div>

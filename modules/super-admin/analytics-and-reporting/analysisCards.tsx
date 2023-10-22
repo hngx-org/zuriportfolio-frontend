@@ -79,7 +79,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             }`}
           >
             {loadingState ? (
-              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               <div className=""></div>
             ) : (
               <>
@@ -88,13 +87,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                     {/* {hero.Title} */}
                     {CardDataOne[0]?.title}
                   </p>
-                  {/* <Image
-                    src="/assets/images/reports/more.svg"
-                    alt="More options"
-                    width={20}
-                    height={20}
-                    className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -157,9 +149,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
               </>
             )}
           </div>
-          {/* card */}
           <div
-            // key={hero.index}
             className={`${
               loadingState
                 ? 'h-[7.375rem] min-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
@@ -167,7 +157,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             }`}
           >
             {loadingState ? (
-              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               <div className=""></div>
             ) : (
               <>
@@ -175,13 +164,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[1]?.title}
                   </p>
-                  {/* <Image
-                    src="/assets/images/reports/more.svg"
-                    alt="More options"
-                    width={20}
-                    height={20}
-                    className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -244,9 +226,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
               </>
             )}
           </div>
-          {/* card */}
           <div
-            // key={hero.index}
             className={`${
               loadingState
                 ? 'h-[7.375rem] w-full max-w-[18.25rem] min-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
@@ -254,7 +234,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             }`}
           >
             {loadingState ? (
-              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               <div className=""></div>
             ) : (
               <>
@@ -262,13 +241,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[2]?.title}
                   </p>
-                  {/* <Image
-                    src="/assets/images/reports/more.svg"
-                    alt="More options"
-                    width={20}
-                    height={20}
-                    className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -331,9 +303,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
               </>
             )}
           </div>
-          {/* card */}
           <div
-            // key={hero.index}
             className={`${
               loadingState
                 ? 'h-[7.375rem] w-full max-w-[18.25rem] min-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
@@ -341,7 +311,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             }`}
           >
             {loadingState ? (
-              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               <div className=""></div>
             ) : (
               <>
@@ -349,13 +318,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[5]?.title}
                   </p>
-                  {/* <Image
-                    src="/assets/images/reports/more.svg"
-                    alt="More options"
-                    width={20}
-                    height={20}
-                    className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -421,7 +383,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         </div>
         <div className="grid grid-cols-2 gap-[1.5rem] max-[1300px]:gap-[1rem] mt-[1.5rem] max-[1024px]:mt-[1rem]">
           <div
-            // key={hero.index}
             className={`${
               loadingState
                 ? 'h-[7.375rem] min-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
@@ -429,7 +390,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             }`}
           >
             {loadingState ? (
-              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               <div className=""></div>
             ) : (
               <>
@@ -437,13 +397,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[3]?.title}
                   </p>
-                  {/* <Image
-                    src="/assets/images/reports/more.svg"
-                    alt="More options"
-                    width={20}
-                    height={20}
-                    className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -507,7 +460,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             )}
           </div>
           <div
-            // key={hero.index}
             className={`${
               loadingState
                 ? 'h-[7.375rem] min-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
@@ -515,7 +467,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             }`}
           >
             {loadingState ? (
-              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               <div className=""></div>
             ) : (
               <>
@@ -523,13 +474,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[4]?.title}
                   </p>
-                  {/* <Image
-                    src="/assets/images/reports/more.svg"
-                    alt="More options"
-                    width={20}
-                    height={20}
-                    className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -627,13 +571,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
                     {hero?.title}
                   </p>
-                  {/* <Image
-                  src="/assets/images/reports/more.svg"
-                  alt="More options"
-                  width={20}
-                  height={20}
-                  className="w-[1.25rem] h-[1.25rem]"
-                /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
@@ -721,7 +658,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             </>
           ) : (
             CardDataOne?.map((hero: any) => (
-              // {loadingState ? <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />:}
               <div
                 key={hero?.index}
                 className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
@@ -730,13 +666,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
                     {hero?.title}
                   </p>
-                  {/* <Image
-                  src="/assets/images/reports/more.svg"
-                  alt="More options"
-                  width={20}
-                  height={20}
-                  className="w-[1.25rem] h-[1.25rem]"
-                /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
