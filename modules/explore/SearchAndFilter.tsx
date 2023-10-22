@@ -1,4 +1,4 @@
-import React, { Dispatch, useRef, useState } from 'react';
+import React, { Dispatch, useRef, useState, useEffect } from 'react';
 import {
   Airdrop,
   ArrowDown2,
@@ -42,6 +42,21 @@ const SearchAndFilter = (prop: {
   const [showLeftButton, setShowLeftButton] = useState<boolean>(true);
   const [showRightButton, setShowRightButton] = useState<boolean>(true);
   const [showFilterComponent, setShowFilterComponent] = useState<boolean>(false);
+
+  const [searchQuery, setSearchQuery] = useState(''); // Separate state for the search query
+  
+  // Add a state variable to track the button's disabled state
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  // an effect that handles enable or disable the button based on input values
+  useEffect(() => {
+    const isInputValid = prop.filters.Country || prop.filters.SortBy !== undefined;
+    const isSearchValid = searchQuery.trim() !== ''; // Validate the search query
+
+    // Enable the button if both input and search are valid, otherwise disable it
+    setIsButtonDisabled(!(isInputValid && isSearchValid));
+  }, [searchQuery, prop.filters]);
+
 
   const { filters, handleFilters } = prop;
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -154,6 +169,7 @@ const SearchAndFilter = (prop: {
 
             <button
               onClick={handleGo}
+              disabled={isButtonDisabled}
               className="col-span-full h-12 self-end bg-brand-green-primary text-white-100 p-2 rounded-lg uppercase md:col-span-1"
             >
               Go
