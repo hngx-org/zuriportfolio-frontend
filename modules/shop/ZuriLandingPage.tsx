@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ShopProductList from './component/productPage/ShopProduct/ShopProductList';
 import Header from '../shop/component/productPage/Header';
-import Footer from '../shop/component/productPage/Footer';
+import Footer from '../../components/Footer';
 import { Products, ShopData } from '../../@types';
 import Pagination from '@ui/Pagination';
 import { useCart } from './component/CartContext';
@@ -11,6 +11,7 @@ import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Error from '../shop/component/error/Error';
+import TopBar from '../../components/Navbars/TopBar';
 
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
@@ -39,7 +40,7 @@ const ZuriLandingPage = () => {
       setShowLoader(true);
       if (shop_id) {
         try {
-          const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
+          const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shop/${shop_id}`);
 
           setShop(response.data);
 
@@ -107,25 +108,26 @@ const ZuriLandingPage = () => {
           content="https://zuriportfolio-frontend-pw1h.vercel.app/shop?shop_id=3a9a50be-990d-492b-bcfa-0936d6d8d82b"
         />
       </Head>
-      <Header
+      {/* <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
         cartItemCount={cartItemCount}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
-      />
+      /> */}
+      <TopBar activePage={"shop"} showDashBorad={false} />
       <div className=" flex-grow px-4 sm:px-6 md:px-6 lg:px-10 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
           </div>
         ) : loading ? (
-          <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-white bg-opacity-80 z-50">
+          <div className="w-full h-[60vh] flex items-center justify-center bg-white bg-opacity-80 z-50">
             <Loader />
           </div>
         ) : (
-          <div className="text-center py-10">
+          <div className="text-center py-5">
             <Error />
           </div>
         )}
@@ -152,7 +154,7 @@ const ZuriLandingPage = () => {
           )}
         </a>
       </div>
-      <Footer shopName={shop ? shop.data?.name : ''} />
+      <Footer />
     </div>
   );
 };

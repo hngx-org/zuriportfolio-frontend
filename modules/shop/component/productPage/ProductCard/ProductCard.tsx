@@ -2,6 +2,10 @@
 
 // Define the highlightSearchQuery function
 // Define the highlightSearchQuery function
+
+export const CART_ENDPOINT =
+  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/checkout_cart/carts';
+
 function highlightSearchQuery(text: string, searchQuery: string) {
   if (!searchQuery) {
     return text;
@@ -52,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName, searchQuer
     } else {
       try {
         const response = await axios.post(
-          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          `${CART_ENDPOINT}/carts`,
           {
             product_ids: [product.id],
           },

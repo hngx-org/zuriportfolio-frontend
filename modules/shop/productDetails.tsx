@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { ArrowLeft, ArrowRight, ArrowRight2, ProfileCircle } from 'iconsax-react';
+import { ArrowLeft, ProfileCircle } from 'iconsax-react';
 import { useCart } from './component/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { Products, ShopData } from '../../@types';
@@ -15,10 +15,15 @@ import TabContainer from '../shop/component/Tabbed';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Header from './component/productPage/Header';
-import Footer from './component/productPage/Footer';
+import Footer from '../../components/Footer';
 import Loader from '@ui/Loader';
 import Head from 'next/head';
 import Error from './component/error/Error';
+import { formatToNigerianNaira } from '../../helpers/formatCurrency';
+import { RatsData } from '../../@types';
+
+export const CART_ENDPOINT =
+  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/checkout_cart/carts';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -35,15 +40,17 @@ export default function ProductDetails() {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const cartItemCount = cart.length;
   const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const [rats, setRats] = useState<RatsData>();
+  const { id } = router.query;
+
 
   const handleCategoryChange = () => {};
   const ZOOM = 250;
 
   useEffect(() => {
-    const { id } = router.query;
     if (id) {
       setLoading(true);
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
@@ -77,6 +84,18 @@ export default function ProductDetails() {
         });
     }
   }, [shopID]);
+
+  
+
+  useEffect(() => {
+    if (id) {
+      const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data) => setRats(data.data))
+        .catch((e) => console.log(e));
+    }
+  }, [id]);
 
   const imgContRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -159,7 +178,7 @@ export default function ProductDetails() {
         <div className="h-[85vh] flex items-center justify-center">
           <Error />
         </div>
-        <Footer shopName={shopName} />
+        <Footer/>
       </>
     );
   }
@@ -178,7 +197,7 @@ export default function ProductDetails() {
     } else {
       try {
         const response = await axios.post(
-          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          `${CART_ENDPOINT}/carts`,
           {
             product_ids: [product.id],
           },
@@ -188,13 +207,19 @@ export default function ProductDetails() {
             },
           },
         );
-        if (response.status === 201) {
+        if (response.status === 400) {
+          // setIsAddedToCart(false);
+          toast.success('Already in cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        } else if (response.status === 201) {
           addToCart(product);
           setIsAddedToCart(true);
           toast.success('Added to Cart', {
             position: 'top-right',
             autoClose: 3000,
-          });
+          }); 
         } else {
           toast.error('Failed to add to Cart', {
             position: 'top-right',
@@ -218,16 +243,24 @@ export default function ProductDetails() {
       ? product.description
       : product.description?.slice(0, 400);
 
-  {
-    /*const renderRatingStars = (rating: number) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      const starType = i <= rating ? 'star1' : 'star2';
-      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+
+    function getStars(avgRating: number) {
+      let stars = [];
+      for (let i = 0; i < 5; i++) {
+        if (avgRating >= 1) {
+          stars.push(<Image key={i} src={star1} alt="star" />);
+        } else if (avgRating > 0) {
+          stars.push(<Image key={i} src={star2} alt="star" />);
+        } else {
+          stars.push(<Image key={i} src={star2} alt="star" />);
+        }
+        avgRating--;
+      }
+      return stars;
     }
-    return stars;
-  }; */
-  }
+
+    const stars = getStars(rats?.averageRating! || 0) 
+    
 
   return (
     <>
@@ -247,14 +280,13 @@ export default function ProductDetails() {
       </Head>
 
       <Header
-        setSearchQuery={setSearchQuery}
-        setShopOwnerQuery={setShopOwnerQuery}
-        cartItemCount={cartItemCount}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        handleCategoryChange={handleCategoryChange}
-      />
-
+          setSearchQuery={setSearchQuery}
+          setShopOwnerQuery={setShopOwnerQuery}
+          cartItemCount={cartItemCount}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          handleCategoryChange={handleCategoryChange}
+        />
       <main className={`p-4 container mx-auto`}>
         <div className="self-start mb-[8px]">
           <span className="font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base">
@@ -320,12 +352,10 @@ export default function ProductDetails() {
                   <div className="flex gap-x-1 mt-">
                     <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight"></p>
                     <div className="flex items-center font-manropeL">
-                      <Image src={star2} alt="rating star" />
-                      <Image src={star2} alt="rating star" />
-                      <Image src={star2} alt="rating star" />
-                      <Image src={star2} alt="rating star" />
-                      <Image src={star2} alt="rating star" />
-                      (no ratings for this product)
+                      {stars}
+                      {getStars(0) ? 
+                        `(no ratings for this product)` : null
+                      }
                     </div>
                   </div>
                 </div>
@@ -341,10 +371,12 @@ export default function ProductDetails() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                  ₦ {product.price.toLocaleString()}
+                  {product?.discount_price === '0.00'
+                    ? formatToNigerianNaira(product?.price)
+                    : formatToNigerianNaira(product?.discount_price)}
                 </span>
                 <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                  {product.discount_price ? '₦' + product.discount_price.toLocaleString() : null}
+                  {product?.discount_price === '0.00' ? null : formatToNigerianNaira(product?.price)}
                 </span>
               </p>
 
@@ -394,7 +426,7 @@ export default function ProductDetails() {
           )}
         </div>
       </main>
-      <Footer shopName={shopName} />
+      <Footer/>
     </>
   );
 }
