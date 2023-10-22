@@ -210,7 +210,7 @@ const SearchAndFilter = (prop: {
             }
           </div>
         </div>
-        <div className="relative -right-1 flex">
+        <div className="relative right-1 flex top-3 md:top-0">
           {showLeftButton && (
             <div
               className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[2.95rem] right-[3.5rem] bg-white-100"
