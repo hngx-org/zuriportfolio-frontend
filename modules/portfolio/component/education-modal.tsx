@@ -131,13 +131,13 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                             setIsData(false);
                           }}
                         >
-                          <Edit2 size="24" color="#37d67a" variant="Outline" />
+                          <Edit2 size="20" color="#37d67a" variant="Outline" />
                         </span>
                         <span
                           className="font-semibold cursor-pointer"
                           onClick={(e) => handleDeleteEducation(education.id, e)}
                         >
-                          <Trash size="24" color="#f47373" variant="Outline" />
+                          <Trash size="20" color="#f47373" variant="Outline" />
                         </span>
                       </div>
                     </article>
@@ -178,7 +178,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   className="font-semibold cursor-pointer text-brand-red-hover"
                   onClick={(e) => handleDeleteEducation(editingEducation?.id, e)}
                 >
-                  <Trash size="32" color="#f47373" variant="Outline" />
+                  <Trash size="20" color="#f47373" variant="Outline" />
                 </span>
               </div>
             </article>

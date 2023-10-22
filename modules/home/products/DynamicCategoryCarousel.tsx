@@ -73,50 +73,62 @@ const DynamicCategoryCarousel = () => {
     data: categoryNamesQuery,
     isLoading: isCategoryNamesLoading,
     isError: isCategoryNamesError,
-  } = useQuery(['categoryNames'], async () => {
-    const response = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
-    return response.data.data.slice(0, 12);
-  });
+  } = useQuery(
+    ['categoryNames'],
+    async () => {
+      const response = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
+      return response?.data?.data?.slice(0, 12);
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 36000000,
+      retry: false,
+      cacheTime: 36000000,
+    },
+  );
 
-  const { data: productsQuery, isError: isProductsError } = useQuery(['products', categoryNamesQuery], async () => {
-    const fetchedSlides = [];
-    try {
-      for (const categoryObj of categoryNamesQuery) {
-        const category = categoryObj.name;
-        const response = await axios.get(
-          `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
-        );
-        const products = response.data;
+  const { data: productsQuery, isError: isProductsError } = useQuery(
+    ['products', categoryNamesQuery],
+    async () => {
+      const fetchedSlides = [];
+      try {
+        for (const categoryObj of categoryNamesQuery) {
+          const category = categoryObj.name;
+          const response = await axios.get(
+            `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
+          );
+          const products = response.data;
 
-        fetchedSlides.push({
-          src: products?.data[0]?.images[0]?.url,
-          alt: 'shop',
-          section: 'shop',
-          name: category,
-          products: products?.products?.length,
-        });
+          fetchedSlides.push({
+            src: products?.data[0]?.images[0]?.url,
+            alt: 'shop',
+            section: 'shop',
+            name: category,
+            products: products?.products?.length,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching slides:', error);
+        for (const category of sliders) {
+          fetchedSlides.push({
+            src: category.src,
+            alt: 'shop',
+            section: 'shop',
+            name: category.name,
+            products: category.products,
+          });
+        }
       }
-    } catch (error) {
-      console.error('Error fetching slides:', error);
-      for (const category of sliders) {
-        fetchedSlides.push({
-          src: category.src,
-          alt: 'shop',
-          section: 'shop',
-          name: category.name,
-          products: category.products,
-        });
-      }
-    }
 
-    return fetchedSlides;
-  });
-
-  useEffect(() => {
-    if (productsQuery) {
-      setSlides(productsQuery);
-    }
-  }, [productsQuery]);
+      return fetchedSlides;
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 36000000,
+      retry: false,
+      enabled: !!categoryNamesQuery,
+    },
+  );
 
   /**
    *
@@ -209,7 +221,7 @@ const DynamicCategoryCarousel = () => {
       {slides.length > 0 && (
         <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
           <Slider {...settings}>
-            {slides.map((category) => (
+            {(productsQuery ?? slides).map((category) => (
               <div key={category?.name} className="relative h-[250px] sm:h-[300px] w-[182.71]">
                 {category?.section === 'shop' && (
                   <div

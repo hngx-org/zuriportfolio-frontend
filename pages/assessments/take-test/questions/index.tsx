@@ -57,6 +57,11 @@ const Questions: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [storedAssessment, setStoredAssessment] = React.useState<Question[]>([]);
   const [assessmentData, setAssessmentData] = React.useState<AssessmentDetails>();
+
+  React.useEffect(() => {
+    tokenRef.current = localStorage.getItem('zpt');
+  }, []);
+
   const {
     isLoading: newIsLoading,
     isError: newIsError,
@@ -64,7 +69,7 @@ const Questions: React.FC = () => {
     data: newQuestions,
   } = useQuery(
     ['questionData'],
-    () => fetchUserTakenAssessment(tokenRef.current as string, router.query?.id as string),
+    () => fetchUserTakenAssessment(tokenRef.current as string, router.query?.data as string),
     { notifyOnChangeProps: ['data', 'error'] },
   );
 
@@ -73,6 +78,7 @@ const Questions: React.FC = () => {
     () => getAssessmentDetails(tokenRef.current as string, router.query?.data as string),
     { notifyOnChangeProps: ['data', 'error'] },
   );
+
   const submitAnswer = useMutation((data: any) => submitAssessment(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(['questionData']);
@@ -81,12 +87,13 @@ const Questions: React.FC = () => {
       console.error('Error submitting assessment:', error);
     },
   });
+
   const {
     data: session,
     isLoading: sessionLoading,
     isError: sessionIsErrorr,
     error: sessionError,
-  } = useQuery(['session'], () => fetchUserAssessmentSession(tokenRef.current as string, router.query?.id as string));
+  } = useQuery(['session'], () => fetchUserAssessmentSession(tokenRef.current as string));
 
   function sortQuestionsByQuestionNo(input: QuestionArrays | undefined): Question[] {
     if (!input) return [];
@@ -240,7 +247,7 @@ const Questions: React.FC = () => {
           <OutOfTime
             onClose={() => router.push('/assessments/dashboard')}
             onRetake={() => {
-              router.push(`/assessments/take-test/intro?data=${assessmentData?.skill_id}`);
+              router.push(`/assessments/take-test/intro?data=${assessmentData?.assessment_id}`);
             }}
             message="You’ve run out of time!"
             btn1={true}
@@ -269,7 +276,7 @@ const Questions: React.FC = () => {
         <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
           {isLoading ? (
             <div className="flex justify-center items-center h-screen">
-              <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+              <Loader />
             </div>
           ) : (
             <>

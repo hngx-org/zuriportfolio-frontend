@@ -5,28 +5,26 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Button from '@ui/Button';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../../components/Footer';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
-import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Spinner from '@ui/Spinner';
 import Image from 'next/image';
-import { ToastContainer, toast } from 'react-toastify';
-import assessment from '..';
+import Newscoring from '@modules/assessment/NewScoring';
+import { toast } from 'react-toastify';
 import useDisclosure from '../../../../hooks/useDisclosure';
 import Modal from '@ui/Modal';
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-
+  const [coming, setComing] = useState(false);
   const router = useRouter();
   const data = router.query;
   const skillid: any = data.name;
-  const [destination, setDestination] = useState('');
-  const [newtitle, setNewTitle] = useState('');
 
+  const [destination, setDestination] = useState('');
+  const [newtitle, setNewTitle] = useState('Your assessment created');
   const [newobject, setObject] = useState({
     skill_id: skillid,
     questions_and_answers: [
@@ -188,23 +186,18 @@ const CreateAssessment = () => {
 
         <UpdateContext.Provider value={[listupdate, setListupdate]}>
           {modalopen && (
-            <Modal isOpen={!isOpen} closeModal={onOpen} title={newtitle} isCloseIconPresent={false} size="sm">
-              {' '}
-              {destination === 'Publishing assessments' ? (
-                <Link href={'/super-admin/assessment/'}>
-                  <Button className="w-full my-4">View assessments</Button>
-                </Link>
-              ) : (
-                <div className="p-4">
-                  <Link href={'/super-admin/assessment/drafts'}>
-                    <Button className="w-full my-3">View drafts</Button>
-                  </Link>
+            <Modal isOpen={!isOpen} closeModal={onOpen} isCloseIconPresent={false} size="sm">
+              <div className="w-full grid place-items-center">
+                <div className="font-ManropeB font-semibold mb-6">{newtitle}</div>
+                <div className="w-2/3">
                   <Link href={'/super-admin/assessment'}>
                     {' '}
-                    <Button className="w-full">Go back to home page</Button>
+                    <Button intent={'primary'} size={'sm'} spinnerColor="#000" className="w-full outline-none">
+                      Okay
+                    </Button>
                   </Link>
                 </div>
-              )}{' '}
+              </div>
             </Modal>
           )}
           <main className="w-full">
@@ -224,20 +217,14 @@ const CreateAssessment = () => {
                 <Image alt="go back" src={backarrow} width={'20'} height={'20'} />
                 <p className="text-dark[100]">Go back</p>
               </div>{' '}
-              {active === 'button1' ? (
-                <div className="flex space-x-4 items-center">
-                  <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={draftsClick}>
-                    Save To Drafts
-                  </Button>
-                  <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishClick}>
-                    Publish Assesments
-                  </Button>
-                </div>
-              ) : (
-                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" /*onClick={updateDuration}*/>
-                  Save Changes
+              <div className="flex space-x-4 items-center">
+                <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={draftsClick}>
+                  Save To Drafts
                 </Button>
-              )}
+                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishClick}>
+                  Publish Assesments
+                </Button>
+              </div>
             </div>
             <div className="pt-4 pb-2 flex space-x-10 justify-center">
               <div
@@ -292,13 +279,12 @@ const CreateAssessment = () => {
                   </div>
                 </>
               ) : (
-                <ScoringScreen assessment={assessment} skillId={newobject.skill_id} />
+                <Newscoring />
               )}
             </div>
           </main>
         </UpdateContext.Provider>
       </ToPushContext.Provider>
-      <Footer />
     </>
   );
 };

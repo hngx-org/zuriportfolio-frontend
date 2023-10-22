@@ -80,7 +80,7 @@ const OrderHistoryRow = (props: OrderHistory) => {
       <td className={`text-custom-color10 underline ${manropeMD.className} text-center`}>
         <Link href={`/dashboard/orders/details/${(props as any)?.fullId}`}>#{props.id}</Link>
       </td>
-      <td>₦{props.revenue}</td>
+      <td>₦{formatNum(props.revenue as number)}</td>
       <td className={`text-custom-color10 ${manropeMD.className}`}>{props.customerName}</td>
       <td>{formatDate()}</td>
       <td>
@@ -109,10 +109,10 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
       }}
     >
       <div className="flex flex-col">
-        {/* <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
+        <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
           {' '}
-          Revenue: #{formatNum(props.revenue)}
-        </p> */}
+          Revenue: ₦{formatNum(props.revenue as number)}
+        </p>
         <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
         <p className="text-custom-color22 font-semibold">
           Order ID: <span className="text-dark-110 font-manropeL font-normal">#{props.id}</span>
