@@ -71,6 +71,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           onClick={() => {
             setAllCatActive(true);
             setActive(-1);
+            setShowCategories(false);
           }}
         >
           <Link href="/marketplace/allcategories">All Categories</Link>

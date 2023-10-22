@@ -5,6 +5,7 @@ import Link from 'next/link';
 import CategoryLoading from '../component/categories/CategoryLoading';
 import NoEndpoint from '../component/no-endpoint/no-endpoint';
 import http from '../http';
+import SEO from '../../../components/SEO';
 
 interface Cat {
   isLoading: boolean;
@@ -71,6 +72,12 @@ export default function AllCategoriesPage() {
 
   return (
     <>
+      <SEO
+        title="Zuri Portfolio - All Categories"
+        description="Discover and procure goods for personal use. At Zuriportfolio, you will find a curated selection of premium products tailored to your specific requirements, designed to surpass your expectations."
+        image="/assets/explore/seo-image-allcategory.png"
+        url="https://staging.zuri.team/marketplace/allcategories"
+      />
       {categoryProducts.isLoading ? (
         <div
           className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
