@@ -1,12 +1,17 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useCallback, useContext } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
+import { notify } from '@ui/Toast';
+import Loader from '@ui/Loader';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+
 
 type skillModalProps = {
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
   userId: string;
 };
@@ -21,41 +26,45 @@ type skillListRes = {
   skill: string;
 };
 
-const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
+const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
-    { skill: 'Version Control', skillId: 1 },
-    { skill: 'DeveOps', skillId: 2 },
-    { skill: 'Testing', skillId: 3 },
-    { skill: 'Art', skillId: 4 },
-    { skill: 'Sketch', skillId: 5 },
-    { skill: 'Visual Branding', skillId: 6 },
-    { skill: 'Graphics Design', skillId: 7 },
-    { skill: 'Color Theory', skillId: 8 },
-    { skill: 'Illustration', skillId: 9 },
-    { skill: 'Animation', skillId: 10 },
-    { skill: 'API Intergration', skillId: 11 },
+    { skill: 'version control', skillId: 1 },
+    { skill: 'devOps', skillId: 2 },
+    { skill: 'testing', skillId: 3 },
+    { skill: 'art', skillId: 4 },
+    { skill: 'sketch', skillId: 5 },
+    { skill: 'visual branding', skillId: 6 },
+    { skill: 'graphics design', skillId: 7 },
+    { skill: 'color theory', skillId: 8 },
+    { skill: 'illustration', skillId: 9 },
+    { skill: 'animation', skillId: 10 },
+    { skill: 'api intergration', skillId: 11 },
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
-  const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+ const slug  = useContext(Portfolio);
 
-  const fetchSkillData = async () => {
+  const fetchSkillData = useCallback(async () => {
     try {
       // Make a GET request to the API
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userID}`);
-      const data = response.data.data;
+      setIsLoading(true);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/skills/${userId}`);
+      const data = response.data.skills;
       setValues(data);
+      setIsLoading(false);
     } catch (error) {
       // Handle errors
       console.error('Error fetching data:', error);
+      setIsLoading(false);
     }
-  };
+  }, [userId]);
+
   // set the data in the db on the modal onload
 
   useEffect(() => {
     fetchSkillData();
-  }, []);
+  }, [fetchSkillData]);
 
   // on Enter press append input value to array two(setValues)
   const handleKeyPress = (e: { key: string }) => {
@@ -65,6 +74,12 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
         setValues([...values, { skillId: new Date().getTime(), skill: String(trimmedValue) }]);
         setInputValue('');
       }
+    }
+  };
+
+  const deleteInputCharacter = (e: { key: string }) => {
+    if (e.key === 'Backspace') {
+      setInputValue(inputValue.slice(0, -1));
     }
   };
 
@@ -83,42 +98,60 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   };
 
   const arrayOneItemAddition = (item: skillListRes) => {
-    if (!values.some((skill) => skill.skill === item.skill)) {
+    console.log('Big', values);
+
+    if (!values?.some((skill) => skill.skill === item.skill)) {
       //avoid duplicates
+
       setValues((values) => [...values, item]);
     }
   };
 
-  const skillsArray = values.map((obj) => obj.skill);
-
   // update skill items on the landing page with reloading the page
   const getAllSkill = async () => {
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userID}`);
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
         const { skills } = data;
-        console.log(data);
         arrayTwolist(skills);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/v1/skills/';
   const requestData = {
-    skills: skillsArray,
+    skills: values?.map((obj) => obj.skill),
     sectionId: 5,
-    userId: userID,
+    userId: userId,
   };
 
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
+      const responseData = response.data;
+      if (responseData.successful) {
+        notify({
+          message: 'Skills created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+      }
       return response.data;
     } catch (error) {
+      notify({
+        message: 'Error occurred',
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
       console.error('Error:', error);
       throw error; // You can handle the error further if needed
     }
@@ -126,7 +159,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
 
   async function deleteSkillsData(id: number) {
     try {
-      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}}`);
+      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/v1/skills/${id}}`);
       if (response.data.successful) {
         fetchSkillData();
       }
@@ -137,12 +170,14 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       }
     }
   }
-
+  const [isLoading, setIsLoading] = useState(false);
   // onclick of save button, it saves data to the endpoint
-  function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
-    postSkillData();
-    getAllSkill();
-    onClose();
+  async function handleAddSkills(event: MouseEvent<HTMLButtonElement>) {
+    setIsLoading(true);
+    await postSkillData();
+    await getAllSkill();
+    onSaveModal();
+    setIsLoading(false);
   }
 
   // clear array two on cancel btn click
@@ -151,14 +186,14 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   };
 
   return (
-    <section className="w-full flex items-center justify-center fontFamily-manropeEL">
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+    <section className="w-full flex items-center justify-center ">
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
           <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
-            <h1 className="font-bold text-2xl ">Skill</h1>
+            <h1 className="font-medium text-2xl ">Skills</h1>
             <button
               className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
-              onClick={onClose}
+              onClick={onCloseModal}
             >
               <AiOutlineClose />
             </button>
@@ -190,12 +225,18 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
           <div className="my-12">
             <Input
               type="text"
-              placeHolder='Enter your skill and press "ENTER'
-              className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
+              placeHolder=""
+              className="w-full rounded-lg p-4 mb-2 border-2 border-[#C4C7C6] max-sm:p-2"
               onChange={inputChange}
-              onKeyDown={handleKeyPress}
+              onKeyDown={(e) => {
+                handleKeyPress(e);
+                deleteInputCharacter(e);
+              }}
               value={inputValue}
             />
+            <label htmlFor="" className="text-brand-green-primary ">
+              Enter your tags and press enter
+            </label>
           </div>
 
           <div className="w-full">
@@ -225,17 +266,18 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
             <Button
               className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
               onClick={() => {
-                onClose();
+                onCloseModal();
                 cancelBtnFn();
               }}
             >
               Cancel
             </Button>
             <Button
-              className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
+              className="p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
               onClick={handleAddSkills}
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? <Loader /> : `Save`}
             </Button>
           </div>
         </div>

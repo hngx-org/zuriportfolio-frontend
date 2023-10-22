@@ -9,11 +9,6 @@ export interface ConfirmSubmitModalProps {
 }
 
 export const ConfirmSubmitModal: FC<ConfirmSubmitModalProps> = ({ showModal, setShowModal, onConfirmFn }) => {
-  const handleOnConfirm = () => {
-    setShowModal(false);
-    onConfirmFn();
-  };
-
   return (
     <Modal isOpen={showModal} closeModal={() => setShowModal(false)} isCloseIconPresent={false}>
       <div className="flex flex-col items-center justify-center gap-6 py-20">
@@ -30,7 +25,7 @@ export const ConfirmSubmitModal: FC<ConfirmSubmitModalProps> = ({ showModal, set
           </button>
 
           <button
-            onClick={handleOnConfirm}
+            onClick={onConfirmFn}
             className="lg:px-[55px] md:px-[45px] px-[35px] py-[12px] border border-[#009254] rounded-xl bg-[#009254] text-white-100 text-base"
           >
             Yes, Submit

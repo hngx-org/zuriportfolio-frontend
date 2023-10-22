@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
@@ -11,18 +11,23 @@ import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../../../context/AuthContext';
-import isAuthenticated from '../../../../helpers/isAuthenticated';
+import { ADMIN_ID, useAuth } from '../../../../context/AuthContext';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
-import { resend2FACode } from '../../../../http/auth';
-
-export const ADMIN_ID = 3;
 
 function LoginForm() {
-  const { handleAuth } = useAuth();
+  const { handleAuth, userCameFrom } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
+
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
 
   const schema = z.object({
     email: z.string().email(),
@@ -37,59 +42,59 @@ function LoginForm() {
     },
   });
 
-  const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      console.log('responseoutside', res);
+      // User has 2fa enabled
+      if (res.status === 202) {
+        localStorage.setItem('2fa', res?.response?.token);
+        localStorage.setItem('email', res?.response?.email);
 
-      if (res.message === 'Login successful') {
+        notify({
+          message: 'Two Factor Authentication Code Sent',
+          type: 'success',
+          theme: 'light',
+        });
+
+        router.push('/auth/2fa');
+        return;
+      }
+
+      if (res.status === 200) {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
-        const value = isAuthenticated(res?.data?.token);
-        // console.log(value);
-
-        // Checking if user enabled 2fa
-        if (res.data.user.twoFactorAuth) {
-          const email = res?.data?.user?.email;
-
-          // uncomment if the 2fa message is not being sent automatically
-          // send2FaCode.mutate({ email });
-          router.push('/auth/2fa');
-          return;
-        }
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
-          router.push('/super-admin/product-listing');
+          router.push('/super-admin/analytics-and-reporting');
           return;
         }
+
         notify({
           message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
-        router.push('/dashboard');
-      } else if (res.message === 'Invalid password') {
-        notify({
-          message: 'Invalid password',
-          type: 'error',
-        });
-      } else if (res.message === 'User not found') {
-        notify({
-          message: 'User not found',
-          type: 'error',
-        });
-      } else if (res.message === 'Please verify your account') {
-        notify({
-          message: 'Please verify your account',
-          type: 'error',
-        });
+
+        router.push(userCameFrom || '/explore');
+        return;
       }
     },
-    onError: (e) => {
-      console.error({ e });
+    onError: (e: any) => {
+      // For a user who has not verified their account
+      if (e.status === 403) {
+        notify({
+          message: e.message,
+          type: 'error',
+          theme: 'light',
+        });
+        router.push('/auth/verification-complete');
+        return;
+      }
+
       notify({
-        message: 'Error logging in',
+        message: "Oops, there's an issue with logging in. Please try again.",
         type: 'error',
+        theme: 'light',
       });
     },
   });
@@ -111,7 +116,7 @@ function LoginForm() {
             Log In
           </p>
           <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
-            Log in to continue using zuriportfolio
+            Log in to continue using zuriportfolio.
           </p>
         </div>
 
@@ -122,10 +127,10 @@ function LoginForm() {
                 Email Address
               </label>
               <Input
-                placeHolder="enter email"
+                placeHolder="Enter email"
                 id="email"
                 {...form.getInputProps('email')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.email ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="email"
@@ -138,15 +143,15 @@ function LoginForm() {
                 Password
               </label>
               <Input
-                placeHolder="enter password"
+                placeHolder="Enter password"
                 id="password"
                 {...form.getInputProps('password')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.password ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
-                  isPasswordShown ? (
+                  isMicrosoftEdge ? null : isPasswordShown ? ( // Hide the icons in Microsoft Edge
                     <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
                   ) : (
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
@@ -190,8 +195,8 @@ function LoginForm() {
           </div>
           <div className="mt-[1.6rem] flex flex-col gap-[1rem] relative">
             <SignUpWithGoogle />
-            <SignUpWithGithub />
-            <SignUpWithFacebook />
+            {/* <SignUpWithGithub /> */}
+            {/* <SignUpWithFacebook /> */}
           </div>
         </div>
       </div>

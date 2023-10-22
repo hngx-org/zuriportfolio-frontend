@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import { ArrowRight2 } from 'iconsax-react';
-import { Trash } from 'iconsax-react';
 import { SearchNormal1 } from 'iconsax-react';
 import DeleteModal from '@modules/marketplace/component/CustomerDashboard/DeleteModal';
 import useDisclosure from '../../../hooks/useDisclosure';
@@ -10,11 +7,14 @@ import PurchaseNotFound from '@modules/marketplace/component/CustomerDashboard/P
 import MobileCustomerDashboard from '@modules/marketplace/component/CustomerDashboard/mobile_customer_dashboard';
 import FilterDropDown from '@modules/marketplace/component/CustomerDashboard/FilterDropDown';
 import MainLayout from '../../../components/Layout/MainLayout';
-import $http from '../../../http/axios';
 import { toast } from 'react-toastify';
-import { error } from 'console';
 import Spinner from '@ui/Spinner';
-import Link from 'next/link';
+import ComplaintsModal from '../../../components/Modals/ComplaintModal';
+import FilterModal from '@modules/marketplace/component/CustomerDashboard/FilterModal';
+import { useAuth } from '../../../context/AuthContext';
+import { getAllPurchases, getSearchedData } from '../../../http/customerPurchaseDashboard';
+import { withUserAuth } from '../../../helpers/withAuth';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -38,7 +38,7 @@ export type PurchaseData = {
   };
 };
 
-export type SearchFilter = 'item' | 'price';
+export type SearchFilter = 'year' | 'month' | 'price' | null;
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -48,9 +48,33 @@ const MyPage: React.FC = () => {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
+  const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
+
+  // useAuth
+  const { auth } = useAuth();
+  const token = auth?.token;
+
+  // modal open and close state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const payload = { orderItemIds: checkedItems };
   const stringifyData = JSON.stringify(payload);
+
+  // Function to open the ComplaintsModal and set the selected order
+  const openModalWithOrder = (order: PurchaseData) => {
+    if (order.order.status === 'pending' || order.order.status === 'failed') {
+      setSelectedOrder(order);
+      setIsModalOpen(true);
+    }
+  };
 
   // function to handle delete
   const onDelete = async () => {
@@ -59,8 +83,7 @@ const MyPage: React.FC = () => {
       const response = await fetch(`https://customer-purchase.onrender.com/api/orders/delete-transactions`, {
         method: 'DELETE',
         headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`,
           'Content-Type': 'application/json',
         },
         body: stringifyData,
@@ -112,10 +135,10 @@ const MyPage: React.FC = () => {
   };
 
   // Calculate counts for each category
-  const allPurchasesCount = data.length;
-  const pendingPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'pending').length;
-  const completedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'completed').length;
-  const failedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'failed').length;
+  const allPurchasesCount = data?.length;
+  const pendingPurchasesCount = data?.filter((item) => item.order?.status.toLowerCase() === 'pending').length;
+  const completedPurchasesCount = data?.filter((item) => item.order?.status.toLowerCase() === 'completed').length;
+  const failedPurchasesCount = data?.filter((item) => item.order?.status.toLowerCase() === 'failed').length;
 
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
@@ -142,15 +165,12 @@ const MyPage: React.FC = () => {
   const getAllPurchase = async () => {
     setIsLoading(true);
     try {
-      const res = await $http.get('https://customer-purchase.onrender.com/api/orders/all-transactions', {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
-        },
-      });
-      setData(res?.data?.data);
+      const res = await getAllPurchases();
+      const PurchaseData = res;
+      setData(PurchaseData);
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       setData([]);
       setIsLoading(false);
     }
@@ -162,30 +182,31 @@ const MyPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await $http.get(getFilterApi(filterBy, searchInput), {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
-        },
-      });
-      setData(res?.data?.data);
+      const res = await getSearchedData(searchInput);
+      const searchedData = res;
+      setData(searchedData);
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       setData([]);
       setIsLoading(false);
     }
     setSearchInput('');
   };
 
-  const getFilterApi = (filterBy: string, filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/orders/filter-transactions?${filterBy}=${filterParams}`;
-  };
-
   // handle filter dropdown
-  const [filterBy, setFilterBy] = useState<SearchFilter>('item');
+  const [filterBy, setFilterBy] = useState<SearchFilter>(null);
+  const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
   const onChooseFilter = (filter: SearchFilter) => {
     setFilterBy(filter);
+    closeFilterModal();
   };
+  function closeFilterModal() {
+    setOpenFilterModal(!openFilterModal);
+  }
+  function setFilteredData(data: PurchaseData[]) {
+    setData(data);
+  }
 
   // handle search and filter functionality
   const handleFilterClick = (filterName: string | null) => {
@@ -201,11 +222,16 @@ const MyPage: React.FC = () => {
     await getAllPurchase();
   };
 
+  // setLoading state
+  const setLoading = (loading: boolean) => {
+    setIsLoading(loading);
+  };
+
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
       <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-1 md:mb-12">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Link href="/settings">
               <p className="text-base text-brand-green-primary">Settings</p>
             </Link>
@@ -215,7 +241,7 @@ const MyPage: React.FC = () => {
             <Link href="/dashboard">
               <p className="text-base text-gray-100">Dashboard</p>
             </Link>
-          </div>
+          </div> */}
         </div>
         <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
 
@@ -288,7 +314,7 @@ const MyPage: React.FC = () => {
                 onChange={(e) => handleSearchInput(e)}
                 leftIcon={<SearchNormal1 color="black" />}
                 className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
-                placeholder={`Search by ${filterBy} or select a filter to search by`}
+                placeholder={`Search by item, seller or use the filter`}
               />
             </form>
 
@@ -297,15 +323,13 @@ const MyPage: React.FC = () => {
           {isLoading && <Spinner />}
           {/* table */}
 
-          {data.length > 0 && (
+          {data?.length > 0 && (
             <div className="hidden sm:block w-full overflow-x-auto">
               <table className="w-max md:w-full mt-6 mb-8">
                 <thead className="h-[3rem]">
                   <tr className="bg-white-200">
                     <th className="text-left px-4 py-2 text-[0.75rem]">
-                      <span className="px-4">
-                        <input type="checkbox" />
-                      </span>
+                      <span className="px-4"></span>
                       Items
                     </th>
                     <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
@@ -320,27 +344,27 @@ const MyPage: React.FC = () => {
                   {data
                     .filter((item) => (filter ? item.order.status.toLowerCase() === filter.toLowerCase() : true))
                     .map((item) => (
-                      <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
-                        <td className="text-[0.75rem] flex items-center mt-5">
-                          <span className="px-4 ml-[1rem]">
-                            {' '}
-                            <input
-                              type="checkbox"
-                              checked={checkedItems.includes(item.id)}
-                              onChange={() => handleCheckboxChange(item.id)}
-                            />
-                          </span>
+                      <tr
+                        key={item.id}
+                        className="border-b border-white-200 border-solid border-1 h-[3.75rem]"
+                        onClick={() => openModalWithOrder(item)}
+                      >
+                        <td className="text-[0.75rem] flex items-center mt-5 cursor-pointer">
+                          <span className="px-4 ml-[1rem] cursor-pointer"> </span>
                           {item.product.name}
                         </td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.order_id}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.order_price}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.createdAt.split('T')[0]}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.merchant}</td>
-                        <td className="text-[0.75rem] px-4 py-2">
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.order_id}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
+                          {formatToNigerianNaira(item.order_price)}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.createdAt.split('T')[0]}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.merchant}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
                           <span
-                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
+                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
                               getStatusBackgroundColor(item.order.status)[0]
                             }`}
+                            // onClick={() => handleClickStatus('failed')}
                           >
                             <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
                               {item.order.status}
@@ -353,15 +377,31 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          {data.length > 0 && <MobileCustomerDashboard data={data} />}
+          {data?.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
-          {data.length === 0 && <PurchaseNotFound back={onBack} />}
+          {data?.length === 0 && !isLoading && <PurchaseNotFound back={onBack} />}
         </div>
+
+        {}
+        <ComplaintsModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          product={selectedOrder?.product_id || ''}
+          customerID={selectedOrder?.customer_id || ''}
+        />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
+        {/* filter modal */}
+        <FilterModal
+          isOpen={openFilterModal}
+          onClose={closeFilterModal}
+          setLoading={setLoading}
+          filter={filterBy}
+          setData={setFilteredData}
+        />
       </div>
     </MainLayout>
   );
 };
 
-export default MyPage;
+export default withUserAuth(MyPage);

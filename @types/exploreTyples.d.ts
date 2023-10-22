@@ -13,4 +13,5 @@ export interface UserInfo {
   skills: string[];
   tag: string;
   track: string;
+  totalPages: number;
 }

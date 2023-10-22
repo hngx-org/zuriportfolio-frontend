@@ -5,6 +5,8 @@ import { MainLayoutContextProvider } from '../context/LayoutContext';
 import '../styles/globals.css';
 import '../styles/nprogress.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import type { AppProps } from 'next/app';
 import nProgress from 'nprogress';
 import { Router } from 'next/router';
@@ -14,6 +16,7 @@ import { ToastContainer } from 'react-toastify';
 const queryClient = new QueryClient();
 import { CreatingAssessmentProvider } from '../context/assessment/CreatingAssessmentContext';
 import { CartProvider } from '@modules/shop/component/CartContext';
+import PreviousUrlProvider from '@modules/marketplace/context/PreviousUrlProvider';
 
 // nprogress loader
 Router.events.on('routeChangeStart', nProgress.start);
@@ -38,18 +41,20 @@ export default function App({ Component, pageProps }: AppProps) {
         `}
       </style>
       <ErrorBoundary>
-        <CartProvider>
-          <QueryClientProvider client={queryClient}>
-            <AuthContextProvider>
-              <MainLayoutContextProvider>
-                <CreatingAssessmentProvider>
-                  <AnyComponent {...pageProps} />
-                </CreatingAssessmentProvider>
-              </MainLayoutContextProvider>
-              <ToastContainer />
-            </AuthContextProvider>
-          </QueryClientProvider>
-        </CartProvider>
+        <PreviousUrlProvider>
+          <CartProvider>
+            <QueryClientProvider client={queryClient}>
+              <AuthContextProvider>
+                <MainLayoutContextProvider>
+                  <CreatingAssessmentProvider>
+                    <AnyComponent {...pageProps} />
+                  </CreatingAssessmentProvider>
+                </MainLayoutContextProvider>
+                <ToastContainer />
+              </AuthContextProvider>
+            </QueryClientProvider>
+          </CartProvider>
+        </PreviousUrlProvider>
       </ErrorBoundary>
     </>
   );

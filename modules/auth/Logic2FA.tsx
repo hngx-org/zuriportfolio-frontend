@@ -1,52 +1,87 @@
-import React, { ChangeEvent, useState, useRef, useContext } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { useAuth } from '../../context/AuthContext';
+import { ADMIN_ID, useAuth } from '../../context/AuthContext';
 import { verfiy2FA, resend2FACode } from '../../http/auth';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
   const router = useRouter();
+  const [token, setToken] = useState<string>('');
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
-  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const { auth } = useAuth();
+  const { auth, userCameFrom, handleAuth } = useAuth();
   const mutateFn = useAuthMutation(verfiy2FA, {
-    onSuccess: (data: any) => {
-      if (data?.data?.status && data?.data?.status == '200') {
+    onSuccess: (res: any) => {
+      if (res.status === 200) {
+        handleAuth(res.data);
+        localStorage.setItem('zpt', res?.data?.token);
+        localStorage.removeItem('email');
+        localStorage.removeItem('2fa');
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/analytics-and-reporting');
+          return;
+        }
+
         notify({
-          message: data?.data?.message,
+          message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
-        router.push('/dashboard');
+
+        router.push(userCameFrom || '/explore');
         return;
-      } else {
-        setDigits(['', '', '', '', '', '']);
-        notify({
-          message: data?.response?.message || 'Invalid code',
-          type: 'error',
-        });
       }
+
+      if (res.status === 401) {
+        notify({
+        message: res?.message,
+        type: 'error',
+        theme: 'light',
+      });
+      }
+    },
+    onError: (error: any) => {
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 
+  useEffect(() => {
+    let token = localStorage.getItem('2fa');
+    if (typeof window !== undefined) {
+      setToken(token as string);
+    }
+  }, []);
+
   const mutateRe = useAuthMutation(resend2FACode, {
-    onSuccess: (data: any) => {
-      if (data?.data?.status && data?.data?.status == '200') {
+    onSuccess: (res: any) => {
+      console.log(res?.response);
+      if (res?.response?.status === 200) {
+        console.log(res?.response?.status);
+        localStorage.setItem('2fa', res?.response?.token);
+        setToken(res?.response?.token);
         notify({
-          message: data?.data?.message,
+          message: 'Two Factor Authentication Code Re-sent',
           type: 'success',
-        });
-        return;
-      } else {
-        notify({
-          message: 'Error!',
-          type: 'error',
+          theme: 'light',
         });
       }
+    },
+    onError: (error: any) => {
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 
@@ -119,17 +154,16 @@ function Code2FALogic() {
     const code = digits.join('');
     setLoading(true);
     setTimeout(() => {
-      const email = auth?.user?.email;
-      mutateFn.mutate({ email: email as string, code });
+      mutateFn.mutate({ code, token });
       setLoading(false);
     }, 700);
   };
 
   const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
+    let email = localStorage.getItem('email');
     setLoading(true);
     setTimeout(() => {
-      const email = auth?.user?.email;
       mutateRe.mutate({ email: email as string });
       setLoading(false);
     }, 700);

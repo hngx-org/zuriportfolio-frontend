@@ -11,11 +11,7 @@ const Pagination = () => {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
-  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />;
+  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />;
 };
 
 export default Pagination;

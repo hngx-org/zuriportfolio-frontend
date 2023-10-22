@@ -22,12 +22,8 @@ const tableHeaders: {
     title: 'Price/unit',
   },
   {
-    id: 'sales',
-    title: 'No. of sales',
-  },
-  {
-    id: 'revenue',
-    title: 'Total Revenue',
+    id: 'price',
+    title: 'Status',
   },
 ];
 

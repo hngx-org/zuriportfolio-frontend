@@ -83,8 +83,8 @@ const dummyOrders: OrderHistory[] = [
   },
 ];
 
-const useOrders = (initialOrders = dummyOrders) => {
-  const [orders, setOrders] = useState(initialOrders);
+const useOrders = () => {
+  const [orders, setOrders] = useState<OrderHistory[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
     sortBy: keyof OrderHistory;
@@ -93,12 +93,12 @@ const useOrders = (initialOrders = dummyOrders) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoadingOrders] = useState(true);
   const [searching, setSearching] = useState(false);
+  const [totalPage, setTotalPage] = useState(1);
   const filterFunc = useCallback((filter: string, order: any[]) => {
     let filteredOrders = [...order];
     if (filter !== 'all') {
       filteredOrders = order.filter((order) => order.status === filter);
     }
-
     return filteredOrders;
   }, []);
   const changeFilter = (val: string) => {
@@ -119,15 +119,16 @@ const useOrders = (initialOrders = dummyOrders) => {
       if (!data.data.data || data.data.data?.length === 0) {
         return [];
       }
-      const transformedOrder = data?.data.data?.map((order: any) => ({
+      const transformedOrder = data?.data.data?.data?.orders?.map((order: any) => ({
         productName: order.product.name,
         id: order.order_id,
         status: order.merchant.customer_orders[0]?.status,
-        customerName: order.customer.first_name + order.customer.last_name,
+        customerName: order.customer.first_name + ' ' + order.customer.last_name,
         date: new Date(order.createdAt),
+        price: order.product.price,
       }));
 
-      return transformedOrder;
+      return transformedOrder ?? [];
     } catch (error) {
       return [];
     } finally {
@@ -170,19 +171,20 @@ const useOrders = (initialOrders = dummyOrders) => {
         return [];
       }
 
-      const transformedOrder = data.data.map((order: any) => {
-        return {
-          id: order.order_id,
-          price: order.product.price,
-          date: new Date(order.createdAt),
-          revenue: order.merchant.revenue[0]?.amount,
-          status: order.customer_orders[0]?.status,
-          sales: order.customer_orders[0]?.sales_report[0]?.sales,
-          customerName: order.customer[0]?.username,
-          productName: order.product.name,
-          productType: order.product.categories[0]?.name,
-        };
-      });
+      const transformedOrder =
+        data.data?.data?.orders?.map((order: any) => {
+          return {
+            id: order.order_id,
+            price: order.product.price,
+            date: new Date(order.createdAt),
+            revenue: order.product.price,
+            status: order.customer_orders[0]?.status,
+            sales: order.customer_orders[0]?.sales_report[0]?.sales,
+            customerName: order.customer[0]?.username,
+            productName: order.product.name,
+            productType: order.product.categories[0]?.name,
+          };
+        }) || [];
 
       return transformedOrder;
     } catch (error) {
@@ -229,13 +231,13 @@ const useOrders = (initialOrders = dummyOrders) => {
 
     return sortedOrders;
   };
-  const insertOrders = (order: any[]) => {
+  const insertOrders = (order: OrderHistory[]) => {
     setOrders(order);
   };
   useEffect(() => {
     const order = sortOrders(orders);
     insertOrders(order);
-  }, [initialOrders, sort]);
+  }, [sort]);
   //  Search Logic
 
   const changeSearchQuery = (val: string) => {
@@ -258,6 +260,7 @@ const useOrders = (initialOrders = dummyOrders) => {
     loading,
     searching,
     getSearchResult,
+    totalPage,
   };
 };
 

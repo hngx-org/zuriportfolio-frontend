@@ -1,10 +1,28 @@
-import Link from 'next/link';
 import MainLayout from '../components/Layout/MainLayout';
 
-import ProductDetailsDescription from '../modules/marketplace/productDetailsDescription';
+import Banner from '@modules/home/banner/banner';
+import SectionProducts from '@modules/home/products/sectionProducts';
+import SectionOne from '@modules/home/sections/first/sectionOne';
+import SectionFive from '@modules/home/sections/five/sectionFive';
+import SectionFour from '@modules/home/sections/fourth/sectionFour';
+import SectionTwo from '@modules/home/sections/second/sectionTwo';
+import SectionThree from '@modules/home/sections/third/sectionThree';
+import withoutAuth from '../helpers/withoutAuth';
 
 function Home() {
-  return <MainLayout activePage="home" showDashboardSidebar showTopbar></MainLayout>;
+  return (
+    <>
+      <MainLayout activePage="home" showDashboardSidebar={false} showTopbar includeMarginTop={false}>
+        <Banner />
+        <SectionOne />
+        <SectionTwo />
+        <SectionThree />
+        <SectionFour />
+        <SectionFive />
+        <SectionProducts />
+      </MainLayout>
+    </>
+  );
 }
 
-export default Home;
+export default withoutAuth(Home);
