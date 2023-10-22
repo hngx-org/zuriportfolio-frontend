@@ -1,4 +1,6 @@
-function getAuthTokenFromCookies(cookieName: string): string | null {
+// from cookies
+{
+  /*function getAuthTokenFromCookies(cookieName: string): string | null {
   const cookies = document.cookie;
   const cookieArray = cookies.split(';');
 
@@ -11,10 +13,15 @@ function getAuthTokenFromCookies(cookieName: string): string | null {
 
   return null;
 }
+*/
+}
 
-import { useState } from 'react';
+// from local storage
+
+import { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import { toast } from 'react-toastify';
+import getZptValueFromLocalStorage from './tokenkey';
 
 interface ModalProps {
   isOpen: boolean;
@@ -24,18 +31,18 @@ interface ComplaintModalProps extends ModalProps {
   product: string;
   customerID: string;
 }
-//  const token = getAuthTokenFromCookies('UTM_tracker');
-const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout_cart/complaints`;
+// const token = getAuthTokenFromCookies('UTM_tracker');
+const apiURL = 'https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart/complaints';
 
 const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, customerID }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const data = { product_id: '136fda3b-6e1e-4711-a4ac-6dfb298615a9 ', complaint: description };
+  const data = { product_id: product, complaint: description };
   const stringifyData = JSON.stringify(data);
 
-  //auth
-  const authToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`;
+  //auth Token
+  const zptValue = getZptValueFromLocalStorage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,11 +51,11 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
       setError('Complaint cannot be empty');
     } else {
       try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(apiURL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${zptValue}`,
           },
           body: stringifyData,
         });
@@ -63,19 +70,10 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
             progress: undefined,
             theme: 'light',
           });
-          {
-            /* const res = await response.json();
-          console.log(res.data);
-          setError(''); // Clear any previous errors
-          onClose();
-        } else {
-          setError('Failed to submit complaint. Please try again.');
-        }*/
-          }
 
           const res = await response.json();
           console.log(res.data);
-          setError(''); // Clear any previous errors
+          setError('');
           onClose();
         } else {
           const errorData = await response.json();
@@ -84,7 +82,7 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
           } else if (response.status === 403) {
             console.error('403: 403 Forbidden - You are not authorized to perform this action');
           } else if (response.status === 500) {
-            console.error('500: 500 Internal Server Error - Complaint not saved. Please try again');
+            console.error('500: 500 something went wrong. Please try again');
           } else if (response.status === 401) {
             console.error('401: 401 Unauthorized - Authentication required');
           } else if (response.status === 422) {
@@ -92,9 +90,7 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
           } else {
             console.error('An error occurred while submitting your complaint');
           }
-          toast.error(errorData.message, {
-            // Other error notification settings
-          });
+          toast.error(errorData.message, {});
         }
       } catch (err: any) {
         console.error(err);

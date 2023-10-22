@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const fetchAnalyticsData = async (bearerToken: string) => {
   try {
-    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/';
+    const apiUrl = 'https://staging.zuri.team/api/v1/super-admin/analytics/data/';
 
     const response = await fetch(apiUrl, {
       headers: {
@@ -39,12 +39,9 @@ const fetchAnalyticsData = async (bearerToken: string) => {
 const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
 
-
-  const { data: analyticsData, isLoading } = useQuery<cardinfo[]>(
-    ['analyticsData', bearerToken],
-    () => fetchAnalyticsData(bearerToken),
+  const { data: analyticsData, isLoading } = useQuery<cardinfo[]>(['analyticsData', bearerToken], () =>
+    fetchAnalyticsData(bearerToken),
   );
-
 
   const getTokenFromLocalStorage = () => {
     const tokenFromLocalStorage = localStorage.getItem('zpt');
@@ -88,7 +85,7 @@ const AnalyticsAndReportingCards = () => {
                 </div>
               ))
             : Array.isArray(analyticsData) &&
-            analyticsData.slice(0, 3).map((items, index) => (
+              analyticsData.slice(0, 3).map((items, index) => (
                 <div
                   key={index}
                   className={`px-5 border border-white-200 bg-white-100  rounded-lg py-6 ${
@@ -109,14 +106,14 @@ const AnalyticsAndReportingCards = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-1">
-                    <h1 className="text-[30px] font-bold">{formattedAmount(items.amount)}</h1>
+                    <h1 className="text-[25px] font-bold md:text-[30px] ">{formattedAmount(items.amount)}</h1>
                   </div>
                 </div>
               ))}
         </div>
       </section>
 
-      <section className="max-w-[1270px] mx-auto mt-5 font-manropeL lg:max-w-[1100px] xl:max-w-[1270px] 2xl:max-w-[1520px]">
+      <section className="max-w-[1270px] mx-auto mt-6 font-manropeL lg:max-w-[1100px] xl:max-w-[1270px] 2xl:max-w-[1520px]">
         <div className="flex overflow-x-auto over px-4 sm:grid gap-2 sm:grid-cols-3 md:grid-cols-3 no-scrollbar">
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => (
@@ -136,9 +133,8 @@ const AnalyticsAndReportingCards = () => {
                   </div>
                 </div>
               ))
-           
             : Array.isArray(analyticsData) &&
-            analyticsData.slice(3).map((items, index) => (
+              analyticsData.slice(3).map((items, index) => (
                 <div
                   key={index}
                   className="px-5 text= border border-white-200 bg-white-100  rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0"
@@ -157,7 +153,7 @@ const AnalyticsAndReportingCards = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-1">
-                    <h1 className="text-[30px] font-bold  ">
+                    <h1 className="text-[25px] font-bold md:text-[30px] ">
                       {index === 0 ? '\u20A6' + formattedAmount(items.amount) : formattedAmount(items.amount)}
                     </h1>
                   </div>

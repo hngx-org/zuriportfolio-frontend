@@ -13,7 +13,6 @@ import Description from '../../../modules/assessment/component/Description';
 import Assessmentlist from '../../../modules/assessment/component/assessmentlist';
 import Assessmentresponses from '../../../modules/assessment/component/Assessmentresponses';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../components/Footer';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { withAdminAuth } from '../../../helpers/withAuth';
@@ -244,7 +243,6 @@ function Index() {
           </ListContext.Provider>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
