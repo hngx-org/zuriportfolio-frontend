@@ -97,7 +97,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/category',
         { name: newCategoryName },
         {
           headers: {
@@ -190,7 +190,7 @@ const AddProduct = () => {
     try {
       // Make a POST request to your API endpoint with Axios
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/add',
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add',
         formData,
         {
           headers: {
@@ -264,7 +264,7 @@ const AddProduct = () => {
     // formData.delete('image');
 
     try {
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add', {
         method: 'POST',
         body: formData,
         headers: {

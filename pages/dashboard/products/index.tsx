@@ -52,7 +52,7 @@ const Products = () => {
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
