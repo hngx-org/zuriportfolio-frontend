@@ -29,23 +29,6 @@ function ResetPasswordForm() {
   const router = useRouter();
   const { token } = router.query; // Get the token after the user is redirected.
 
-  const onResetPasswordError = (error: any) => {
-    // Handle different error scenarios and display relevant error messages for each situation.
-    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
-      const timeoutErrorMessage =
-        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      notifyError(timeoutErrorMessage);
-      return;
-    } else if (error.message === 'AxiosError: Network Error') {
-      const networkErrorMessage = 'Oops! Looks like there was a network error. Please give it another try later.';
-      notifyError(networkErrorMessage);
-      return;
-    }
-    const errorMessage =
-      'Oops! An error occurred. Please request another forgot password email or click the mail button again to redirect you to this page. If the issue persists, reach out to support.';
-    notifyError(errorMessage);
-  };
-
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(resetPassword, {
     onSuccess: (data) => {
@@ -59,7 +42,15 @@ function ResetPasswordForm() {
         type: 'error',
       });
     },
-    onError: (error: any) => onResetPasswordError(error),
+    // onError: (error: any) => onResetPasswordError(error),
+    onError: (e: any) => {
+      console.log('Error', e);
+        notify({
+          message: e.message,
+          type: 'error',
+          theme: 'light',
+        });
+    },
   });
 
   // inputs validation

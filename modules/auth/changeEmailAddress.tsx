@@ -19,20 +19,17 @@ function ChangeEmailAddress() {
       notify({ message: errorMessage, type: 'error', theme: 'light' });
       return;
     }
-
-    router.push(`/auth/guest-signup-form?email=${form.values.email}`);
   };
 
-  const onSignUpWithEmailError = (error: { message: string }) => {
+  const onSignUpWithEmailError = (error: any) => {
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      notify({ message: timeoutErrorMessage, theme: 'light' });
+      notify({ message: timeoutErrorMessage, type: 'error', theme: 'light' });
       return;
     }
 
-    const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    notify({ message: serverErrorMessage, theme: 'light' });
+    notify({ message: error.message, type: 'error', theme: 'light' });
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(checkEmail, {
@@ -81,7 +78,7 @@ function ChangeEmailAddress() {
                 type="text"
                 {...form.getInputProps('email')}
                 placeHolder="Enter email"
-                className={`w-full text-black h-[60px] border ${
+                className={`w-full text-black h-[60px] border bg-white-100 ${
                   form.errors.email ? 'border-[#EF4444]' : 'border-[#D0D5DD]'
                 }`}
               />
