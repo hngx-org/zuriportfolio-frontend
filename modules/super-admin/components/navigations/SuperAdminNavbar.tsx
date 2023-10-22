@@ -15,7 +15,7 @@ import {
 import { Input } from '@ui/Input';
 import { useRouter } from 'next/router';
 import Sidebar from './SuperAdminSidebar';
-import { logout } from '../../../../http/super-admin1';
+import useUserSession from '../../../../hooks/Auth/useUserSession';
 
 export const menu = [
   {
@@ -52,6 +52,7 @@ export const menu = [
 
 const SuperAdminNavbar = () => {
   const router = useRouter();
+  const {logout} = useUserSession();
   const getPageTitle = (route: string) => {
     switch (true) {
       case route.includes('/super-admin/analytics-and-reporting'):
@@ -103,7 +104,7 @@ const SuperAdminNavbar = () => {
             </div>
             <button
               className="flex items-center gap-3 bg-pink-120 py-1 px-2 rounded-[8px] text-brand-red-primary text-xs md:text-sm"
-              onClick={() => logout(router)}
+              onClick={logout}
             >
               <LogoutCurve size="20" color="#ff2e2e" />
               Log out
