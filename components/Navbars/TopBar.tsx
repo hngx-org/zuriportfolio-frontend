@@ -199,7 +199,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {/* Right Items */}
 
           <div
-            className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
+            className={`lg:flex hidden items-center gap-4  lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
             {/* <Search></Search>
 
@@ -266,17 +266,23 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             {/* Action Buttons */}
             {!globalAuth && (
-              <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
+              <div className=" p-2 justify-center relative items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
                 <Cart items={cartCount} />
-                {/* <div className="w-6 h-6 relative">
+                <div className="w-fit flex h-fit cursor-pointer" ref={notificationsRef}>
+                <div className="w-fit flex relative h-fit cursor-pointer" ref={notificationsRef}>
         
-          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
-            2
-          </span>
-        
+        <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+          {unreadNotifications}
+        </span>
+      <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
+</div>
+      {notificationMenu && 
+<div className="absolute z-[300000] mt-4 w-full" ref={notificationsRef}>
 
-        <Image src={notificationIcon} draggable={false} width={24} height={24} alt="notify" />
-      </div> */}
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+</div>
+}
+    </div>
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -431,12 +437,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </span>
         <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
 
-{notificationMenu && 
-<div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+{/* {notificationMenu && 
+<div className="absolute w-fit" ref={notificationsRef}>
 
 <Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
 </div>
-}
+} */}
       </div>
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
@@ -533,7 +539,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   function AuthUser(): React.ReactNode {
     return (
+      
       <>
+
         <Link href={'/marketplace/wishlist'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <mask
@@ -557,19 +565,14 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </Link>
 
         <Cart items={cartCount} />
-        <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
+        <div className="w-fit flex h-fit cursor-pointer" ref={notificationsRef}>
         
         <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
           {unreadNotifications}
         </span>
       <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
 
-{notificationMenu && 
-<div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
 
-<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
-</div>
-}
     </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
@@ -580,6 +583,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>
+        {/* {notificationMenu && 
+//<div className="absolute mr-3 " ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+// </div>
+} */}
       </>
     );
   }

@@ -132,10 +132,10 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
   );
 
   return (
-    <div className={`w-[25em] bg-white-100 h-[60vh] z-50 overflow-y-scroll rounded shadow-lg ${loading ? 'animate-pulse' : ''}`}
-    // ref={notificationsRef}
+    <div className={`bg-[#fff] w-full h-[60vh] z-[20000] border border-[#d8d8d8] overflow-y-scroll rounded-lg shadow-xl ${loading ? '' : ''}`}
+    ref={notificationsRef}
     >
-      <div className="py-2 bg-white-100 sticky top-0 flex flex-col justify-between">
+      {/* <div className="py-2 bg-white-100 sticky top-0 flex flex-col justify-between">
         
         
       <input
@@ -146,29 +146,29 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
         className="border border-brand-green-primary outline:border-[1.2px] p-2 mb-4"
       />
         <button onClick={markAllAsRead} className="bg-white-100 w-fit float-right text-green-400 font-semibold rounded hover:bg-green-200 ">Mark All as Read</button>
-      </div>
-      <ul className='flex flex-col'>
+      </div> */}
+      <ul className='flex flex-col w-full flex-wrap'>
         {filteredNotifications.map(notification => (
           <li 
             key={notification.id}
-            className={`py-4 px-4 flex items-start justify-between border-b ${notification.read ? 'text-gray-700' : 'bg-[#00000021] text-white'}`}
+            className={`py-4 px-4 flex items-start justify-between border-b ${notification.read ? '' : 'text-white'}`}
           >
             <div className="flex flex-col">
-              <p className='font-[400] mb-2'>
+              <p className='font-[400] text-sm mb-2'>
                 {notification.text}
               </p>
               <p className='text-gray-600 text-sm'>
                 {new Date(notification.date).toLocaleString()}
               </p>
             </div>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               {!notification.read && (
                 <div className="flex items-center">
                   <FaCheckCircle onClick={() => markAsRead(notification.id)} className="text-green-500 cursor-pointer mr-2" />
                 </div>
               )}
               <FaTimesCircle onClick={() => removeNotification(notification.id)} className="text-red-500 cursor-pointer" />
-            </div>
+            </div> */}
           </li>
         ))}
       </ul>
