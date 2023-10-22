@@ -28,6 +28,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const [cartLoading, setCartLoading] = useState<boolean>(true);
   const [image, setImage] = useState(product?.images[0]?.url);
   const router = useRouter();
@@ -53,7 +54,9 @@ export default function ProductDetailsDescription({ productId }: { productId: st
         setProduct(response.data.data);
         setIsLoading(false);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setError(true);
+      });
   }, [apiUrl, id]);
 
   const addToCart = async () => {
@@ -153,10 +156,18 @@ export default function ProductDetailsDescription({ productId }: { productId: st
 
   const breadcrumbs: any = product?.name ? `/marketplace/${product?.name}` : '/marketplace/';
 
+  if (error) {
+    return (
+      <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-6xl text-gray-400">
+        Product Details Fail to load!!
+      </div>
+    );
+  }
+
   return (
     <CategoryLayout isBreadcrumb={true} pathName={breadcrumbs}>
       {!product ? (
-        <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
+        <div className="animate-pulse h-[50vh]">
           <Loader />
         </div>
       ) : (
