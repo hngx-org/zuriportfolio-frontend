@@ -3,12 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import $http from './axios';
 import axios from 'axios';
 
-export const CART_ENDPOINT =
-  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
+export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
-export const RECENTLY_VIEWED_ENDPOINT =
-  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT ||
-  'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/recently-viewed';
+export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
@@ -108,11 +105,7 @@ export const getGuestCartSummary = async (products: any[]) => {
   }
 };
 
-
-export const clearCart = (token: string) => {
-
-}
-
+export const clearCart = (token: string) => {};
 
 export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
@@ -149,24 +142,30 @@ const getTokenDetails = async (token: string) => {
   }
 };
 
-
-export const confirmTransaction = async ({txn_ref,payment_gateway,token}:{txn_ref: string,payment_gateway:string,token: string}) => {
-  const payload = {txn_ref,payment_gateway };
-  const apiUrl = `${CART_ENDPOINT}/transactions/confirm`
+export const confirmTransaction = async ({
+  txn_ref,
+  payment_gateway,
+  token,
+}: {
+  txn_ref: string;
+  payment_gateway: string;
+  token: string;
+}) => {
+  const payload = { txn_ref, payment_gateway };
+  const apiUrl = `${CART_ENDPOINT}/transactions/confirm`;
   try {
-    const response = await $http.post(apiUrl,payload,{
-      headers:{
+    const response = await $http.post(apiUrl, payload, {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-    return response.data.status
-  }catch(error) {
+    });
+    return response.data.status;
+  } catch (error) {
     console.log(error);
-    
+
     return false;
   }
-}
-
+};
 
 export const getRecentlyViewedProducts = async (token: string) => {
   try {
