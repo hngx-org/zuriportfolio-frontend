@@ -20,6 +20,7 @@ import DeleteModal from '@modules/super-admin/components/product-listing/product
 import { useQueryClient } from '@tanstack/react-query';
 import { withAdminAuth } from '../../../../../helpers/withAuth';
 import StatusPill from '@modules/super-admin/components/StatusPill';
+import SuperAdminVendorProfileHeader from '@modules/super-admin/components/vendormanagement/VendorProfileHeader';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
@@ -121,6 +122,7 @@ function VendorDetails() {
 
   return (
     <>
+      <SuperAdminVendorProfileHeader />
       <SuperAdminNavbar />
       <div className="container">
         {isLoading || !data?.data ? (

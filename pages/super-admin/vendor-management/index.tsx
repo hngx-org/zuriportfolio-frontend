@@ -10,12 +10,12 @@ import { withAdminAuth } from '../../../helpers/withAuth';
 import { Input } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import SuperAdminVendorManagementHeader from '@modules/super-admin/components/vendormanagement/VendorsMgtHeader';
+import debounce from '@modules/super-admin/components/debounce';
 
 const Index = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const { data, isLoading } = useGetAllVendor(page, search);
-
   const handleFilter = () => {};
   return (
     <div className="">
@@ -33,11 +33,9 @@ const Index = () => {
             </div>
             <div className="flex justify-between items-center gap-2">
               <Input
-                onChange={(e) => {
-                  // handleSearch(e.target.value);
+                onChange={debounce((e: any) => {
                   setSearch(e.target.value);
-                  console.log(e.target.value);
-                }}
+                })}
                 leftIcon={<SearchNormal1 />}
                 type="text"
                 intent={'default'}
