@@ -151,7 +151,7 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
   );
 
   return (
-    <div className={`bg-[#fff] font-manropeEL w-full h-[60vh] z-[20000] border-[#d8d8d8] overflow-y-scroll scrollbar-none rounded-lg shadow-xl ${loading ? '' : ''}`}
+    <div className={`bg-[#fff] font-manropeEL w-fit h-[60vh] z-[20000] border-[#d8d8d8] overflow-y-scroll scrollbar-none rounded-lg shadow-xl ${loading ? '' : ''}`}
     ref={notificationsRef}
     >
       <div className="py-2 bg-white-100 px-4 sticky top-0 flex flex-col justify-between">

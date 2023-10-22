@@ -524,6 +524,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
           </div>
         )}
+
+{notificationMenu && 
+<div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4 right-0 " ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+ </div>
+}
       </nav>
     </>
   );
@@ -575,12 +582,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>
 
-        {notificationMenu && 
+        {/* {notificationMenu && 
 <div className="absolute mr-3 bg-white-100 top-full w-full left-12 " ref={notificationsRef}>
 
 <Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
  </div>
-}
+} */}
       </div>
     );
   }
