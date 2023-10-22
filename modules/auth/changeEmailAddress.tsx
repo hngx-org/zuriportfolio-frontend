@@ -13,10 +13,9 @@ import { checkEmail } from '../../http/auth';
 function ChangeEmailAddress() {
   const router = useRouter();
 
-  const onSignUpWithEmailSuccess = (data: { message: string }) => {
-    if (data.message !== 'Email is available for use') {
-      const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
-      notify({ message: errorMessage, type: 'error', theme: 'light' });
+  const onSignUpWithEmailSuccess = (data: any) => {
+    if (data.status === 200) {
+      router.push('/auth/guest-signup-form')
       return;
     }
   };
