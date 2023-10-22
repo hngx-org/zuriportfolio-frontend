@@ -146,6 +146,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
   });
 
   useEffect(() => {
+    if (auth?.user?.slug === router?.query?.slug) {
+      router.push(`/portfolio/${auth?.user?.slug}/manage`);
+    }
+
     if (auth?.user?.id) {
       setUserId(auth?.user?.id!);
       setSlug(auth?.user?.slug!);
