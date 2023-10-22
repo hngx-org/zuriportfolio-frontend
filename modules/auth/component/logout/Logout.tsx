@@ -40,6 +40,7 @@ export const MobileLogout = () => {
         </g>
       </svg>
       <p className="font-manropeB">Sign Out</p>
+
     </div>
   );
 };

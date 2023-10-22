@@ -9,6 +9,10 @@ import briefCaseIcon from './assets/briefcase.svg';
 import dashBoard from './assets/home-2.svg';
 import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
+import { Input, SelectInput } from '@ui/Input';
+import { SearchNormal1, UserSquare } from 'iconsax-react';
+import MobileNav from '@modules/dashboard/component/MobileNav';
+import { CartItemProps, ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
@@ -253,7 +257,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             >
               <ul>
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
-                  <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+                  <UserSquare size="32" color="#555555" />{' '}
                   <div className="flex flex-col gap-[2px]">
                     <h3 className="font-bold font-manropeEB">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
@@ -397,7 +401,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </p>
                   </div>
-                  <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
+                  <UserSquare size="32" color="#555555" />{' '}
                 </div>
               </div>
             )}
@@ -528,6 +532,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           )}
         </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
+
           <p className=" font-bold font-manropeEB">
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
           </p>
@@ -672,7 +677,7 @@ function MenuUI({
                 <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
               ) : null}
             </div>
-            <div className=" group flex flex-col ali justify-center  gap-1 ">
+            <div className=" group flex flex-col  ali justify-center  gap-1 ">
               <Link className={activeLink('/portfolio')} href={'/portfolio'}>
                 Manage Portfolio
               </Link>

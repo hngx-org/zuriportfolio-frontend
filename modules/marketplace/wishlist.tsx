@@ -1,5 +1,5 @@
 import loadingIllustration from '../../public/assets/wishlistAssets/loadingIllustration.svg';
-
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { WishlistProductCard } from './component/WishlistProductCard';
@@ -12,6 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { LoadingSkeleton } from '../marketplace/component/LoadingSkeleton';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { removeFromWishlist } from '../../http';
+import Button from '@ui/Button';
 
 import { API_URI } from './http';
 
@@ -109,9 +110,15 @@ function Wishlist() {
                   // Conditionally render product cards or empty message
                   <>
                     {dataCheck && (
-                      <div className="flex flex-col mx-auto items-center">
+                      <div className="flex flex-col mx-auto items-center gap-4">
                         <Image src={loadingIllustration} alt="loading" width={100} height={100} />
                         <p className="text-lg mt-2">Looks like you have no items in your wishlist</p>
+
+                        <Link href="/marketplace">
+                          <Button intent={'primary'} size={'md'}>
+                            Continue Shopping
+                          </Button>
+                        </Link>
                       </div>
                     )}
 
