@@ -92,7 +92,7 @@ function LoginForm() {
       }
 
       notify({
-        message: "Oops, there's an issue with logging in. Please try again.",
+        message: e.message,
         type: 'error',
         theme: 'light',
       });
