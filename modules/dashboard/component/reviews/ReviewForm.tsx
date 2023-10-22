@@ -83,9 +83,9 @@ function ReviewForms() {
         setLoad(false);
         if (name === '' || description === '' || rateNo === 0) {
           toast.error(
-            `Kindly ensure to fill all fields. Ensure these are filled: ${name === '' && 'your name'}, ${
-              description === '' && 'your review'
-            }, ${rateNo === 0 && 'rating'}.`,
+            `Kindly ensure to fill all fields. Remaining: || ${name === '' ? 'Your name ||' : ''} ${
+              description === '' ? 'Your review ||' : ''
+            } ${rateNo === 0 ? 'Rating ||' : ''}.`,
           );
         }
       }
