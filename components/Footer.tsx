@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className="font-manropeL bg-brand-green-pressed text-md text-white-100 leading-[1.5]">
+    <footer className="mt-auto font-manropeL bg-brand-green-pressed text-md text-white-100 leading-[1.5]">
       <section
         className="px-6 py-[4rem] flex
       flex-col gap-12 md:py-[4rem] md:flex-row md:justify-between xl:max-w-[77.5rem] xl:mx-auto"
