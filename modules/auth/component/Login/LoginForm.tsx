@@ -92,7 +92,7 @@ function LoginForm() {
       }
 
       notify({
-        message: "Oops, there's an issue with logging in. Please try again.",
+        message: e.message,
         type: 'error',
         theme: 'light',
       });
@@ -180,7 +180,7 @@ function LoginForm() {
             </Button>
           </form>
           <div>
-            <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
+            <p className=" text-custom-color20 text-center text-[0.875rem]  md:font-semibold font-[400] mt-[1rem] leading-5">
               Don&apos;t have an account?
               <Link href="/auth/signup">
                 <span className="text-brand-green-primary"> Sign Up</span>
