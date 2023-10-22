@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { notify } from '@ui/Toast';
+import { logQueryResult } from '../helpers/dashboard';
 
 const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
 
@@ -23,7 +24,8 @@ export const fetchTodaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const todaysRevenue = res?.data?.data?.todayRevenue;
+    const todaysRevenue = res?.data;
+    logQueryResult('todays result', todaysRevenue);
     return todaysRevenue;
   } catch (error) {
     throw error;
@@ -37,7 +39,8 @@ export const fetchYesterdaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const yesterdaysRevenue = res?.data?.data?.todayRevenue;
+    const yesterdaysRevenue = res?.data;
+    logQueryResult('yesterdays revenue', yesterdaysRevenue);
     return yesterdaysRevenue;
   } catch (error) {
     throw error;
@@ -108,13 +111,13 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/report/timeframe=1y,1m,24h`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/report/timeframe=12m,3m,1yr,7d,24hr,1d`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
     const salesReport = res?.data;
-    console.log(salesReport);
+    logQueryResult('sales report', salesReport);
     return salesReport;
   } catch (error) {
     throw error;
@@ -207,8 +210,9 @@ export const fetchActivity = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    console.log(res);
-    return res.data;
+    const activity = res?.data;
+    logQueryResult('activity', activity);
+    return activity;
   } catch (error) {
     throw error;
   }
