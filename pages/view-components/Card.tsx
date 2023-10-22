@@ -1,16 +1,14 @@
 // components/Card.tsx
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { CardData } from '../../../@types';
-import CardHover from './CardHover';
-import { UserInfo } from '../../../@types';
+import { CardData } from '../../@types';
+import { UserInfo } from '../../@types';
 
-import photo2 from '../assets/photo2.png';
+import photo2 from '../../modules/explore/assets/photo2.png';
 import Link from 'next/link';
 import { Location } from 'iconsax-react';
-import { FaShareAlt } from 'react-icons/fa';
+// import { FaShareNode } from 'react-icons/fa';
 import { notify } from '@ui/Toast';
-import DefaultImage from './DefaultImage';
 
 interface CardProps {
   data: CardData;
@@ -24,8 +22,8 @@ const Card = ({ data }: { data: UserInfo }) => {
   // const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
 
-  const slashIndex = window.location.href.split('').findIndex((e, i, a) => i === a.lastIndexOf('/'));
-  const homepageURl = window.location.href.slice(0, slashIndex + 1);
+  // const slashIndex = window?.location.href.split('').findIndex((e, i, a) => i === a.lastIndexOf('/'));
+  // const homepageURl = window.location.href.slice(0, slashIndex + 1);
 
   // const showButtons = () => {
   //   // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'block');
@@ -90,22 +88,18 @@ const Card = ({ data }: { data: UserInfo }) => {
         title="Copy portfolio link"
         onClick={copyUrl}
       >
-        <FaShareAlt color="#8592A3" size={24} />
+        {/* <FaShareNode color="#8592A3" /> */}
       </button>
 
       <div className="h-full p-10 mx-auto grid gap-6 border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm ">
         <div className="w-24 rounded-full overflow-hidden mx-auto aspect-square">
-          {data.profilePictureUrl ? (
-            <Image
-              className="w-full h-full object-cover bg-center"
-              src={data?.profilePictureUrl}
-              alt="Avatar"
-              width={112}
-              height={112}
-            />
-          ) : (
-            <DefaultImage name={`${data.firstName} ${data.lastName}`} />
-          )}
+          <Image
+            className="w-full h-full object-cover bg-center"
+            src={data?.profilePictureUrl ?? photo2}
+            alt="Avatar"
+            width={112}
+            height={112}
+          />
         </div>
 
         <div className="text-center text-[#32475c]">
