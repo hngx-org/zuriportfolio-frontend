@@ -44,7 +44,7 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      // User has 2fa enabled 
+      // User has 2fa enabled
       if (res.status === 202) {
         localStorage.setItem('2fa', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
@@ -77,11 +77,11 @@ function LoginForm() {
 
         router.push(userCameFrom || '/explore');
         return;
-      } 
+      }
     },
-    onError: (e:any) => {
+    onError: (e: any) => {
       // For a user who has not verified their account
-      if( e.status === 401 ) {
+      if (e.status === 401) {
         notify({
           message: e.message,
           type: 'error',
@@ -115,7 +115,7 @@ function LoginForm() {
           <p className=" font-manropeEB text-2xl md:text-4xl  text-[1.5rem] mb-1 md:mb-6 text-center lg:text-left ">
             Log In
           </p>
-          <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
+          <p className="text-custom-color30  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
             Log in to continue using zuriportfolio.
           </p>
         </div>
@@ -180,7 +180,7 @@ function LoginForm() {
             </Button>
           </form>
           <div>
-            <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
+            <p className=" text-custom-color20 text-center text-[0.875rem]  md:font-semibold font-[400] mt-[1rem] leading-5">
               Don&apos;t have an account?
               <Link href="/auth/signup">
                 <span className="text-brand-green-primary"> Sign Up</span>
