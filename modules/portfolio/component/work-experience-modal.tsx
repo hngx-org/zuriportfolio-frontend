@@ -113,56 +113,59 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
-        <>{isLoading && <Loader />}</>
+        {/* <>{isLoading && <Loader />}</> */}
         <>
           {isData && (
             <>
-              {workExperiences.map((experience: WorkExperience, index: number) => {
-                const endYear = experience.isEmployee ? 'Present' : experience.endYear;
+              {workExperiences
+                .slice()
+                .reverse()
+                .map((experience: WorkExperience, index: number) => {
+                  const endYear = experience.isEmployee ? 'Present' : experience.endYear;
 
-                return (
-                  <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                    {/* <WorkExperienceSkeleton data={experience} /> */}
-                    <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
-                      <p className="text-gray-300 font-semibold text-sm flex-[3]">
-                        <span>
-                          {experience?.startMonth} {experience?.startYear}
-                        </span>{' '}
-                        -{' '}
-                        <span>
-                          {experience?.endMonth} {endYear}
+                  return (
+                    <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
+                      {/* <WorkExperienceSkeleton data={experience} /> */}
+                      <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
+                        <p className="text-gray-300 font-semibold text-sm flex-[3]">
+                          <span>
+                            {experience?.startMonth} {experience?.startYear}
+                          </span>{' '}
+                          -{' '}
+                          <span>
+                            {experience?.endMonth} {endYear}
+                          </span>
+                        </p>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
+                          <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
+                        </div>
+                        <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
+                          {experience?.description}
+                        </p>
+                      </section>
+                      <div className="self-end pb-4 flex gap-4 font-manropeL">
+                        <span
+                          className="font-semibold cursor-pointer "
+                          onClick={(e) => {
+                            setIsEditMode(true);
+                            setEditingExperience(experience);
+                            prefillForm(experience);
+                            setIsData(false);
+                          }}
+                        >
+                          <Edit2 size="24" color="#37d67a" variant="Outline" />
                         </span>
-                      </p>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
-                        <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
+                        <span
+                          className="font-semibold cursor-pointer"
+                          onClick={(e) => handleDeleteExperience(experience.id, e)}
+                        >
+                          <Trash size="24" color="#f47373" variant="Outline" />
+                        </span>
                       </div>
-                      <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
-                        {experience?.description}
-                      </p>
-                    </section>
-                    <div className="self-end pb-4 flex gap-4 font-manropeL">
-                      <span
-                        className="font-semibold cursor-pointer "
-                        onClick={(e) => {
-                          setIsEditMode(true);
-                          setEditingExperience(experience);
-                          prefillForm(experience);
-                          setIsData(false);
-                        }}
-                      >
-                        <Edit2 size="32" color="#37d67a" variant="Outline" />
-                      </span>
-                      <span
-                        className="font-semibold cursor-pointer"
-                        onClick={(e) => handleDeleteExperience(experience.id, e)}
-                      >
-                        <Trash size="32" color="#f47373" variant="Outline" />
-                      </span>
-                    </div>
-                  </article>
-                );
-              })}
+                    </article>
+                  );
+                })}
             </>
           )}
         </>
@@ -200,7 +203,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     resetForm();
                   }}
                 >
-                  <Trash size="32" color="#f47373" variant="Outline" />
+                  <Trash size="20" color="#f47373" variant="Outline" />
                 </span>
               </div>
             </article>
@@ -391,12 +394,11 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  onClick={(e) => {
+                  onClick={() => {
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
-                    isEditMode ? handleEditExperience() : addWorkExperience(e);
+                    setIsData(true);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -404,7 +406,14 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button
+                  isLoading={isLoading}
+                  spinnerColor="#000"
+                  disabled={isLoading}
+                  type="submit"
+                  className="w-full rounded-md sm:w-[6rem]"
+                  size={'lg'}
+                >
                   Save
                 </Button>
               </div>
@@ -431,6 +440,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
+                    setIsData(true);
+                    onCloseModal();
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -445,6 +456,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   }}
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
+                  disabled={isLoading}
                 >
                   Save
                 </Button>
