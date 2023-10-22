@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../components/Loader/loader2';
 import ComplaintModal from '../../components/Modals/ComplaintModal';
-{
-  /*
+
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -15,9 +14,10 @@ const App: React.FC = () => {
   return <div className="App">{isLoading ? <Loader /> : <p>Your content here</p>}</div>;
 };
 
-export default App;*/
-}
+export default App;
 
+{
+  /*
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,6 +40,8 @@ const App = () => {
 };
 
 export default App;
+*/
+}
 
 // For API fetch Call response
 

@@ -3,13 +3,14 @@ import { menu } from './SuperAdminNavbar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { logout } from '../../../../http/super-admin1';
+import useUserSession from '../../../../hooks/Auth/useUserSession';
 
 const SuperAdminSidebar = () => {
   const router = useRouter();
   const [showSidebar, setShowSidebar] = useState(false);
 
   const sidebarTransform = showSidebar ? 'translateX(0)' : 'translateX(-100%)';
+  const { logout } = useUserSession();
 
   return (
     <div className="block lg:hidden">
@@ -38,7 +39,10 @@ const SuperAdminSidebar = () => {
             ))}
           </div>
         </div>
-        <button className="flex items-center gap-3 text-brand-red-primary border-t py-5  text-xs md:text-sm  mx-5 border-white-115" onClick={() => logout(router)}>
+        <button
+          className="flex items-center gap-3 text-brand-red-primary border-t py-5  text-xs md:text-sm  mx-5 border-white-115"
+          onClick={() => logout()}
+        >
           <LogoutCurve size="20" color="#ff2e2e" />
           Log out
         </button>
