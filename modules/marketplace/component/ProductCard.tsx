@@ -2,6 +2,7 @@ import React from 'react';
 import { MarketPlaceProductCardProps, starProps } from '../../../@types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { encryptId } from '../../../utils/encrypt';
 
 export default function ProductCard({
   image,
@@ -47,7 +48,7 @@ export default function ProductCard({
     <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
       <div className="flex flex-col h-full items-start">
         {/* Product Image */}
-        <Link href={`/marketplace/product-details/${id}`} className="relative flex flex-col">
+        <Link href={`/marketplace/product-details/${encryptId(id)}`} className="relative flex flex-col">
           <div>
             <div>
               {showTopPicks ? (

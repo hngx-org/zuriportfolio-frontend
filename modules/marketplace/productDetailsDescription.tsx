@@ -23,6 +23,8 @@ import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import Loader from '@ui/Loader';
 import { API_URI } from './http';
+import { decryptId } from '../../utils/encrypt';
+import { encryptId } from '../../utils/encrypt';
 
 export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
@@ -31,15 +33,17 @@ export default function ProductDetailsDescription({ productId }: { productId: st
   const [error, setError] = useState<boolean>(false);
   const [cartLoading, setCartLoading] = useState<boolean>(true);
   const [image, setImage] = useState(product?.images[0]?.url);
-  const router = useRouter();
-  const { id } = router.query;
+  // const router = useRouter();
+  // const params = router.query;
+  // console.log(params)
+  const decryptedId: string | undefined = decryptId(productId ? productId : '');
+  console.log(decryptedId);
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
-  console.log(token);
   const apiUrl: string = token
-    ? `${API_URI}/get-product/${productId}/${token?.id}/?guest=false`
-    : `${API_URI}/get-product/${productId}/none/?guest=true`;
+    ? `${API_URI}/get-product/${decryptedId}/${token?.id}/?guest=false`
+    : `${API_URI}/get-product/${decryptedId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -57,7 +61,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
       .catch((error) => {
         setError(true);
       });
-  }, [apiUrl, id]);
+  }, [apiUrl]);
 
   const addToCart = async () => {
     const apiUrl = `${CART_ENDPOINT}/carts`;
@@ -156,17 +160,13 @@ export default function ProductDetailsDescription({ productId }: { productId: st
 
   const breadcrumbs: any = product?.name ? `/marketplace/${product?.name}` : '/marketplace/';
 
-  if (error) {
-    return (
-      <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-6xl text-gray-400">
-        Product Details Fail to load!!
-      </div>
-    );
-  }
-
   return (
     <CategoryLayout isBreadcrumb={true} pathName={breadcrumbs}>
-      {!product ? (
+      {error ? (
+        <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-6xl text-gray-400">
+          Product Details Fail to load!!
+        </div>
+      ) : !product ? (
         <div className="animate-pulse h-[50vh]">
           <Loader />
         </div>
@@ -481,7 +481,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
           {/* favorite products  */}
           <div></div>
           <div>
-            <ProductWeThoughtMightInterestYou id={id} />
+            <ProductWeThoughtMightInterestYou id={decryptedId} />
           </div>
         </main>
       )}
