@@ -21,8 +21,8 @@ export const fetchTodaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const todaysRevenue = res?.data;
-    logQueryResult('todays result', todaysRevenue);
+    const todaysRevenue = res?.data?.data?.revenue;
+    // logQueryResult('todays revenue', todaysRevenue);
     return todaysRevenue;
   } catch (error) {
     throw error;
@@ -36,8 +36,8 @@ export const fetchYesterdaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const yesterdaysRevenue = res?.data;
-    logQueryResult('yesterdays revenue', yesterdaysRevenue);
+    const yesterdaysRevenue = res?.data?.data?.revenue;
+    // logQueryResult('yesterdays revenue', yesterdaysRevenue);
     return yesterdaysRevenue;
   } catch (error) {
     throw error;
@@ -54,6 +54,7 @@ export const fetchTodaysOrders = async () => {
       },
     });
     const orderCount: number = res?.data?.data?.orderCount;
+    // logQueryResult('todays orders', orderCount);
     return orderCount;
   } catch (error) {
     throw error;
@@ -68,6 +69,7 @@ export const fetchYesterdaysOrders = async () => {
       },
     });
     const orderCount: number = res?.data?.data?.orderCount;
+    // logQueryResult('yesterdays orders', orderCount);
     return orderCount;
   } catch (error) {
     throw error;
@@ -108,12 +110,12 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/report/timeframe=12m,3m,1yr,7d,24hr,1d`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/reports/timeframe=12m`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const salesReport = res?.data;
+    const salesReport = res;
     logQueryResult('sales report', salesReport);
     return salesReport;
   } catch (error) {
@@ -207,8 +209,8 @@ export const fetchActivity = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const activity = res?.data;
-    logQueryResult('activity', activity);
+    const activity = res?.data?.data;
+    // logQueryResult('activity', activity);
     return activity;
   } catch (error) {
     throw error;
