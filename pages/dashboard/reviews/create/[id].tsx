@@ -4,7 +4,7 @@ import Container from '@modules/auth/component/Container/Container';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
-// import { ratingData } from '../../../db/reviews';
+import Link from 'next/link';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useRouter } from 'next/router';
 import NavDashBoard from '@modules/dashboard/component/Navbar';
@@ -77,6 +77,15 @@ export default function UserReview() {
                 <p className="md:hidden text-xs py-1 font-manropeL text-center tracking-tight">
                   {rats?.totalRating} total ratings, {rats?.numberOfRating} with reviews
                 </p>
+              </div>
+              <div className="hidden md:block">
+                <p className="pt-6">Have any thoughts?</p>
+                <Link
+                  href={`../product-details/${id}`}
+                  className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
+                >
+                  <button className="hover:text-green-200 font-semibold">Here are some recent reviews.</button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col content-center mx-auto items-center justify-center">
