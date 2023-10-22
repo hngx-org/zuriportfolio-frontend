@@ -343,7 +343,7 @@ const AddProduct = () => {
           </div>
           <h2 className="text-dark-400 font-manropeEB text-[32px] capitalize">Add new Product</h2>
         </div>
-        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'opacity-0'}`}>
+        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'hidden'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
             <div className="border-r-[1px] md:max-h-[80vh] md:overflow-y-scroll scrollbar-thin md:scrollbar-thumb-slate-300 border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
@@ -404,6 +404,7 @@ const AddProduct = () => {
                     className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
                       form.errors.email && 'border-red-20'
                     }`}
+                    onClick={handleImageUploadClick}
                   >
                     <center>
                       <Image
@@ -613,7 +614,7 @@ const AddProduct = () => {
           </div>
         </div>
         {loading && (
-          <div className="absolute z-50 inset-0 min-h-[300px] max-h-[70vh]  bg-white-100">
+          <div className="z-50 inset-0 min-h-[30vh] grid place-items-center h-full max-h-[70vh]  bg-white-100">
             <Loader />
           </div>
         )}

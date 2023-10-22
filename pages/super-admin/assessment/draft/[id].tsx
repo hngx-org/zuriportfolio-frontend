@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../../components/Footer';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import ScoringScreen from '../../../../modules/assessment/scoringScreen';
@@ -340,7 +339,6 @@ const DraftPreview = () => {
           <ScoringScreen assessment={assessment} skillId={skillid} />
         )}
       </div>
-      <Footer />
     </>
   );
 };

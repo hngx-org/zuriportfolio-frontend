@@ -154,7 +154,9 @@ const SearchAndFilterProducts = (prop: {
     isError: isCategoryError,
     refetch: refetchCategories,
     isRefetching: isRefetchingCategories,
-  } = useQuery(['categories'], fetchCategoryNames);
+  } = useQuery(['categories'], fetchCategoryNames, {
+    refetchOnWindowFocus: false,
+  });
 
   const {
     data: productsData,
@@ -170,6 +172,7 @@ const SearchAndFilterProducts = (prop: {
       }
     },
     {
+      refetchOnWindowFocus: false,
       select: (data) => {
         let filteredProducts = data;
 
@@ -235,7 +238,7 @@ const SearchAndFilterProducts = (prop: {
   if (isCategoryError || isProductsError) {
     return (
       <div className="flex justify-center items-center flex-col space-y-4">
-        <div>Error loading data...</div>
+        <div>Sorry, we couldn&apos;t load the products.</div>
         <button onClick={() => refetchCategories()} className="text-green-600">
           Retry
         </button>

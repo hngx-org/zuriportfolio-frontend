@@ -28,6 +28,10 @@ const TakeTest: FC = () => {
   const tokenRef = useRef<string | null>(null);
   const { data } = router.query;
 
+  React.useEffect(() => {
+    tokenRef.current = localStorage.getItem('zpt');
+  }, []);
+
   const {
     isLoading,
     isError,
@@ -37,10 +41,6 @@ const TakeTest: FC = () => {
   console.log('assessment', assessment);
 
   const result = assessment;
-
-  React.useEffect(() => {
-    tokenRef.current = localStorage.getItem('zpt');
-  }, []);
 
   return (
     <>
@@ -86,7 +86,7 @@ const TakeTest: FC = () => {
                   <li>Submission: Complete all questions and submit within the time limit</li>
                 </ul>
                 <div className="flex items-center justify-end mt-8">
-                  <Link href={`/assessments/take-test/questions?data=${result?.skill_id}&id=${result?.assessment_id}`}>
+                  <Link href={`/assessments/take-test/questions?data=${result?.assessment_id}`}>
                     <Button
                       intent={'primary'}
                       size={'md'}
