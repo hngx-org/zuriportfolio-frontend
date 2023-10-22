@@ -88,7 +88,7 @@ function AssessmentOverview() {
   const handleGetSession = async () => {
     const token = tokenRef.current;
     try {
-      const res = await fetchUserAssessmentSession(token as string, data as string);
+      const res = await fetchUserAssessmentSession(token as string);
       setResult(res);
       if (!res) {
         setIsLoading(false);
