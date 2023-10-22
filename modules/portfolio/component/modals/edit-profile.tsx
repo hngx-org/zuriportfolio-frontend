@@ -10,11 +10,13 @@ import Loader from '@ui/Loader';
 import CountryCityDropdown from './CountryCityDropdown';
 
 import { useAuth } from '../../../../context/AuthContext';
+import { AuthResponse } from '../../../../@types/index';
 
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
 const EditProfile = () => {
-  
+
+  const { handleAuth } = useAuth();
   const { userData, setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
   const [picture, setPicture] = useState<string | StaticImport>();
   const [firstNamee, setFirstnamee] = useState('');
@@ -30,31 +32,9 @@ const EditProfile = () => {
 
   const { userId, onSaveModal } = useContext(Portfolio);
 
-  // const [isFormValid, setIsFormValid] = useState(false);
-
-  // const [badgeData, setBadgeData] = useState({
-  //   name: '',
-  //   badgeImage: '',
-  // });
-
-  // useEffect(() => {
-  //   // Fetch badge data from the provided endpoint
-  //   fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       // Assuming that the badge label and badge image data are in the response
-  //       // Update the badge data state
-  //       setBadgeData({
-  //         name: data.name,
-  //         badgeImage: data.badgeImage,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching badge data:', error);
-  //     });
-  // }, []);
-
   useEffect(() => {
+
+    
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -62,14 +42,13 @@ const EditProfile = () => {
         const userData = await response.json();
 
     
-        // Set default values as placeholders if data is not present
+        // default values as placeholders when data is not present
         setPicture(userData.data.user.profilePic || '');
-        setFirstnamee(userData.data.user.firstName || ''); // Access 'user' inside 'data'
-        setLastNamee(userData.data.user.lastName || ''); // Access 'user' inside 'data'
-        setCity(userData.data.portfolio.city || ''); // Access 'portfolio' inside 'data'
-        setCountry(userData.data.portfolio.country || ''); // Access 'portfolio' inside 'data'
-        setSelectedTrack(userData.data.userTracks.track || ''); // Access 'userTracks' inside 'data'
-        
+        setFirstnamee(userData.data.user.firstName || ''); 
+        setLastNamee(userData.data.user.lastName || '');
+        setCity(userData.data.portfolio.city || '');
+        setCountry(userData.data.portfolio.country || '');
+        setSelectedTrack(userData.data.userTracks.track || '');
         setAvailableTracks(await getTracks());
         setIsLoading(false);
       } catch (error: any) {
@@ -93,6 +72,18 @@ const EditProfile = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const updatedProfile: AuthResponse = {
+      ...userData, // assuming userData is of type AuthResponse
+      user: {
+        ...userData.user,
+        firstName: firstNamee,
+        lastName: lastNamee,
+        profilePic: picture,
+        profileCoverPhoto: userData.user.profileCoverPhoto,
+      },
+    };
+  
+    handleAuth(updatedProfile);
   
     let matchingTrack: any;
     matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
