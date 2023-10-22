@@ -44,7 +44,7 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      // User has 2fa enabled 
+      // User has 2fa enabled
       if (res.status === 202) {
         localStorage.setItem('2fa', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
@@ -77,11 +77,11 @@ function LoginForm() {
 
         router.push(userCameFrom || '/explore');
         return;
-      } 
+      }
     },
-    onError: (e:any) => {
+    onError: (e: any) => {
       // For a user who has not verified their account
-      if( e.status === 401 ) {
+      if (e.status === 401) {
         notify({
           message: e.message,
           type: 'error',
@@ -92,7 +92,7 @@ function LoginForm() {
       }
 
       notify({
-        message: e.message,
+        message: "Oops, there's an issue with logging in. Please try again.",
         type: 'error',
         theme: 'light',
       });
