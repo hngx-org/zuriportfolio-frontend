@@ -114,7 +114,7 @@ const UpdatingProfilePic = () => {
               className={`${
                 !userData?.data?.user?.profilePic
                   ? ' rounded-none w-[107px] h-[100px]'
-                  : 'w-[107px] h-[100px] rounded-full'
+                  : 'w-[107px] h-[100px] rounded-full object-cover'
               }`}
             ></Image>
             {/* <Image
