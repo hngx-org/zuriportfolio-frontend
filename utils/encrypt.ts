@@ -4,7 +4,6 @@ import { enc } from 'crypto-js';
 const secretPassphrase: string = 'beans-cookers';
 
 export const decryptId = (str: string | string[]) => {
-  console.log(str);
   if (str) {
     const newStr = Array.isArray(str) ? str.join() : str;
     const decodedStr = decodeURIComponent(newStr);

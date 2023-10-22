@@ -33,7 +33,6 @@ export default function ProductDetailsDescription({ productId }: { productId: st
   const [cartLoading, setCartLoading] = useState<boolean>(true);
   const [image, setImage] = useState(product?.images[0]?.url);
   const decryptedId: string | undefined = decryptId(productId ? productId : '');
-  console.log(decryptedId);
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
