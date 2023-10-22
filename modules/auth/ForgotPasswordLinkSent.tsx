@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import VerificationLayout from './component/verificationLayout';
@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 function ForgotPasswordLinkSent() {
   const router = useRouter();
   const { email } = router.query;
+
+  const [countdown, setCountdown] = useState(120);
 
   const onResetLinkSentSuccess = (data: any) => {
     if (data.status === 200) {
@@ -27,8 +29,28 @@ function ForgotPasswordLinkSent() {
   });
 
   const handleResetLinkResent = () => {
+    setCountdown(120);
     mutate({ email: email as string });
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (countdown > 0) {
+        setCountdown(countdown - 1);
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [countdown]);
+
+  const minutes = Math.floor(countdown / 60);
+  const seconds = countdown % 60;
+
+  const isButtonDisabled = countdown > 0;
 
   return (
     <VerificationLayout>
@@ -51,9 +73,18 @@ function ForgotPasswordLinkSent() {
           isLoading={isLoading}
           onClick={handleResetLinkResent}
           className=" w-full rounded-md h-[60px] text-[16px] font-manropeB"
+          disabled={isButtonDisabled}
         >
           Resend Link
         </Button>
+        <div className=" flex gap-2 flex-col sm:flex-row justify-start pt-3">
+          <p className=" font-manropeL text-[10px] text-[#737876] md:text-[#000]">
+            Resend code{' '}
+            <span className=" font-manropeB text-[#003A1B]">
+              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </span>
+          </p>
+        </div>
       </div>
     </VerificationLayout>
   );
