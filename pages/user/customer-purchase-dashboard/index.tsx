@@ -15,6 +15,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { getAllPurchases, getSearchedData } from '../../../http/customerPurchaseDashboard';
 import { withUserAuth } from '../../../helpers/withAuth';
 import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
+import Loader from '../../../components/Loader/loader2';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -320,7 +321,7 @@ const MyPage: React.FC = () => {
 
             <FilterDropDown onChooseFilter={onChooseFilter} />
           </div>
-          {isLoading && <Spinner />}
+          {isLoading && <Loader />}
           {/* table */}
 
           {data?.length > 0 && (
@@ -387,7 +388,7 @@ const MyPage: React.FC = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           product={selectedOrder?.product_id || ''}
-          customerID={selectedOrder?.customer_id || ''}
+          user={selectedOrder?.customer_id || ''}
         />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
