@@ -50,7 +50,7 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
 
   const handleGetSession = async () => {
     try {
-      const res = await fetchUserAssessmentSession(token as string, assessment_id as string);
+      const res = await fetchUserAssessmentSession(token as string);
       setResult(res);
     } catch (error) {
       console.log('catch error', error);
