@@ -10,10 +10,18 @@ import {
   fetch3MonthStoreTraffic,
   fetch7DayStoreTraffic,
   fetchSalesReports,
+  fetchShopID,
 } from '../../../../http/dashboard';
 import Chart from './chart';
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
+  // fetch shop id
+  const { data: shop_id } = useQuery({
+    queryFn: () => fetchShopID(),
+    queryKey: ['shop-id'],
+    enabled: true,
+  });
+
   // fetch sales report data
   const { data: querySalesReportData } = useQuery({
     queryFn: () => fetchSalesReports(),
@@ -28,35 +36,35 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     isFetched,
     isFetching,
   } = useQuery({
-    queryFn: () => fetch12MonthStoreTraffic(),
+    queryFn: () => fetch12MonthStoreTraffic(shop_id),
     queryKey: ['store-traffic-12m'],
     enabled: true,
   });
   // logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
 
   const { data: query3MonthStoreTrafficData } = useQuery({
-    queryFn: () => fetch3MonthStoreTraffic(),
+    queryFn: () => fetch3MonthStoreTraffic(shop_id),
     queryKey: ['store-traffic-3m'],
     enabled: true,
   });
   // logQueryResult('Query Store Traffic 3m', query3MonthStoreTrafficData);
 
   const { data: query30DayStoreTrafficData } = useQuery({
-    queryFn: () => fetch30DayStoreTraffic(),
+    queryFn: () => fetch30DayStoreTraffic(shop_id),
     queryKey: ['store-traffic-30d'],
     enabled: true,
   });
   // logQueryResult('Query Store Traffic 30d', query30DayStoreTrafficData);
 
   const { data: query7DayStoreTrafficData } = useQuery({
-    queryFn: () => fetch7DayStoreTraffic(),
+    queryFn: () => fetch7DayStoreTraffic(shop_id),
     queryKey: ['store-traffic-7d'],
     enabled: true,
   });
   // logQueryResult('Query Store Traffic 7d', query7DayStoreTrafficData);
 
   const { data: query24HourStoreTrafficData } = useQuery({
-    queryFn: () => fetch24HourStoreTraffic(),
+    queryFn: () => fetch24HourStoreTraffic(shop_id),
     queryKey: ['store-traffic-24h'],
     enabled: true,
   });

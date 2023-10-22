@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { logQueryResult } from '../helpers/dashboard';
 
-const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
+// const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
 
 const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api/v1';
 
@@ -11,6 +11,23 @@ const axiosDashboardInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+// shop id
+
+export const fetchShopID = async () => {
+  try {
+    const res: any = await axiosDashboardInstance.get(`/shops/merchant`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
+    const shopID = res?.data?.data?.id;
+    logQueryResult('shop id', shopID);
+    return shopID;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // revenue
 
@@ -110,7 +127,7 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/reports/timeframe=12m`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=12m,3m,1y,7d,24h,1d`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -125,7 +142,7 @@ export const fetchSalesReports = async () => {
 
 //  store traffic
 
-export const fetch12MonthStoreTraffic = async () => {
+export const fetch12MonthStoreTraffic = async (shop_id: string) => {
   try {
     const token = localStorage.getItem('zpt');
     const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/12months/${shop_id}`, {
@@ -140,7 +157,7 @@ export const fetch12MonthStoreTraffic = async () => {
   }
 };
 
-export const fetch3MonthStoreTraffic = async () => {
+export const fetch3MonthStoreTraffic = async (shop_id: string) => {
   try {
     const token = localStorage.getItem('zpt');
     const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/3months/${shop_id}`, {
@@ -155,7 +172,7 @@ export const fetch3MonthStoreTraffic = async () => {
   }
 };
 
-export const fetch30DayStoreTraffic = async () => {
+export const fetch30DayStoreTraffic = async (shop_id: string) => {
   try {
     const token = localStorage.getItem('zpt');
     const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/30days/${shop_id}`, {
@@ -170,7 +187,7 @@ export const fetch30DayStoreTraffic = async () => {
   }
 };
 
-export const fetch7DayStoreTraffic = async () => {
+export const fetch7DayStoreTraffic = async (shop_id: string) => {
   try {
     const token = localStorage.getItem('zpt');
     const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/7days/${shop_id}`, {
@@ -185,7 +202,7 @@ export const fetch7DayStoreTraffic = async () => {
   }
 };
 
-export const fetch24HourStoreTraffic = async () => {
+export const fetch24HourStoreTraffic = async (shop_id: string) => {
   try {
     const token = localStorage.getItem('zpt');
     const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/24hrs/${shop_id}`, {
