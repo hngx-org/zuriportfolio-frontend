@@ -138,7 +138,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       {
         queryKey: ['sections'],
         queryFn: () => getSections(),
-        // enabled: slug != '',
+        enabled: slug != '',
       },
     ],
   });
@@ -146,13 +146,11 @@ export function PortfolioCtxProvider(props: { children: any }) {
   useEffect(() => {
     if (auth?.user?.id) {
       setUserId(auth?.user?.id!);
-      // setSlug('alameen-adeyemi-1');
       setSlug(auth?.user?.slug!);
     }
     if (getUserSections.data) {
       const { user, badges, portfolio, tracks } = getUserSections?.data?.data;
       setUserData({
-      
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,
