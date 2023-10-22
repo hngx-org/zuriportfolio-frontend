@@ -42,6 +42,13 @@ const ForgotPassword = () => {
     },
   });
 
+  // const { mutate, isLoading } = useAuthMutation(forgetPassword, {
+  //   onSuccess: (data) => {
+  //     forgotPasswordSuccess(data);
+  //   },
+  //   onError: (error: any) => console.log(error),
+  // });
+
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
     onSuccess: (data) => {
