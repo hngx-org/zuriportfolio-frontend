@@ -80,7 +80,13 @@ function ReviewForms() {
         // You can also handle success, show a message, or redirect the user
       } catch (error: any) {
         setLoad(false);
-        toast.error('Kindly ensure to fill all fields *Including ratings*');
+        if (name === '' || description === '' || rateNo === 0) {
+          toast.error(
+            `Kindly ensure to fill all fields. Remaining: || ${name === '' ? 'Your name ||' : ''} ${
+              description === '' ? 'Your review ||' : ''
+            } ${rateNo === 0 ? 'Rating ||' : ''}.`,
+          );
+        }
       }
     }
   };
