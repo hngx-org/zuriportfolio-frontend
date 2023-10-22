@@ -14,21 +14,21 @@ import { Edit2 } from 'iconsax-react';
 import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
 
-const fetchBadgeData = async () => {
-  try {
-    const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3');
-    if (response.ok) {
-      const data = await response.json();
-      return data.data.badges[0]; // Assuming there's only one badge
-    } else {
-      console.error('Failed to fetch badge data');
-      return null;
-    }
-  } catch (error) {
-    console.error('Error fetching badge data:', error);
-    return null;
-  }
-};
+// const fetchBadgeData = async () => {
+//   try {
+//     const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3');
+//     if (response.ok) {
+//       const data = await response.json();
+//       return data.data.badges[0]; // Assuming there's only one badge
+//     } else {
+//       console.error('Failed to fetch badge data');
+//       return null;
+//     }
+//   } catch (error) {
+//     console.error('Error fetching badge data:', error);
+//     return null;
+//   }
+// };
 
 
 const Landing = () => {
@@ -46,7 +46,7 @@ const Landing = () => {
   } = useContext(Portfolio);
 
   const { firstName, lastName, tracks, city, country, coverImage } = userData;
-  const [badgeData, setBadgeData] = useState<{ name: string; badge_image: string } | null>(null);
+  // const [badgeData, setBadgeData] = useState<{ name: string; badge_image: string } | null>(null);
 
   useEffect(() => {
     if (!getUserSections.isLoading && getUserSections.data) {
@@ -65,11 +65,11 @@ const Landing = () => {
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
 
-  useEffect(() => {
-    fetchBadgeData().then((data) => {
-      setBadgeData(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchBadgeData().then((data) => {
+  //     setBadgeData(data);
+  //   });
+  // }, []);
 
 
   return (
@@ -110,12 +110,12 @@ const Landing = () => {
                       {city ? city : ``}
                       {`${city && country ? ',' : ''}`} {country ? country : ''}
                     </p>
-                    {badgeData && (
+                    {/* {badgeData && (
                     <div>
                       <p>Badge Name: {badgeData.name}</p>
                       <Image src={badgeData.badge_image} alt="Badge" />
                     </div>
-                  )}
+                  )} */}
                   </div>
                 </div>
                 <span
