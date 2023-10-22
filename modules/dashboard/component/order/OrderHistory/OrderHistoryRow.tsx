@@ -11,6 +11,7 @@ const formatNum = (num: number) => {
   const formatter = new Intl.NumberFormat();
   return formatter.format(num);
 };
+
 const CancelledTab: React.FC = () => {
   return (
     <div
@@ -63,24 +64,23 @@ const PendingTab = () => {
     </div>
   );
 };
+
 const OrderHistoryRow = (props: OrderHistory) => {
   const padDate = (num: number) => {
     return String(num).padStart(2, '0');
   };
   const formatDate = () => {
-    const date = props.date;
+    const date = props.date as Date;
 
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
 
-  console.log(props);
-
   return (
     <tr className="w-full font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
       <td className={`text-custom-color10 underline ${manropeMD.className} text-center`}>
-        <Link href={`/details/${(props as any)?.fullId}`}>#{props.id}</Link>
+        <Link href={`/dashboard/orders/details/${(props as any)?.fullId}`}>#{props.id}</Link>
       </td>
-      <td>₦{props.revenue}</td>
+      <td>₦{formatNum(props.revenue as number)}</td>
       <td className={`text-custom-color10 ${manropeMD.className}`}>{props.customerName}</td>
       <td>{formatDate()}</td>
       <td>
@@ -97,7 +97,7 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
     return String(num).padStart(2, '0');
   };
   const formatDate = () => {
-    const date = props.date;
+    const date = props.date as Date;
 
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
@@ -111,7 +111,7 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
       <div className="flex flex-col">
         <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
           {' '}
-          Revenue: #{formatNum(props.revenue)}
+          Revenue: ₦{formatNum(props.revenue as number)}
         </p>
         <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
         <p className="text-custom-color22 font-semibold">

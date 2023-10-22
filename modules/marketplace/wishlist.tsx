@@ -1,5 +1,5 @@
 import loadingIllustration from '../../public/assets/wishlistAssets/loadingIllustration.svg';
-
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { WishlistProductCard } from './component/WishlistProductCard';
@@ -12,6 +12,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { LoadingSkeleton } from '../marketplace/component/LoadingSkeleton';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { removeFromWishlist } from '../../http';
+import Button from '@ui/Button';
+
+import { API_URI } from './http';
 
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
@@ -23,11 +26,11 @@ function Wishlist() {
   const token: any = isUserAuthenticated();
   const loadingCards = new Array(3).fill(0);
 
+  console.log(token.id);
+
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/user-wishlist/${token?.id}`,
-      );
+      const response = await axios.get(`${API_URI}/user-wishlist/${token?.id}`);
       const { message, status_code, data: result } = response.data;
 
       if (Array.isArray(result) && result.length === 0) {
@@ -107,9 +110,15 @@ function Wishlist() {
                   // Conditionally render product cards or empty message
                   <>
                     {dataCheck && (
-                      <div className="flex flex-col mx-auto items-center">
+                      <div className="flex flex-col mx-auto items-center gap-4">
                         <Image src={loadingIllustration} alt="loading" width={100} height={100} />
                         <p className="text-lg mt-2">Looks like you have no items in your wishlist</p>
+
+                        <Link href="/marketplace">
+                          <Button intent={'primary'} size={'md'}>
+                            Continue Shopping
+                          </Button>
+                        </Link>
                       </div>
                     )}
 

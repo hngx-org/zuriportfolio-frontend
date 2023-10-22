@@ -39,11 +39,9 @@ const fetchAnalyticsData = async (bearerToken: string) => {
 const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
 
-  const { data: analyticsData, isLoading } = useQuery<cardinfo[]>(
-    ['analyticsData', bearerToken],
-    () => fetchAnalyticsData(bearerToken),
+  const { data: analyticsData, isLoading } = useQuery<cardinfo[]>(['analyticsData', bearerToken], () =>
+    fetchAnalyticsData(bearerToken),
   );
-
 
   const getTokenFromLocalStorage = () => {
     const tokenFromLocalStorage = localStorage.getItem('zpt');
@@ -87,7 +85,7 @@ const AnalyticsAndReportingCards = () => {
                 </div>
               ))
             : Array.isArray(analyticsData) &&
-            analyticsData.slice(0, 3).map((items, index) => (
+              analyticsData.slice(0, 3).map((items, index) => (
                 <div
                   key={index}
                   className={`px-5 border border-white-200 bg-white-100  rounded-lg py-6 ${
@@ -135,9 +133,8 @@ const AnalyticsAndReportingCards = () => {
                   </div>
                 </div>
               ))
-           
             : Array.isArray(analyticsData) &&
-            analyticsData.slice(3).map((items, index) => (
+              analyticsData.slice(3).map((items, index) => (
                 <div
                   key={index}
                   className="px-5 text= border border-white-200 bg-white-100  rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0"

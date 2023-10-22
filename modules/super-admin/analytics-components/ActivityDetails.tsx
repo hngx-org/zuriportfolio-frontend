@@ -11,7 +11,7 @@ const fetchActivityDetails = async (token: string) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -27,18 +27,14 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
     data: activityDetails,
     isLoading,
     isError,
-  } = useQuery<activity[]>(
-    ['activityDetails', token],
-    () => fetchActivityDetails(token),
-    {
-      onError: (error) => {
-        console.error('Error fetching data:', error);
-        if (!toast.isActive('activityError')) {
-          toast.error('Could not load activity details. Try again!', { toastId: 'activityError' });
-        }
-      },
-    }
-  );
+  } = useQuery<activity[]>(['activityDetails', token], () => fetchActivityDetails(token), {
+    onError: (error) => {
+      console.error('Error fetching data:', error);
+      if (!toast.isActive('activityError')) {
+        toast.error('Could not load activity details. Try again!', { toastId: 'activityError' });
+      }
+    },
+  });
 
   return (
     <section className="lg:w-[25%]">

@@ -25,13 +25,11 @@ const Pcontact = ({
 }: PcontactProps) => {
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
-      {section.data.slice(0, showMoreContacts).map((el: any, i: number) => {
-        return (
-          <>
-            <Contact key={i} data={el} />
-          </>
-        );
-      })}
+      <div className="flex flex-col gap-5">
+        {section.data.slice(0, showMoreContacts).map((el: any, i: number) => {
+          return <Contact key={i} data={el} />;
+        })}
+      </div>
       {section.data.length > 2 && (
         <div className="text-brand-green-primary font-semibold cursor-pointer" onClick={toggleShowMoreContact}>
           {showMoreContacts === 2 ? 'View More' : 'View Less'}

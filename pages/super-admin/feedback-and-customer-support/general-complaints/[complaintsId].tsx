@@ -14,19 +14,70 @@ import { withAdminAuth } from '../../../../helpers/withAuth';
 
 interface ComplaintDetails {
   data: {
+    id: number;
+    user: string;
     complaint_text: string;
     createdAt: string;
+    status: string;
     user_details: {
+      id: string;
       first_name: string;
       last_name: string;
       email: string;
       profile_pic: string;
+      location: string;
+      country: string;
 
       // Add other properties as needed
     };
     // Add other properties as needed
   };
   // Add other properties as needed
+}
+
+const newStatus = 'Resolved';
+
+async function updateComplaintStatus(complaintId: number, newStatus: string) {
+  try {
+    // Create the URL for the specific complaint using complaintId
+    const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintId}/`;
+
+    const bearertoken = localStorage.getItem('zpt');
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${bearertoken}`,
+    };
+
+    // Fetch the complaint using the specific URL
+    const response = await fetch(apiUrl, {
+      method: 'GET', // Use GET to retrieve the complaint data
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const complaint = await response.json();
+
+    // Update the status of the complaint
+    complaint.status = newStatus;
+
+    // Send a PATCH request to update the complaint on the server
+    const patchResponse = await fetch(apiUrl, {
+      method: 'PATCH', // Use PATCH to update the complaint
+      headers: headers,
+      body: JSON.stringify(complaint),
+    });
+
+    if (!patchResponse.ok) {
+      throw new Error('Network response for the PATCH request was not ok');
+    }
+
+    console.log(`Status of complaint ${complaintId} updated to ${newStatus}`);
+  } catch (error) {
+    console.error('Error updating complaint status:', error);
+  }
 }
 
 function ComplaintsDetails() {
@@ -43,24 +94,29 @@ function ComplaintsDetails() {
   }, [router.query]);
 
   const fetchcomplaindetails = async (complaintsId: any) => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     console.log(complaintsId);
 
     try {
       const response = await axios.get(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintsId}/`,
+        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintsId}/`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${bearertoken}`,
           },
         },
       );
       if (response.status === 200) {
         const data = await response.data;
         setcomplainDetails(data);
+
+        fetchReplies(complaintsId); // Fetch replies when complaint details are fetched
         console.log(data);
+
+        if (data.replies && data.replies.length > 0) {
+          setReplies(data.replies);
+          console.log(data);
+        }
       } else {
         console.error('Failed to fetch complaint details');
       }
@@ -69,9 +125,49 @@ function ComplaintsDetails() {
     }
   };
 
+  const [adminReply, setadminReply] = useState([]);
+
+  const fetchReplies = async (complaintId: any) => {
+    const bearertoken = localStorage.getItem('zpt');
+
+    try {
+      const response = await axios.get(
+        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintId}/comments/`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearertoken}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        const data = await response.data;
+        console.log('Replies data:', data);
+        console.log(data[0][0].comment);
+
+        setadminReply(data);
+        if (data.length > 0) {
+          // Hide the resolve button if replies exist
+          showResolveButton();
+        }
+      } else {
+        console.error('Failed to fetch replies');
+      }
+    } catch (error) {
+      console.error('Error fetching replies:', error);
+    }
+  };
+
+  useEffect(() => {
+    const { complaintsId } = router.query;
+    if (complaintsId) {
+      fetchcomplaindetails(complaintsId);
+      fetchReplies(complaintsId);
+    }
+  }, [router.query]);
+
   const [showform, setshowForm] = useState(false);
   const [text, setText] = useState('');
-  const [profile, setProfile] = useState(false);
+  const [profile, setProfile] = useState(true);
 
   const [modalOpen, setmodalOpen] = useState(false);
 
@@ -100,29 +196,42 @@ function ComplaintsDetails() {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+    // Ensure you have the required data in complainDetails
+    if (!complainDetails || !complainDetails.data || !complainDetails.data.user_details) {
+      console.log('Invalid complainDetails data');
+      return;
+    }
 
+    const bearertoken = localStorage.getItem('zpt');
     e.preventDefault();
     const message = e.currentTarget.message.value;
 
     try {
+      const requestBody = {
+        user: complainDetails.data.user_details.id,
+        comment: message,
+        complaint: complainDetails.data.id,
+      };
+
       const response = await axios.post(
-        'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/comments/',
+        'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/comments/',
+        requestBody,
         {
-          complaintId: 1,
-          message,
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${bearertoken}`,
           },
         },
       );
-      const newReply = { message, date: new Date().toISOString() };
 
-      setReplies([...replies, newReply]);
-      showProfile();
-      toggleForm();
-      console.log('Message Sent');
+      if (response.status === 201) {
+        const newReply = { message, date: new Date().toISOString() };
+        setReplies([...replies, newReply]);
+        showProfile();
+        toggleForm();
+        console.log('Message Sent');
+      } else {
+        console.log('Failed to post the message');
+      }
     } catch (error) {
       console.log('Error posting reply', error);
     }
@@ -136,18 +245,25 @@ function ComplaintsDetails() {
     setProfile(!profile);
   };
 
+  let formattedDate = 'Date Unavailable'; // Default value for cases when createdAt is not available
+
+  if (complainDetails?.data.createdAt) {
+    const createdDate = new Date(complainDetails.data.createdAt);
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    formattedDate = createdDate.toLocaleDateString('en-US');
+  }
+
   return (
     <>
       <Nav />
-      <div className="p-10 container mx-auto">
-        <div className="flex items-center gap-3">
+      <div className="p-10 container mx-auto ">
+        <div className="flex items-center gap-3 border-b border-white-300">
           <Link href="/super-admin/feedback-and-customer-support/general-complaints">
             <Image src="/assets/complaintsassets/arrow-right.svg" alt="back" width={20} height={20} />{' '}
           </Link>
 
-          <div>
+          <div className="py-7">
             <h3 className="text-lg">Complaint Details </h3>
-            <p className="text-sm text-gray-500">Basic vendor details</p>
           </div>
         </div>
         <div>
@@ -165,47 +281,73 @@ function ComplaintsDetails() {
               <div>
                 <div className="flex gap-2">
                   <h1 className="text-3xl">
-                    {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.first_name
-                      ? complainDetails.data.user_details.first_name
-                      : 'Loading...'}
+                    {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.first_name ? (
+                      complainDetails.data.user_details.first_name
+                    ) : (
+                      <div className="bg-white-115 w-50 h-8 rounded-lg text-white-115 "> loading... </div>
+                    )}
                   </h1>
                   <h1 className="text-3xl">
-                    {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.last_name
-                      ? complainDetails.data.user_details.last_name
-                      : 'Loading...'}
+                    {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.last_name ? (
+                      complainDetails.data.user_details.last_name
+                    ) : (
+                      <div className="bg-white-115 w-50 h-8 rounded-lg text-white-115 "> loading... </div>
+                    )}
                   </h1>
                 </div>
-                <p className="text-sm text-gray-100">
-                  {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.email
-                    ? complainDetails.data.user_details.email
-                    : 'Loading...'}
+                <p className="text-sm text-gray-100 mt-2">
+                  {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.email ? (
+                    complainDetails.data.user_details.email
+                  ) : (
+                    <div className="bg-white-115 w-50 h-5 rounded-lg text-white-115 "> loading... </div>
+                  )}
                 </p>
               </div>
 
-              {resolve ? (
-                <div className="bg-green-30 px-3 py-2 flex items-center gap-2 rounded-full">
-                  <div className="w-2 h-2 bg-green-700 rounded-md "></div>
-                  <p className="text-xs text-green-750">Resolved</p>
-                </div>
-              ) : (
-                <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                  <div className="w-2 h-2 bg-blue-105 rounded-md "></div>
-                  <p className="text-xs text-blue-105">In Progress</p>
-                </div>
-              )}
+              <div>
+                {
+                  complainDetails?.data.status === 'In Progress' || complainDetails?.data.status === 'in Progress' ? (
+                    <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                      <div className="w-2 h-2 bg-blue-105 rounded-md"></div>
+                      <p className="text-xs text-blue-105">In Progress</p>
+                    </div>
+                  ) : complainDetails?.data.status === 'Resolved' ? (
+                    <div className="bg-green-30 px-3 py-2 flex items-center gap-2 rounded-full">
+                      <div className="w-2 h-2 bg-green-700 rounded-md "></div>
+                      <p className="text-xs text-green-750">Resolved</p>
+                    </div>
+                  ) : (
+                    <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                      <div className="w-2 h-2 bg-blue-105 rounded-md"></div>
+                      <p className="text-xs text-blue-105">In Progress</p>
+                    </div>
+                  ) // Add another case or null if needed
+                }
+              </div>
             </div>
             <h1 className="text-1xl">
-              A UX Designer loves to make UX and the career easier for others, no fancy stuff.
+              {complainDetails?.data.user_details.first_name} is an innovated explorer 🌌🔍 | Unraveling the future, one
+              byte at a time. 📱🤖 {complainDetails?.data.user_details.first_name} -
+              {complainDetails?.data.user_details.last_name} is from the city of
+              {complainDetails?.data.user_details.location} in {complainDetails?.data.user_details.country}
             </h1>
           </div>
 
-          <div className="flex gap-10 my-2">
-            <p className="text-sm font-bold text-gray-500">
-              {complainDetails && 'data' in complainDetails && complainDetails.data.createdAt
-                ? complainDetails.data.createdAt
-                : 'Loading...'}
-            </p>
-            <h1 className="text-sm font-bold text-gray-500">3.3/5</h1>
+          <div className="flex gap-10 my-2 border-b border-white-300 pb-7">
+            {complainDetails?.data.user_details && complainDetails.data.createdAt ? (
+              <p className="font-manropeL font-medium text-base truncate text-slate-500">
+                {new Date(complainDetails?.data.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  // hour: '2-digit',
+                  // minute: '2-digit',
+                })}
+              </p>
+            ) : (
+              <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
+            )}
+            <h1 className="text-sm font-bold text-gray-500">No Ratings yet</h1>
           </div>
 
           <div>
@@ -214,9 +356,11 @@ function ComplaintsDetails() {
               <p className="mb-2 text-xs">Order not recieved</p>
 
               <p className="mb-2 text-2xl">
-                {complainDetails && 'data' in complainDetails && complainDetails.data.complaint_text
-                  ? complainDetails.data.complaint_text
-                  : 'Loading...'}
+                {complainDetails && 'data' in complainDetails && complainDetails.data.complaint_text ? (
+                  complainDetails.data.complaint_text
+                ) : (
+                  <div className="bg-white-115 w-50 h-10 rounded-lg text-white-115 "> loading... </div>
+                )}
               </p>
 
               <div className="mt-5 mb-8">
@@ -288,7 +432,11 @@ function ComplaintsDetails() {
                   onClick={() => {
                     setconfirmModal(false);
                     setmodalOpen(false);
-                    setResolve(true);
+                    onResolve();
+                    if (complainDetails) {
+                      updateComplaintStatus(complainDetails.data.id, newStatus);
+                    }
+
                     setResolveButton(false);
                   }}
                 >

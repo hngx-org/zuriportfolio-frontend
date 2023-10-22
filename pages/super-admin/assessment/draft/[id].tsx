@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MainLayout from '../../../../components/Layout/MainLayout';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import ScoringScreen from '../../../../modules/assessment/scoringScreen';
@@ -226,7 +226,8 @@ const DraftPreview = () => {
   </Button>;
 
   return (
-    <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+    <>
+      <SuperAdminNavbar />
       <AssessmentBanner
         title="Preview/Edit"
         subtitle="An overview of all questions and answers."
@@ -338,7 +339,7 @@ const DraftPreview = () => {
           <ScoringScreen assessment={assessment} skillId={skillid} />
         )}
       </div>
-    </MainLayout>
+    </>
   );
 };
 

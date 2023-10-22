@@ -497,14 +497,17 @@ export interface MetricTimelineProps {
 
 export interface OrderHistory {
   id: number;
+  fullId?: any;
   productName: string;
-  customerName: string;
-  date: Date;
+  customerName?: string;
+  date?: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  currency: string;
   productType: string;
   price: number;
-  sales: number;
-  revenue: number;
+  sales?: number;
+  revenue?: number;
+  currency?: string;
 }
 
 export interface WishlistProduct {
@@ -732,7 +735,7 @@ export type cardinfo = {
   title: string;
   amount: number;
   ratio: number;
-  color?: string
+  color?: string;
 };
 
 interface ActivityDetailsProps {
@@ -801,6 +804,7 @@ export interface UserInfo {
   skills: string[];
   tag: string;
   track: string;
+  slug: string;
 }
 
 interface ChartProps {
@@ -815,10 +819,12 @@ export interface AuthContextProps {
   email: string;
   redirect: string;
   userCameFrom: string | undefined;
+  userCameFromForOAuth: string | undefined;
   handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
   handleUserCameFrom: (value: string | undefined) => void;
+  handleUserCameFromForOAuth: (value: string | undefined) => void;
 }
 
 export type User = {
@@ -889,7 +895,8 @@ export interface ReviewData {
   };
   numberOfPages: 0;
   updatedAt: string;
-  createdAt: string;
+  createdAtTime: string;
+  createdAtDate: string;
 }
 
 export interface ReviewApiResponse {
@@ -914,4 +921,17 @@ export interface ExploreSEOProps {
   description: string;
   image: string;
   url: string;
+}
+
+export type DashboardActivity = {
+  id?: string;
+  action?: string;
+  user_id?: string;
+  title?: string;
+  description?: string;
+  createdAt?: string;
+};
+
+export interface ExtendedDashboardActivity extends DashboardActivity {
+    isPage?: boolean;
 }

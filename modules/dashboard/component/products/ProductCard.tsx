@@ -47,7 +47,7 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -71,7 +71,7 @@ const DeleteModal = (props: any) => {
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
-    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${productId}`, {
+    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${productId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -123,6 +123,7 @@ const DeleteModal = (props: any) => {
       size="lg"
       closeModal={props.closeModal}
       closeBtnClass="bg-transparent text-custom-color34 hover:bg-transparent "
+      isCloseIconPresent={false}
     >
       <div className="flex flex-row cursor-pointer justify-end px-5">
         <RiCloseCircleFill size={25} color="red" onClick={props.closeModal} />
@@ -228,7 +229,7 @@ const EditModal = (props: {
     try {
       setUpdatingAssets(true);
       const { data } = await axios.get(
-        `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        `https://zuriportfolio-shop-internal-api.onrender.com/api/product/v1/assets/${props.product?.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -256,7 +257,7 @@ const EditModal = (props: {
   };
   useEffect(() => {
     // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -301,7 +302,7 @@ const EditModal = (props: {
     try {
       setUpdating(true);
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -356,7 +357,7 @@ const EditModal = (props: {
         formData.append(key, value);
       });
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -380,7 +381,7 @@ const EditModal = (props: {
         const formdata = new FormData();
         formdata.append('image', file);
         const res = await axios({
-          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}/image/${props.product?.image[0].id}`,
+          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}/image/${props.product?.image[0].id}`,
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -411,7 +412,7 @@ const EditModal = (props: {
 
   return (
     <Modal isOpen={props.isOpen} isCloseIconPresent={true} title="EDIT PRODUCT" closeModal={props.closeEditModal}>
-      <div className="relative">
+      <div className="relative md:max-h-[70vh] md:overflow-y-scroll md:scrollbar-thin md:scrollbar-thumb-white-700 z-[9999] bg-white-100">
         <div>
           <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
             <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />

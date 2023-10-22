@@ -1,5 +1,5 @@
-// import MainLayout from '../../../components/Layout/MainLayout';
-import MainLayout from '../../../../components/Layout/MainLayout';
+// import MainLayout from '../../../import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
+
 import { useRouter } from 'next/router';
 import { FaSpinner } from 'react-icons/fa';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
@@ -11,6 +11,7 @@ import ScoringScreen from '@modules/assessment/scoringScreen';
 import { number } from 'zod';
 import { withAdminAuth } from '../../../../helpers/withAuth';
 import { any } from 'zod';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 
 const Previewedit: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -126,7 +127,8 @@ const Previewedit: React.FC = () => {
   }
 
   return (
-    <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+    <>
+      <SuperAdminNavbar />
       <main className="w-full">
         <AssessmentBanner
           title="Preview/Edit"
@@ -188,7 +190,7 @@ const Previewedit: React.FC = () => {
           )}
         </div>
       </main>
-    </MainLayout>
+    </>
   );
 };
 

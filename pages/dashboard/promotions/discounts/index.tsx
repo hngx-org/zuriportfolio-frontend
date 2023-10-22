@@ -23,7 +23,7 @@ type Product = {
 };
 
 function Discounts() {
-  const [selectedOptionType, setSelectedOptionType] = useState('');
+  const [selectedOptionType, setSelectedOptionType] = useState('Percentage');
   const [selectedOptionProduct, setSelectedOptionProduct] = useState('');
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [selectedDateTimeExpire, setSelectedDateTimeExpire] = useState('');
@@ -97,7 +97,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products/nopromo', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -143,13 +143,16 @@ function Discounts() {
       valid_to: newExpireDate,
     };
 
-    console.log('userData', userData);
     try {
-      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      const response = await axios.post(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount',
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
         },
-      });
+      );
 
       toast.success('Discount created successfully', {
         autoClose: 5000,
@@ -178,6 +181,16 @@ function Discounts() {
     <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar>
       <Head>
         <title>Add Discount</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Add discount" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="Add dicount to your product" />
+        <meta name="keywords" content="Zuri, portfolio, add, discount, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <ToastContainer />
       <div className="w-full">
@@ -207,7 +220,7 @@ function Discounts() {
             <form onSubmit={form.onSubmit((values) => handleCreateDiscount(values))}>
               <div>
                 <div className="md:flex md:gap-10 gap-7">
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <label className="text-dark-200 font-manropeB text-[14px]">Discount Type</label>
                     <select
                       className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
@@ -218,7 +231,7 @@ function Discounts() {
                       <option value="percentage">Percentage</option>
                       <option value="fixed">Fixed</option>
                     </select>
-                  </div>
+                  </div> */}
                   <div className="md:mt-0 mt-6 ">
                     <label className="font-manropeB text-dark-100 text-[14px]">Amount</label>
                     <Input
