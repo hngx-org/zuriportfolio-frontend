@@ -44,20 +44,22 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+      // User has 2fa enabled 
+      if (res.status === 202) {
         localStorage.setItem('2fa', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
+
         notify({
           message: 'Two Factor Authentication Code Sent',
           type: 'success',
           theme: 'light',
         });
+
         router.push('/auth/2fa');
         return;
       }
 
-      if (res.message === 'Login successful') {
-        console.log(res.data);
+      if (res.status === 200) {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
@@ -75,34 +77,22 @@ function LoginForm() {
 
         router.push(userCameFrom || '/explore');
         return;
-      } else if (res.message === 'Invalid password') {
+      } 
+    },
+    onError: (e:any) => {
+      // For a user who has not verified their account
+      if( e.status === 401 ) {
         notify({
-          message: 'Invalid password',
-          type: 'error',
-          theme: 'light',
-        });
-        return;
-      } else if (res.message === 'User not found') {
-        notify({
-          message: 'User not found',
-          type: 'error',
-          theme: 'light',
-        });
-        return;
-      } else if (res.message === 'Please verify your account') {
-        notify({
-          message: 'Please verify your account',
+          message: e.message,
           type: 'error',
           theme: 'light',
         });
         router.push('/auth/verification-complete');
         return;
       }
-    },
-    onError: (e) => {
-      console.error({ error: e });
+
       notify({
-        message: 'Error logging in',
+        message: e.message,
         type: 'error',
         theme: 'light',
       });
@@ -205,8 +195,8 @@ function LoginForm() {
           </div>
           <div className="mt-[1.6rem] flex flex-col gap-[1rem] relative">
             <SignUpWithGoogle />
-            <SignUpWithGithub />
-            <SignUpWithFacebook />
+            {/* <SignUpWithGithub /> */}
+            {/* <SignUpWithFacebook /> */}
           </div>
         </div>
       </div>
