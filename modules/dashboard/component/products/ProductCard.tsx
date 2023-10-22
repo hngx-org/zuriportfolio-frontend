@@ -47,7 +47,7 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -71,7 +71,7 @@ const DeleteModal = (props: any) => {
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
-    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${productId}`, {
+    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${productId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -158,7 +158,10 @@ const initialProductState = {
   price: '',
   image: [],
 };
-
+const formatNum = (num: number) => {
+  const formatter = new Intl.NumberFormat();
+  return formatter.format(num);
+};
 const EditModal = (props: {
   closeEditModal: () => void;
   isOpen: boolean;
@@ -229,7 +232,7 @@ const EditModal = (props: {
     try {
       setUpdatingAssets(true);
       const { data } = await axios.get(
-        `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -302,7 +305,7 @@ const EditModal = (props: {
     try {
       setUpdating(true);
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -357,7 +360,7 @@ const EditModal = (props: {
         formData.append(key, value);
       });
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -381,7 +384,7 @@ const EditModal = (props: {
         const formdata = new FormData();
         formdata.append('image', file);
         const res = await axios({
-          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}/image/${props.product?.image[0].id}`,
+          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}/image/${props.product?.image[0].id}`,
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -666,7 +669,10 @@ const ProductCard = (props: {
           </p>
           <div className="w-full flex items-center justify-start gap-2">
             <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
-              ₦{product.promo !== null ? calculateDiscount(product.promo.amount, product.price) : product.price}
+              ₦
+              {product.promo !== null
+                ? formatNum(calculateDiscount(product.promo.amount, product.price))
+                : formatNum(product.price)}
             </p>
             {product?.promo !== null && (
               <p
@@ -674,7 +680,7 @@ const ProductCard = (props: {
                   'font-manropeB leading-[150%] tracking-[0.08px] text-white-400 text-[14px] line-through md:mb-7 mb-3',
                 )}
               >
-                ₦{product.price}
+                ₦{formatNum(product.price)}
               </p>
             )}
           </div>
