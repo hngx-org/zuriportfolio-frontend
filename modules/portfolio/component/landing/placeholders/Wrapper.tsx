@@ -8,10 +8,10 @@ type WrapperProps = {
   icon?: React.ReactNode;
   children?: React.ReactNode;
   disableEdit?: boolean;
-  className?: string
+  className?: string;
 };
 
-const Wrapper = ({ id, title, edit, remove, icon, children, disableEdit, className}: WrapperProps) => {
+const Wrapper = ({ id, title, edit, remove, icon, children, disableEdit, className }: WrapperProps) => {
   return (
     <div
       className={`${className} flex justify-start items-start gap-2 md:gap-4 w-full p-5 md:p-10 shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-lg`}

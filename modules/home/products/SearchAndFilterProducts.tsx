@@ -90,9 +90,7 @@ const SearchAndFilterProducts = (prop: {
 
   const fetchCategoryNames = async (): Promise<Section[]> => {
     try {
-      const categoriesResponse = await axios.get(
-        'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/',
-      );
+      const categoriesResponse = await axios.get('https://staging.zuri.team/api/marketplace/v1/category-name/');
       const categories = categoriesResponse.data.data.slice(0, 9);
 
       const icons = [
@@ -136,9 +134,8 @@ const SearchAndFilterProducts = (prop: {
   };
   const fetchProducts = async (category: string) => {
     try {
-      const response = await axios.get(
-        `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
-      );
+      const response = await axios.get(`https://staging.zuri.team/api/marketplace/v1/products/${category}`);
+      console.log(response);
       const approvedProducts = response?.data?.data
         ?.filter((product: { is_published: boolean }) => product.is_published === true)
         .slice(0, 4);
@@ -202,7 +199,7 @@ const SearchAndFilterProducts = (prop: {
 
   const fetchAllProducts = async () => {
     try {
-      const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/product-list`);
+      const response = await axios.get(`https://staging.zuri.team/api/marketplace/v1/product-list`);
       const approvedProducts = response?.data?.data
         ?.filter((product: { is_published: boolean }) => product.is_published === true)
         .slice(0, 4);
@@ -212,14 +209,6 @@ const SearchAndFilterProducts = (prop: {
       console.error(`Error fetching products for category data`, error);
     }
   };
-
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (activeSection === 11) {
-      queryClient.invalidateQueries(['products']);
-    }
-  }, [activeSection, queryClient]);
 
   if (isCategoryLoading || isRefetchingCategories) {
     return (

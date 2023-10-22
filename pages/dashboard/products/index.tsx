@@ -10,6 +10,7 @@ import Pagination from '@ui/Pagination';
 import { toast } from 'react-toastify';
 import Head from 'next/head';
 import Image from 'next/image';
+import withAuth from '../../../helpers/withAuth';
 type Product = {
   product_id: any;
   image: any;
@@ -52,7 +53,7 @@ const Products = () => {
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
@@ -201,13 +202,16 @@ const Products = () => {
                         <Loader />
                       </div>
                     ) : (
-                      <ProductCard
-                        product={productsToDisplay}
-                        fetchProducts={fetchProducts}
-                        insertProduct={insertProduct}
-                        insertSelectedProduct={insertSelectedProduct}
-                        selectedProduct={selectedProduct}
-                      />
+                      product.map((product) => (
+                        <ProductCard
+                          product={product}
+                          fetchProducts={fetchProducts}
+                          insertProduct={insertProduct}
+                          insertSelectedProduct={insertSelectedProduct}
+                          selectedProduct={selectedProduct}
+                          key={product.id}
+                        />
+                      ))
                     )}
                   </div>
                   <div className="flex justify-center my-4">
@@ -229,4 +233,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withAuth(Products);

@@ -1,17 +1,12 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { activity } from '../../../@types';
+import { activity, ActivityDetailsProps } from '../../../@types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-interface ActivityDetailsProps {
-  token: string;
-}
-
 const fetchActivityDetails = async (token: string) => {
   const response = await fetch(
-    'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/activities/',
+    'https://staging.zuri.team/api/v1/super-admin/analytics/activities/',
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -24,7 +19,7 @@ const fetchActivityDetails = async (token: string) => {
   }
 
   const data = await response.json();
-  return data.data.slice(0, 11);
+  return data.data.slice(0, 10);
 };
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
@@ -32,18 +27,14 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
     data: activityDetails,
     isLoading,
     isError,
-  } = useQuery<activity[]>(
-    ['activityDetails', token],
-    () => fetchActivityDetails(token),
-    {
-      onError: (error) => {
-        console.error('Error fetching data:', error);
-        if (!toast.isActive('activityError')) {
-          toast.error('Could not load activity details. Try again!', { toastId: 'activityError' });
-        }
-      },
-    }
-  );
+  } = useQuery<activity[]>(['activityDetails', token], () => fetchActivityDetails(token), {
+    onError: (error) => {
+      console.error('Error fetching data:', error);
+      if (!toast.isActive('activityError')) {
+        toast.error('Could not load activity details. Try again!', { toastId: 'activityError' });
+      }
+    },
+  });
 
   return (
     <section className="lg:w-[25%]">

@@ -154,7 +154,7 @@ const PortfolioCarousel = () => {
             {/* Shop section */}
             {logo?.section === 'shop' && (
               <div
-                className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
+                className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-[11px]"
                 style={{ backgroundImage: `url(${logo?.src})` }}
               >
                 <div className="flex justify-center w-full items-center bg-white-100 p-2 rounded-b">
