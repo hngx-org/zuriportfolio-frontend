@@ -7,43 +7,35 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { resendVerification } from '../../http/auth';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
 
 type Props = {
   handleClick: VerificationLayoutProps['handleClick'];
 };
 
 function VerificationLinkSent({ handleClick }: Props) {
-  const { email, handleEmail } = useAuth();
+  const router = useRouter();
+  const { email: userEmail } = router.query;
 
-  const [countdown, setCountdown] = useState(300);
+  const [countdown, setCountdown] = useState(120);
 
   const { mutate, isLoading } = useAuthMutation(resendVerification, {
     onSuccess: (data) => {
-      if(data.status === 200) {
-        notify({message: data.message, type: 'success'});
-        return
+      if (data.status === 200) {
+        notify({ message: data.message, type: 'success', theme: 'light' });
+        return;
       }
-      // for any error returned from the endpoint
-      notify({message: data.message, type: 'error'});
     },
     onError: (error: any) => {
-      notify({ message: error.message, type: 'error' });
-      console.log(error)
-    }
+      notify({ message: error.message, type: 'error', theme: 'light' });
+      return;
+    },
   });
 
   const handleVerificationLink = () => {
-    setCountdown(300);
-    mutate({ email: email });
+    setCountdown(120);
+    mutate({ email: userEmail as string });
   };
-
-  useEffect(() => {
-    if(!email) {
-      const userEmail = localStorage.getItem("user-email");
-      if (userEmail) handleEmail(userEmail);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -62,6 +54,8 @@ function VerificationLinkSent({ handleClick }: Props) {
   const minutes = Math.floor(countdown / 60);
   const seconds = countdown % 60;
 
+  const isButtonDisabled = countdown > 0;
+
   return (
     <VerificationLayout>
       <Image
@@ -74,18 +68,23 @@ function VerificationLinkSent({ handleClick }: Props) {
       <div className=" bg-brand-green-ttr px-4 sm:px-[40px] md:mx-[58px] lg:mx-[148px] py-8 border border-brand-disabled rounded-[32px] z-10">
         <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center">Verification Link Sent</h1>
         <p className=" font-manropeL text-[12px] md:text-[16px] text-center md:w-[90%] mx-auto text-[#737876] md:text-[#000] py-[16px]  lg:py-[32px]">
-          We&apos;ve sent an email to your{' '}
-          <span className=" font-manropeEB text-[#003A1B] text-[14px] md:text-[16px]">{email}</span> with a verification
-          link.
+          We&apos;ve sent an email to{' '}
+          <span className=" font-manropeEB text-[#003A1B] text-[14px] md:text-[16px]">{userEmail}</span> with your
+          verification link.
         </p>
 
-        <Button isLoading={isLoading} onClick={handleVerificationLink} className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
+        <Button
+          isLoading={isLoading}
+          onClick={handleVerificationLink}
+          className=" w-full rounded-md h-[60px] text-[16px] font-manropeB"
+          disabled={isButtonDisabled}
+        >
           Resend Verification Link
         </Button>
 
         <div className=" flex gap-2 flex-col sm:flex-row justify-between pt-3">
           <p className=" font-manropeL text-[10px] text-[#737876] md:text-[#000]">
-            Link expires in{' '}
+            Resend code{' '}
             <span className=" font-manropeB text-[#003A1B]">
               {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
             </span>

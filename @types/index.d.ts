@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { boolean } from 'zod';
+
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
 
@@ -12,9 +15,11 @@ export interface MainLayoutProps {
   showDashboardSidebar?: boolean;
   showTopbar?: boolean;
   showFooter?: boolean;
+  includeMarginTop?: boolean;
 }
 
 export interface ProductData {
+  [x: string]: SetStateAction<ProductData | null>;
   id: string;
   name: string;
   discount_price: string;
@@ -23,7 +28,26 @@ export interface ProductData {
   images: any[];
   url: string[];
   rating: number;
-  user: string;
+  user: {
+    id: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    section: string;
+    password: string;
+    provider: string;
+    phone_number: string;
+    is_verified: boolean;
+    two_factor_auth: boolean;
+    location: string;
+    country: string;
+    profile_pic: string;
+    profile_cover_photo: string;
+    refresh_token: string;
+    createdat: string;
+    role: number;
+  };
   quantity: Number;
   shop: string;
 }
@@ -58,6 +82,39 @@ export interface RecentlyViewedData {
   };
   interaction_type: string;
   createdat: number;
+}
+export interface Award {
+  id: number;
+  sectionId: number;
+  year: string;
+  title: string;
+  presented_by: string;
+  url: string;
+  description: string;
+}
+
+export interface AwardItemProps {
+  award: Award;
+}
+export interface AwardListProps {
+  // awards: Award[];
+  isModalOpen: boolean;
+}
+export interface Certification {
+  id: string;
+  sectionId: number;
+  year: string;
+  title: string;
+  organization: string;
+  url: string;
+  description: string;
+}
+
+export interface CertificationItemProps {
+  certification: Certification;
+}
+export interface CertificationListProps {
+  isModalOpen: boolean;
 }
 
 export interface Education {
@@ -108,6 +165,32 @@ export interface Products {
   rating: number;
   currency: string;
   discount_price: string;
+}
+
+export interface Data {
+  id: string;
+  merchant_id: string;
+  name: string;
+  policy_confirmation: string | null;
+  restricted: string;
+  admin_status: string;
+  is_deleted: string;
+  reviewed: string | null;
+  rating: number | null;
+  createdAt: string;
+  updatedAt: string;
+  products: Product;
+}
+export interface ShopData {
+  products: Product;
+  data?: Data;
+}
+
+export interface SEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -196,9 +279,27 @@ export interface MarketPlaceProductCardProps {
   };
 }
 
+export interface IntrestedProducts {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  images: { url: string }[];
+  category: { name: string };
+  shop?: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface ratingProps {
   src: string;
   alt: string;
+}
+
+export interface ApiData {
+  endpoint: string;
+  status: string;
 }
 
 export interface starProps {
@@ -297,7 +398,14 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+//export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type CartSumaryProp = {
+  subtotal: number;
+  discount: number;
+  VAT: number;
+  total: number;
+};
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -340,6 +448,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
@@ -388,14 +497,17 @@ export interface MetricTimelineProps {
 
 export interface OrderHistory {
   id: number;
+  fullId?: any;
   productName: string;
-  customerName: string;
-  date: Date;
+  customerName?: string;
+  date?: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  currency: string;
   productType: string;
   price: number;
-  sales: number;
-  revenue: number;
+  sales?: number;
+  revenue?: number;
+  currency?: string;
 }
 
 export interface WishlistProduct {
@@ -418,6 +530,7 @@ export interface WorkExperience {
   endYear: string;
   endMonth: string;
   id: number;
+  isEmployee: boolean;
 }
 export interface VerificationProps {
   handleClick(): void;
@@ -430,7 +543,7 @@ export interface PaginationBtn {
 export interface AdminTablePagination {
   currentPage: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface PromotionHistory {
@@ -493,11 +606,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
@@ -518,6 +633,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
@@ -533,6 +653,7 @@ export type SectionModalProps = {
   primaryText?: string;
   onClickAction?: () => void;
   sectionToDelete?: string;
+  loading?: boolean;
 };
 
 export interface PaymentStatusModalProps {
@@ -551,10 +672,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };
@@ -589,6 +706,7 @@ export type Graph = {
 };
 
 export type topListingProduct = {
+  filter: any;
   map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
   product_id?: number;
   product_name?: string;
@@ -615,9 +733,12 @@ type activity = {
 };
 export type cardinfo = {
   title: string;
-  amount: any;
+  amount: number;
   ratio: number;
+  color?: string;
 };
+
+type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 
 export type inputErrorMessage = {
   errorMessage: string;
@@ -626,17 +747,24 @@ export type inputErrorMessage = {
 };
 // product listing types
 export interface ProductInfo {
-  productName: string;
-  vendor: string;
-  id: number;
-  dateAdded: string;
+  product_name: string;
+  vendor_name: string;
+  product_id: number;
+  date_added: string;
   status: string;
 }
+
+interface ProductStatistics {
+  total_deleted_products: number;
+  total_products: number;
+  total_sanctioned_products: number;
+}
+
 export interface DeletedProducts {
-  admin_status: string;
-  category_id: number;
-  createdAt: string;
-  product_id: string;
+  // admin_status: string;
+  // category_id: number;
+  // createdAt: string;
+  // product_id : string;
   product_name: string;
   product_status: string;
   updatedAt: string;
@@ -674,6 +802,7 @@ export interface UserInfo {
   skills: string[];
   tag: string;
   track: string;
+  slug: string;
 }
 
 interface ChartProps {
@@ -687,9 +816,13 @@ export interface AuthContextProps {
   auth: AuthResponse | undefined;
   email: string;
   redirect: string;
-  handleAuth: (value: AuthResponse) => void;
+  userCameFrom: string | undefined;
+  userCameFromForOAuth: string | undefined;
+  handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
+  handleUserCameFrom: (value: string | undefined) => void;
+  handleUserCameFromForOAuth: (value: string | undefined) => void;
 }
 
 export type User = {
@@ -700,6 +833,8 @@ export type User = {
   isVerified: boolean;
   roleId: number;
   twoFactorAuth: boolean;
+  two_factor_auth: boolean;
+  slug: string | null;
 };
 
 export type AuthResponse = {
@@ -719,7 +854,7 @@ type ProductCategory = {
 };
 
 type ProductShop = {
-  id: number;
+  id: string;
   name: string;
 };
 export interface ProductResult {
@@ -741,4 +876,47 @@ export interface ProductResult {
   category: ProductCategory;
   rating: number;
   user: string;
+}
+
+export interface ReviewData {
+  productId: string;
+  reviewId: string;
+  customerName: string;
+  description: string;
+  isHelpful: number;
+  rating: 0;
+  reply: {
+    id: string;
+    name: string;
+    message: string;
+    createdAt: string;
+  };
+  numberOfPages: 0;
+  updatedAt: string;
+  createdAtTime: string;
+  createdAtDate: string;
+}
+
+export interface ReviewApiResponse {
+  data: ReviewData[];
+}
+
+export interface RatsData {
+  oneStar: number;
+  twoStar: number;
+  threeStar: number;
+  fourStar: number;
+  fiveStar: number;
+  totalRating: number;
+  averageRating: number;
+  numberOfRating: number;
+  productId: string;
+  id: string;
+}
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }

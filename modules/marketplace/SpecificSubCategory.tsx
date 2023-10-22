@@ -1,11 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { manropeL, manropeB, manropeEB } from '../../config/font';
-import MainLayout from '../../components/Layout/MainLayout';
-import Button from '@ui/Button';
-import { MarketPlaceProductCardProps } from '../../@types';
 import ProductCard from './component/ProductCard';
 import { formatNumberWithCommas } from '../../helpers';
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 import SearchFilter from './component/filter/search-filter';
 import useSearchFilter from './component/filter/hooks/useSearchFilter';
 import CategoryLayout from './component/layout/category-layout';
@@ -14,7 +10,7 @@ interface CardType {
   id: string;
   currency: string;
   images: { url: string }[];
-  shop: { name: string };
+  shop: { name: string; id: string };
   name: string;
   price: number;
   rating: number;
@@ -32,30 +28,15 @@ interface SpecificSubCategoryProps {
   };
 }
 
-const dummyHandPickedData: MarketPlaceProductCardProps[] = [
-  {
-    id: '1',
-    currency: 'USD',
-    image: '/assets/products-banner/Image-1.png',
-    name: 'Webinar and Course Slide Templa...',
-    price: 100,
-    user: 'Mark Essien',
-    rating: 3,
-    showLimitedOffer: false,
-    showTopPicks: true,
-    showDiscount: false,
-    discount_price: 0,
-  },
-];
-
 const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
-  const [productCards, setProductCards] = useState<MarketPlaceProductCardProps[]>(dummyHandPickedData);
+  const productCards: CardType[] | null | undefined = !props?.response?.error ? props?.response?.data : null;
+  // const [productCards, setProductCards] = useState(data);
   const [pageNumber, setPageNumber] = useState(0);
   const [currentPageSet, setCurrentPageSet] = useState(0);
 
   const usersPerPage = 8;
   const pagesVisited = pageNumber * usersPerPage;
-  const totalPages = Math.ceil(productCards.length / usersPerPage);
+  const totalPages = Math.ceil((productCards?.length ? productCards?.length : 1) / usersPerPage);
   const pagesPerSet = 4;
 
   // search filter hook
@@ -65,19 +46,27 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
     setCurrentPageSet(Math.floor(pageNumber / pagesPerSet));
   }, [pageNumber]);
 
+  const scrollToFunc = (): void => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 80);
+  };
   const nextPage = () => {
     if (pageNumber < totalPages - 1) {
+      scrollToFunc();
       setPageNumber(pageNumber + 1);
     }
   };
 
   const prevPage = () => {
     if (pageNumber > 0) {
+      scrollToFunc();
       setPageNumber(pageNumber - 1);
     }
   };
 
   const renderFunc = (num: number) => {
+    scrollToFunc();
     setPageNumber(num);
   };
 
@@ -91,7 +80,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
         <button
           key={i}
           onClick={() => renderFunc(i)}
-          className={`h-[32px] w-[32px] page-button font-manropeEL ${
+          className={`h-[32px] w-[32px] flex items-center justify-center page-button font-manropeEL ${
             i === pageNumber
               ? 'bg-green-300 text-white-100 px-3 py-1 rounded-lg'
               : 'text-gray-400 hover:bg-green-300 hover:text-white-100 hover:px-3 hover:py-1 hover:rounded-lg'
@@ -102,8 +91,12 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
       );
     }
 
+    // console.log(pages.map((el) => el.key));
+
     return pages;
   };
+
+  // console.log(totalPages, pageNumber, pagesVisited, pagesVisited + usersPerPage, productCards);
 
   return (
     <CategoryLayout>
@@ -141,32 +134,47 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
                   >
                     {formatNumberWithCommas(props?.response?.data?.length || 0)} Products
                   </div>
-                  <Button
-                    className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100"
+                  <button
+                    className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:bg-green-300 hover:text-white-100 active:bg-green-200"
                     onClick={toggle}
                   >
                     Filter
-                  </Button>
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-2 place-items-center [grid-column-gap:0.56rem] [grid-row-gap:1.25rem] md:grid-cols-3 md:[grid-column-gap:1.5rem] md:[grid-row-gap:3.25rem] lg:grid-cols-4 lg:[grid-column-gap:2rem] lg:[grid-row-gap:3.75rem] ">
-                  {props?.response?.data?.map((productCard: CardType) => (
-                    <ProductCard
-                      key={productCard.id}
-                      currency={productCard.currency}
-                      id={productCard.id}
-                      image={productCard?.images[0] ? productCard.images[0]['url'] : ''}
-                      name={productCard.name}
-                      price={productCard.price}
-                      user={productCard?.shop?.name || 'No user'}
-                      rating={productCard.rating}
-                      showDiscount={productCard.showDiscount}
-                      showLimitedOffer={productCard.showLimitedOffer}
-                      showTopPicks={productCard.showTopPicks}
-                    />
-                  ))}
+                  {productCards
+                    ? productCards
+                        .slice(pagesVisited, pagesVisited + usersPerPage)
+                        .map((productCard: CardType) => (
+                          <ProductCard
+                            key={productCard.id}
+                            currency={productCard.currency}
+                            id={productCard.id}
+                            image={productCard?.images[0] ? productCard.images[0]['url'] : ''}
+                            name={productCard.name}
+                            price={productCard.price}
+                            user={productCard?.shop?.name || 'No user'}
+                            shop={productCard?.shop}
+                            rating={productCard.rating}
+                            showDiscount={productCard.showDiscount}
+                            showLimitedOffer={productCard.showLimitedOffer}
+                            showTopPicks={productCard.showTopPicks}
+                          />
+                        ))
+                    : null}
                 </div>
               </section>
+
+              {/* <div>
+                {productCards
+                  ? productCards.slice(pagesVisited, pagesVisited + usersPerPage).map((el) => (
+                      <span className="mr-[0.5rem]" key={el.id}>
+                        {el.id}
+                      </span>
+                    ))
+                  : null}
+              </div> */}
 
               {/* Pagination */}
               {/* place here pagination component here.. don't add margin top to move it..i done it already */}

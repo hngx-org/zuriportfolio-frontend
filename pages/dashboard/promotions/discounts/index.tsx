@@ -9,6 +9,8 @@ import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { z } from 'zod';
 import withAuth from '../../../../helpers/withAuth';
+import Link from 'next/link';
+import Head from 'next/head';
 
 type Product = {
   product_id: string;
@@ -21,7 +23,7 @@ type Product = {
 };
 
 function Discounts() {
-  const [selectedOptionType, setSelectedOptionType] = useState('');
+  const [selectedOptionType, setSelectedOptionType] = useState('Percentage');
   const [selectedOptionProduct, setSelectedOptionProduct] = useState('');
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [selectedDateTimeExpire, setSelectedDateTimeExpire] = useState('');
@@ -95,7 +97,11 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/nopromo', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -103,12 +109,10 @@ function Discounts() {
         return response.json();
       })
       .then((data) => {
-        if (Array.isArray(data.data)) {
-          setProducts(data.data);
-          // Extract product names from the fetched data
-          const names = data.data.map((product: any) => product.name);
-          setProductNames(names);
-        }
+        setProducts(data.data.products);
+        // Extract product names from the fetched data
+        const names = data.data.products.map((product: any) => product.name);
+        setProductNames(names);
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
@@ -139,15 +143,15 @@ function Discounts() {
       valid_to: newExpireDate,
     };
 
-    console.log('userData', userData);
     try {
-      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData);
+      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
 
       toast.success('Discount created successfully', {
         autoClose: 5000,
-        // onClose: () => {
-        //   router?.push('/dashboard/promotions');
-        // },
       });
       router.push('/dashboard/promotions');
       console.log('success', response?.data);
@@ -171,8 +175,36 @@ function Discounts() {
 
   return (
     <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar>
+      <Head>
+        <title>Add Discount</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Add discount" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="Add dicount to your product" />
+        <meta name="keywords" content="Zuri, portfolio, add, discount, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      </Head>
       <ToastContainer />
       <div className="w-full">
+        <div className="max-w-[1240px] mt-[-30px] mx-auto my-4 px-5 text-gray-30 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-10 hidden md:flex">
+          <Link href={'/dashboard/promotions'}>Promotions</Link>
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path
+              d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
+              stroke="#8D9290"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <Link href={'/dashboard/promotions/discounts'} className="text-orange-110">
+            Create discount
+          </Link>
+        </div>
         <section className="mb-16 border-[1px] border-[#E1E3E2] rounded-lg md:p-20 p-6 md:flex md:gap-10 w-[90%] md:w-[1100px] mx-4 md:mx-auto">
           <div className="w-[100%] md:w-[30%]">
             <h2 className="text-dark font-manropeEB text-[22px]">Create discount</h2>
@@ -184,7 +216,7 @@ function Discounts() {
             <form onSubmit={form.onSubmit((values) => handleCreateDiscount(values))}>
               <div>
                 <div className="md:flex md:gap-10 gap-7">
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <label className="text-dark-200 font-manropeB text-[14px]">Discount Type</label>
                     <select
                       className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
@@ -195,7 +227,7 @@ function Discounts() {
                       <option value="percentage">Percentage</option>
                       <option value="fixed">Fixed</option>
                     </select>
-                  </div>
+                  </div> */}
                   <div className="md:mt-0 mt-6 ">
                     <label className="font-manropeB text-dark-100 text-[14px]">Amount</label>
                     <Input
@@ -249,7 +281,7 @@ function Discounts() {
                   <div className="flex flex-col w-full">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid From</label>
                     <input
-                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-2 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTime}
                       onChange={handleDateFrom}
@@ -258,7 +290,7 @@ function Discounts() {
                   <div className="flex flex-col w-full md:mt-0 mt-6 ">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid To</label>
                     <input
-                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-2 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTimeExpire}
                       onChange={handleDateTo}

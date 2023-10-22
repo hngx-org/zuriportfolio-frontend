@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
@@ -9,17 +9,21 @@ import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
 import { forgetPassword } from '../../../../http/auth';
+import { useAuth } from '../../../../context/AuthContext';
+import { error } from 'console';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 const ForgotPassword = () => {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+
+  // const { email, handleEmail } = useAuth();
 
   //Success Handler
   const forgotPasswordSuccess = (data: any) => {
-    console.log(data.message);
     if (data.status === 200) {
-      router.push('/auth/forgot-password-link-sent');
+      router.push(`/auth/forgot-password-link-sent?email=${email}`);
       return;
     }
 
@@ -41,14 +45,32 @@ const ForgotPassword = () => {
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
     onSuccess: (data) => {
+      console.log('Success', data);
       forgotPasswordSuccess(data);
     },
-    onError: (error: any) => console.log(error),
+    onError: (e: any) => {
+      console.log('Error', e);
+      if (e.status === 403) {
+        notify({
+          message: e.message,
+          type: 'error',
+          theme: 'light',
+        });
+        router.push('/auth/verification');
+        return;
+      }
+
+      notify({
+        message: e.message,
+        type: 'error',
+        theme: 'light',
+      });
+    },
   });
 
   // Handling email input
   const handleForgotPassword = (values: any) => {
-    console.log('email', values.email);
+    setEmail(values.email);
     mutate({ email: values.email });
   };
 
@@ -78,8 +100,8 @@ const ForgotPassword = () => {
                   id="email"
                   {...form.getInputProps('email')}
                   type="email"
-                  placeholder="enter email"
-                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  placeholder="Enter email"
+                  className={`w-full text-black  h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'
                   }`}
                 />
@@ -95,7 +117,7 @@ const ForgotPassword = () => {
             <p className="text-[14px] text-center text-custom-color20 font-medium">
               Go back to{' '}
               <Link href="/auth/login" className="text-brand-green-primary">
-                Login
+                Sign in
               </Link>
             </p>
           </div>

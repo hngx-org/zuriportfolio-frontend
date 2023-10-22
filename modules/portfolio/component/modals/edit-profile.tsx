@@ -1,137 +1,153 @@
 'use-client';
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Image from 'next/image';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
+import Loader from '@ui/Loader';
+import CountryCityDropdown from './CountryCityDropdown';
+
+import { useAuth } from '../../../../context/AuthContext';
+
+const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
 const EditProfile = () => {
+  
+  const { userData, setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
   const [picture, setPicture] = useState<string | StaticImport>();
-  const [name, setName] = useState('');
-  const [track, setTrack] = useState('');
-  const [tracks, setTracks] = useState([]);
-  const [selectedTrack, setSelectedTrack] = useState<any>();
+  const [firstNamee, setFirstnamee] = useState('');
+  const [lastNamee, setLastNamee] = useState('');
+  const [selectedTrack, setSelectedTrack] = useState<string>('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [availableTracks, setAvailableTracks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState({ status: false, message: '' });
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(userData.country || null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(userData.city || null);
 
-  // const handleTrackSelect = (selectedTrack: any) => {
-  //   setSelectedTrack(selectedTrack);
-  // };
+  const { userId, onSaveModal } = useContext(Portfolio);
 
-  const getUser = async () => {
-    try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`);
-      const data = await response.json();
-      setSelectedTrack(data?.tracks?.[0].track);
-      setPicture(data?.user?.profilePic);
-      setName(data?.user?.firstName + ' ' + data?.user?.lastName);
-      setCity(data?.portfolio?.city);
-      setCountry(data?.portfolio?.country);
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
+  // const [isFormValid, setIsFormValid] = useState(false);
+
+  // const [badgeData, setBadgeData] = useState({
+  //   name: '',
+  //   badgeImage: '',
+  // });
+
+  // useEffect(() => {
+  //   // Fetch badge data from the provided endpoint
+  //   fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Assuming that the badge label and badge image data are in the response
+  //       // Update the badge data state
+  //       setBadgeData({
+  //         name: data.name,
+  //         badgeImage: data.badgeImage,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching badge data:', error);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+        const userData = await response.json();
+
+    
+        // Set default values as placeholders if data is not present
+        setPicture(userData.data.user.profilePic || '');
+        setFirstnamee(userData.data.user.firstName || ''); // Access 'user' inside 'data'
+        setLastNamee(userData.data.user.lastName || ''); // Access 'user' inside 'data'
+        setCity(userData.data.portfolio.city || ''); // Access 'portfolio' inside 'data'
+        setCountry(userData.data.portfolio.country || ''); // Access 'portfolio' inside 'data'
+        setSelectedTrack(userData.data.userTracks.track || ''); // Access 'userTracks' inside 'data'
+        
+        setAvailableTracks(await getTracks());
+        setIsLoading(false);
+      } catch (error: any) {
+        setError({ status: true, message: error.message });
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [userId]);
 
   const getTracks = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks');
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
       const data = await response.json();
-      setAvailableTracks(data.data);
+      return data.data;
     } catch (error: any) {
-      console.log(error);
+  
     }
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      await getUser();
-      await getTracks();
-    };
-    getData();
-  }, []);
-
-  const { setHasData, setUserData, showProfileUpdate, modal } = useContext(Portfolio);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    const tracks: { track: string; id: number }[] = [
-      {
-        id: 1,
-        track: 'Frontend',
-      },
-      {
-        id: 2,
-        track: 'Backend',
-      },
-      {
-        id: 3,
-        track: 'Design',
-      },
-    ];
-
-    const firstName = name.split(' ')[0];
-    const lastName = name.split(' ')[1];
-    const trackId = tracks.find((el: { track: string; id: number }) => el.track === selectedTrack)?.id;
-
-    const axios = require('axios');
-    let data = JSON.stringify({
-      name: firstName + ' ' + lastName,
-      trackId: trackId,
-      city: city,
-      country: country,
-    });
-    let config = {
-      method: 'put',
-      maxBodyLength: Infinity,
-      url: 'https://hng6-r5y3.onrender.com/api/update-profile-details/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-    axios
-      .request(config)
-      .then((response: any) => {
-        const { data } = response;
-        setUserData({
-          firstName: data?.user?.firstName,
-          lastName: data?.user?.lastName,
-          avatarImage: data?.user?.profilePic,
-          city: data?.portfolio?.city,
-          country: data?.portfolio?.country,
-          tracks: data?.tracks,
-          hasDataFromBE: true,
-          coverImage: data?.user?.profileCoverPhoto,
-        });
-        modal();
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+  
+    let matchingTrack: any;
+    matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
+    if (!isLoading) {
+      try {
+        if (firstNamee.trim().length === 0 || lastNamee.trim().length === 0) {
+          setError({ status: true, message: 'Please fill out the required field' });
+          return;
+        }
+        matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
+        if (matchingTrack) {
+          setIsLoading(true);
+          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: firstNamee + ' ' + lastNamee,
+              trackId: matchingTrack?.id,
+              city: selectedCity,
+              country: selectedCountry,
+            }),
+          });
+          // if (!response.ok) {
+          //   throw new Error('Failed to update data');
+          // }
+          const data = await response.json();
+          onSaveModal();
+          setIsLoading(false);
+          setShowProfileUpdate(false);
+        } else {
+          setError({ status: true, message: 'Please Select Tracks' });
+        }
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        setError({ status: true, message: 'An error occurred while updating data' });
+      }
+    }
   };
 
-  const uploadCover = async (coverImage: string | Blob) => {
+  const uploadProfile = async (coverImage: string | Blob) => {
     try {
       const formData = new FormData();
-      const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/image/upload', {
         method: 'POST',
         body: formData,
       });
       const data = await response.json();
       setUserData((p: any) => ({ ...p, avatarImage: data.data.profilePic }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
-
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
@@ -139,146 +155,143 @@ const EditProfile = () => {
       if (e.target.id === 'avatarUpload') {
         setPicture(image);
       }
-      await uploadCover(file);
+      await uploadProfile(file);
     }
   };
 
   return (
-    <Modal isOpen={showProfileUpdate} closeModal={() => modal()} isCloseIconPresent={false}>
-      <form
-        className="p-4 mt-3 flex flex-col gap-4 rounded-lg border-brand-disabled items-center justify-start hover:border-green-500"
-        onSubmit={handleSubmit}
-      >
-        <div className="grid place-content-center absolute w-[120px] md:w-[150px] object-cover object-center aspect-square rounded-full bg-emerald-50 mx-auto">
-          {picture ? (
-            <div>
+    <Modal isOpen={showProfileUpdate} closeModal={() => setShowProfileUpdate(false)} isCloseIconPresent={false}>
+      {isLoading ? (
+        <div className="space-y-6 bg-white-100 p-4 py-5">
+          <Loader />
+        </div>
+      ) : (
+        <form
+          className="p-4 mt-3 flex flex-col rounded-lg border-brand-disabled items-center justify-start hover:border-green-500"
+          onSubmit={handleSubmit}
+        >
+          <div className="grid place-content-center absolute w-[120px] md:w-[150px] object-cover object-center aspect-square rounded-full bg-emerald-50 mx-auto">
+            {picture ? (
+              <div>
+                <Image
+                  src={picture || ''}
+                  priority
+                  unoptimized
+                  width={0}
+                  height={0}
+                  alt="profile"
+                  className="w-full aspect-square rounded-full"
+                />
+              </div>
+            ) : (
+              ''
+            )}
+            <label className="absolute bottom-2 -right-2 w-[35%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer">
+              {' '}
               <Image
-                src={picture || ''}
-                priority
-                unoptimized
+                src="/assets/images/portfolioLanding/add.svg"
                 width={0}
                 height={0}
-                alt="profile"
-                className="w-full aspect-square rounded-full"
+                alt="cover"
+                className="w-[25px] md:w-[30px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full"
               />
-            </div>
-          ) : (
-            ''
-          )}
-          <label className="absolute bottom-2 -right-2 w-[35%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer">
-            {' '}
-            <Image
-              src="/assets/images/portfolioLanding/add.svg"
-              width={0}
-              height={0}
-              alt="cover"
-              className="w-[25px] md:w-[30px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full"
-            />
-            <input
-              id="avatarUpload"
-              type="file"
-              onChange={handleUploadImage}
-              className="hidden"
-              accept="image/png, image/jpeg"
-            />
-          </label>
-        </div>
-        <div className="mt-[150px] md:mt-[170px] w-[100%]">
-          <div className="w-[100%]">
-            <label>Name *</label>
-            <Input
-              className="w-[100%] mt-3"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              type="text"
-              intent={'default'}
-              disabled={false}
-              placeHolder="Enter your name"
-              value={name}
-            />
+              <input
+                id="avatarUpload"
+                type="file"
+                onChange={handleUploadImage}
+                className="hidden"
+                accept="image/png, image/jpeg"
+              />
+            </label>
           </div>
-          <div className="w-[100%] mt-5 block">
-            <label className="mb-5">Track *</label>
-            <Select
-              onValueChange={(value: string) => {
-                setSelectedTrack(value);
-              }}
-              value={selectedTrack}
-            >
-              <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
-                <SelectValue
-                  defaultValue={selectedTrack}
-                  placeholder={selectedTrack}
-                  className="hover:border-green-500"
+          <div className="mt-[150px] md:mt-[170px] w-[100%]">
+            <div className="flex flex-col md:flex-row md:gap-5 w-[100%] gap-1">
+              <label className="w-full mb-3">
+                Firstname <span className="text-red-200">*</span>
+                <input
+                  type="text"
+                  className={`w-[100%] text-black mt-1 ${inputStyle}`}
+                  onChange={(e) => setFirstnamee(e.target.value)}
+                  placeholder="First Name"
+                  value={firstNamee}
                 />
-              </SelectTrigger>
-              <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100">
-                {availableTracks?.map((track: any, index: number) => (
-                  <SelectItem className="text-gray-300" key={index} value={track.track}>
-                    {track.track}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="w-full flex md:flex-row gap-4 justify-between mt-5">
-            <div className="w-full md:w-[47%]">
-              <label>
-                City
-                <span> (optional) </span>
               </label>
-              <Input
-                className="w-[100%] mt-3"
-                onChange={(e) => {
-                  setCity(e.target.value);
-                }}
-                type="text"
-                intent={'default'}
-                disabled={false}
-                placeHolder="Lagos"
-                value={city}
-              />
             </div>
-            <div className="w-full md:w-[47%]">
-              <label>
-                Country
-                <span> (optional) </span>
+            <div className="flex flex-col md:flex-row md:gap-5 w-[100%] gap-1">
+              <label className="w-full text-black mb-3">
+                Lastname <span className="text-red-200">*</span>
+                <input
+                  className={`w-[100%] mt-1 ${inputStyle}`}
+                  onChange={(e) => {
+                    setLastNamee(e.target.value);
+                  }}
+                  type="text"
+                  disabled={false}
+                  placeholder="LastName"
+                  value={lastNamee}
+                />
               </label>
-              <Input
-                className="w-[100%] mt-3"
-                onChange={(e) => {
-                  setCountry(e.target.value);
-                }}
-                type="text"
-                intent={'default'}
-                disabled={false}
-                placeHolder="Nigeria"
-                value={country}
-              />
+            </div>
+            <div className="w-[100%] flex flex-col justify-center items-start">
+              <label className="w-full mb-3">
+                Track <span className="text-red-200">*</span> ​
+                <Select
+                  onValueChange={(value: string) => {
+                    setSelectedTrack(value);
+                  }}
+                  value={selectedTrack}
+                >
+                  <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
+                    <SelectValue
+                      defaultValue={selectedTrack}
+                      placeholder="LastName"
+                      className="hover:border-green-500"
+                    />
+                  </SelectTrigger>
+                  <SelectContent
+                    className="border-[#FFFFFF]  hover:border-green-500 bg-white-100"
+                    style={{ maxHeight: '200px', overflowY: 'auto' }}
+                  >
+                    {availableTracks?.map((track: any, index: number) => (
+                      <SelectItem className="text-black" key={index} value={track.track}>
+                        {track.track}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+              {/* <Badges name={badgeData.name} badgeImage={badgeData.badgeImage} /> */}
+            </div>
+            ​ ​
+            <CountryCityDropdown
+              setSelectedCountry={setSelectedCountry}
+              setSelectedCity={setSelectedCity}
+              selectedCountry={selectedCountry}
+              selectedCity={selectedCity}
+            />
+            ​
+            <div className="w-full flex  md:flex-row gap-4 justify-between mt-6">
+              <div className="w-full md:w-[47%]">
+                <Button
+                  intent={'secondary'}
+                  size={'sm'}
+                  className="w-full rounded-lg"
+                  type="button"
+                  onClick={() => setShowProfileUpdate(false)}
+                >
+                  Close
+                </Button>
+              </div>
+              <div className="w-full md:w-[47%]">
+                <Button intent={'primary'} size={'sm'} className="w-full rounded-lg cursor-pointer" type="submit">
+                  Save
+                </Button>
+              </div>
             </div>
           </div>
-
-          <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
-            <div className="w-full md:w-[47%]">
-              <Button
-                intent={'secondary'}
-                size={'sm'}
-                className="w-full rounded-lg"
-                type="button"
-                onClick={() => modal()}
-              >
-                Close
-              </Button>
-            </div>
-            <div className="w-full md:w-[47%]">
-              <Button intent={'primary'} size={'sm'} className="w-full rounded-lg" type="submit">
-                Save
-              </Button>
-            </div>
-          </div>
-        </div>
-      </form>
+          {error.status && <p className="text-red-200 font-semibold mt-5">{error.message}</p>}
+        </form>
+      )}
     </Modal>
   );
 };
