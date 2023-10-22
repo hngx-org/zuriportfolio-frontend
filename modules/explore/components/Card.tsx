@@ -25,7 +25,7 @@ const Card = ({ data }: { data: UserInfo }) => {
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const slashIndex = window.location.href.split('').findIndex((e, i, a) => i === a.lastIndexOf('/'));
-  const homepageURl = window.location.href.slice(0, slashIndex + 1);
+  const homepageURL = window.location.href.slice(0, slashIndex + 1);
 
   // const showButtons = () => {
   //   // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'block');
@@ -150,7 +150,7 @@ const Card = ({ data }: { data: UserInfo }) => {
         </div>
       </div>
 
-      <input type="text" value={`${homepageURl}portfolio/${data.slug}`} disabled ref={urlInputRef} className="hidden" />
+      <input type="text" value={`${homepageURL}portfolio/${data.slug}`} disabled ref={urlInputRef} className="hidden" />
     </div>
   );
 };
