@@ -62,7 +62,7 @@ const Card = ({ data }: { data: UserInfo }) => {
 
   return (
     <div
-      className="relative border-[1px] border-white-120 transition-all ease-in-out duration-500 overflow-hidden rounded-lg hover:shadow-md"
+      className="relative border-[1px] border-white-110 transition-all ease-in-out duration-500 overflow-hidden rounded-lg hover:scale-[1.015] hover:shadow-lg"
       // ref={cardRef}
       // onMouseEnter={showButtons}
       // onMouseLeave={hideButtons}
