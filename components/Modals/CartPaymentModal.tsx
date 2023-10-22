@@ -19,7 +19,7 @@ const closeModal = () => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center w-[340px] ">
-      <div className='bg-[#fff] flex items-center p-1 rounded-[50%] w-[25px] h-[25px] absolute top-[-15px] right-0 pointer' onClick={closeModal} role='button'>
+      <div className='bg-[#fff] flex items-center p-1 rounded-[50%] w-[25px] h-[25px] absolute top-[-15px] right-0 cursor-pointer' onClick={closeModal} role='button'>
           <svg
             onClick={closeModal}
             className='pointer'
@@ -69,7 +69,7 @@ export const CartPaymentFailureModal = () => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center min-w-[340px] ">
-        <div className='bg-[#fff] flex items-center p-1 rounded-[50%] w-[25px] h-[25px] absolute top-[-15px] right-0 pointer' onClick={closeModal} role='button'>
+        <div className='bg-[#fff] flex items-center p-1 rounded-[50%] w-[25px] h-[25px] absolute top-[-15px] right-0 cursor-pointer' onClick={closeModal} role='button'>
           <svg
             onClick={closeModal}
             className='pointer'

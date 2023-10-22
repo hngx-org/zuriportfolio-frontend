@@ -9,6 +9,10 @@ import briefCaseIcon from './assets/briefcase.svg';
 import dashBoard from './assets/home-2.svg';
 import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
+import { Input, SelectInput } from '@ui/Input';
+import { SearchNormal1, UserSquare } from 'iconsax-react';
+import MobileNav from '@modules/dashboard/component/MobileNav';
+import { CartItemProps, ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
@@ -133,7 +137,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     <>
       <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40]  isolate sticky top-0  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
-          <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
+          <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] lg:gap-14 gap-6">
             <div className="flex items-center gap-1">
               {auth && (
                 <>
@@ -180,7 +184,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           <div
             className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
-            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
+            <div className="max-w-[53%] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
               <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-full w-auto">
                 <div className="w-4 h-4 justify-center items-center flex">
                   <div className="w-4 h-4 relative">
@@ -253,7 +257,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             >
               <ul>
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
-                  <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+                  <UserSquare size="32" color="#555555" />{' '}
                   <div className="flex flex-col gap-[2px]">
                     <h3 className="font-bold font-manropeEB">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
@@ -397,7 +401,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </p>
                   </div>
-                  <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
+                  <UserSquare size="32" color="#555555" />{' '}
                 </div>
               </div>
             )}
@@ -528,6 +532,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           )}
         </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
+
           <p className=" font-bold font-manropeEB">
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
           </p>
@@ -672,7 +677,7 @@ function MenuUI({
                 <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
               ) : null}
             </div>
-            <div className=" group flex flex-col ali justify-center  gap-1 ">
+            <div className=" group flex flex-col  ali justify-center  gap-1 ">
               <Link className={activeLink('/portfolio')} href={'/portfolio'}>
                 Manage Portfolio
               </Link>

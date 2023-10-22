@@ -46,7 +46,7 @@ export const getUserCart = async (token: string) => {
 
 export const removeFromCart = async (productId: string, token: string) => {
   try {
-    const apiUrl = `${CART_ENDPOINT}/carts/${productId}`;
+    const apiUrl = `${CART_ENDPOINT}/carts/items/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -107,6 +107,12 @@ export const getGuestCartSummary = async (products: any[]) => {
     return {};
   }
 };
+
+
+export const clearCart = (token: string) => {
+
+}
+
 
 export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
