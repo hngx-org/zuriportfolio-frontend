@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import loader from '../../public/assets/loader/loader2.svg';
+//import loader from '../../public/assets/loader/loader2.svg';
+import vector from '../../public/assets/loader/Vector.svg';
 
 const Loader: React.FC = () => {
   const centerStyles: React.CSSProperties = {
@@ -15,10 +16,11 @@ const Loader: React.FC = () => {
       <div className="relative flex justify-center items-center">
         <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-green-500 spinner"></div>
         <Image
-          src={loader}
+          //src={loader}
+          src={vector}
           alt="Loader"
-          width={80}
-          height={80}
+          width={50}
+          height={50}
           //   className='animate-ping'
         />
       </div>

@@ -19,6 +19,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Head from 'next/head';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const mainRef = useRef<HTMLFormElement>(null);
   const [categoriesData, setCategoriesData] = useState([]);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
@@ -35,18 +36,23 @@ const AddProduct = () => {
 
   const productScehema = z.object({
     name: z.string().min(5, { message: 'Add Product Name' }),
-    description: z.string().min(50, { message: 'Add a minimum of 50 words' }),
-    category_id: z.string().min(1, { message: 'Select category' }),
+    description: z
+      .string()
+      .min(50, { message: 'Add a minimum of 50 words' })
+      .max(240, { message: 'Maximum of 240 characters' }),
+    sub_category_id: z.string().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
     discountPrice: z.string().min(1, { message: 'Add discount' }),
     tax: z.string(),
     currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
     assets_type: z.string(),
-    assets_notes: z.string().min(50, { message: 'Add a minimum of 50 words' }),
+    assets_notes: z
+      .string()
+      .min(50, { message: 'Add a minimum of 50 words' })
+      .max(240, { message: 'Maximum of 240 characters' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
     // shopId: z.string().min(3, { message: 'Select Shop' }),
-    quantity: z.number(),
   });
   const form = useForm({
     validate: zodResolver(productScehema),
@@ -63,7 +69,6 @@ const AddProduct = () => {
       assets_notes: '',
       assets_name: '',
       // shopId: '',
-      quantity: 1,
     },
   });
   const handleNewCategoryChange = (event: any) => {
@@ -270,17 +275,18 @@ const AddProduct = () => {
     }
   };
   const handleSubmit = async (values: any) => {
-    console.log(values, 'hey');
-    setLoading(true);
     const formData = new FormData();
     Object.entries(values).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
     formData.append('image', selectedImage as any);
-    // formData.delete('image');
 
     try {
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      setLoading(true);
+      if (mainRef) {
+        mainRef.current?.scrollIntoView();
+      }
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add', {
         method: 'POST',
         body: formData,
         headers: {
@@ -341,8 +347,8 @@ const AddProduct = () => {
         <meta name="robots" content="index, follow" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
-      <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
-        <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
+      <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} ref={mainRef} className="relative">
+        <div className={`max-w-[1240px] mx-auto my-4 px-3 ${loading && 'hidden'} `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
             <Link href={'/dashboard/products'}>Products</Link>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -362,7 +368,7 @@ const AddProduct = () => {
         </div>
         <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'hidden'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
-            <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
+            <div className="border-r-[1px]  md:max-h-[80vh] md:overflow-y-scroll md:scrollbar-thin md:scrollbar-thumb-white-610 border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
@@ -418,7 +424,7 @@ const AddProduct = () => {
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
                 <div className="mt-3 flex flex-col">
                   <div
-                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
+                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center cursor-pointer ${
                       form.errors.email && 'border-red-20'
                     }`}
                     onClick={handleImageUploadClick}
@@ -631,7 +637,7 @@ const AddProduct = () => {
           </div>
         </div>
         {loading && (
-          <div className="z-50 inset-0 min-h-[30vh] grid place-items-center h-full max-h-[70vh]  bg-white-100">
+          <div className="z-50 inset-0 min-h-[80vh] grid place-items-center h-full max-h-[70vh]  bg-white-100">
             <Loader />
           </div>
         )}
