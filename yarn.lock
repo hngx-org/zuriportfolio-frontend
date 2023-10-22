@@ -866,11 +866,6 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/mjml-core@*":
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/@types/mjml-core/-/mjml-core-4.7.3.tgz#9b91c3a27e25e6c99d165d83e5eeb9567aa73bae"
-  integrity sha512-2wXjQ7c3WGe7KPANKLA2cU5z30cUItIK/Lw1vqQFG7ENqfydba2LdROpifXErGcdqiJwsEHmCFn/wANXUdNwIg==
-
 "@types/mjml@^4.7.2":
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/@types/mjml/-/mjml-4.7.3.tgz#ddefa204819c8a39d35c311c190765a9cad14e67"
