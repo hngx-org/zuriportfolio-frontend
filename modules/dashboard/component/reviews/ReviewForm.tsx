@@ -11,7 +11,6 @@ import { postReviewByProductId } from '../../../../http/api/controllerReview';
 import { useRouter } from 'next/router';
 import ReviewSentModal from '../../../../components/Modals/ReviewSentModal';
 import { toast } from 'react-toastify';
-import { rating } from '@modules/marketplace/component/filter/data';
 
 function ReviewForms() {
   const router = useRouter();
