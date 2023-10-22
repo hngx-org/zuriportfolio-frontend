@@ -52,7 +52,7 @@ export const menu = [
 
 const SuperAdminNavbar = () => {
   const router = useRouter();
-  const {logout} = useUserSession();
+  const { logout } = useUserSession();
   const getPageTitle = (route: string) => {
     switch (true) {
       case route.includes('/super-admin/analytics-and-reporting'):
