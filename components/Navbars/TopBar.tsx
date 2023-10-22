@@ -195,7 +195,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {/* Right Items */}
 
           <div
-            className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
+            className={`lg:flex hidden items-center gap-4  lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
             <div className="max-w-[53%] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
               <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-full w-auto">
@@ -236,8 +236,19 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             {/* Action Buttons */}
             {!globalAuth && (
-              <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
+              <div className=" p-2 justify-center relative items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
                 <Cart items={cartCount} />
+                
+                
+        
+
+
+{/* {notificationMenu && 
+<div className="absolute z-[300000] mt-4 w-fit" ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+</div>
+ } */}
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -400,15 +411,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       alt="Cart Icon"
                     />
 
-                    {notificationMenu && (
-                      <div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
-                        <Notifications
-                          notificationsRef={notificationsRef}
-                          unreadNotifications={setUnreadNotifications}
-                        />
-                      </div>
-                    )}
-                  </div>
+
+      </div>
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -498,13 +502,22 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
           </div>
         )}
+
+{notificationMenu && 
+<div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4 right-0 " ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+ </div>
+}
       </nav>
     </>
   );
 
   function AuthUser(): React.ReactNode {
     return (
-      <>
+      
+      <div className='flex gap-4 justify-center items-center align-middle relative'>
+
         <Link href={'/marketplace/wishlist'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <mask
@@ -541,12 +554,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             alt="Cart Icon"
           />
 
-          {notificationMenu && (
-            <div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
-              <Notifications notificationsRef={notificationsRef} unreadNotifications={setUnreadNotifications} />
-            </div>
-          )}
-        </div>
+    </div>
+
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <p className=" font-bold font-manropeEB">
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
@@ -554,7 +563,14 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>
-      </>
+
+        {/* {notificationMenu && 
+<div className="absolute mr-3 bg-white-100 top-full w-full left-12 " ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+ </div>
+} */}
+      </div>
     );
   }
 }
