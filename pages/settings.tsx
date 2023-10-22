@@ -81,6 +81,7 @@ const SettingPage = () => {
   });
   const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
   const handleNotificationUpdate = async () => {
+    // const anyCheckboxChecked = Object.values(checkboxState).some(value => value === true);
     setLoading(true);
     try {
       const url = `${baseUrl}set-notification-settings/${auth?.user.id}`;
@@ -396,4 +397,4 @@ const SettingPage = () => {
     </MainLayout>
   );
 };
-export default withAuth(SettingPage);
+export default SettingPage;
