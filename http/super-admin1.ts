@@ -184,8 +184,3 @@ export const useDeleteShop = () => {
     isLoading: deleteShop.isLoading,
   };
 };
-
-export const logout = (route: NextRouter) => {
-  localStorage.removeItem('zpt');
-  route.push('/')
-}
