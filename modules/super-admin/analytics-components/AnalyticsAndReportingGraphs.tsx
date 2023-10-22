@@ -3,26 +3,8 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, ReferenceLine, Responsive
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
-
-interface MonthlyData {
-  name: string;
-  sales: number;
-  orders: number;
-  users: number;
-}
-
-type ApiResponse = {
-  status: string;
-  message: string;
-  sales: number;
-  users: number;
-  orders: number;
-  active_users: number;
-  start_date: string;
-  end_date: string;
-};
-
-type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const fetchData = async (url: any) => {
   try {
@@ -31,6 +13,7 @@ const fetchData = async (url: any) => {
     return data;
   } catch (error) {
     console.error('Error fetching data:', error);
+    toast.error('Internal Server Error');
     throw error;
   }
 };
@@ -54,7 +37,7 @@ const AnalyticsAndReportingGraphs = () => {
       }));
 
       try {
-        const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
+        const url = `https://staging.zuri.team/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
         const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -88,7 +71,7 @@ const AnalyticsAndReportingGraphs = () => {
             users: usersEntry ? usersEntry.users : 0,
             combinedInfo: combineInfo(salesEntry),
           };
-
+          
           return monthData;
         });
 
@@ -99,6 +82,9 @@ const AnalyticsAndReportingGraphs = () => {
         });
       } catch (error) {
         console.error('Error fetching data for period:', error);
+        if (!toast.isActive('error')) {
+          toast.error('Server error, graph details unavailable!', { toastId: 'error' });
+        }
       } finally {
         setLoadingStates((prevLoadingStates) => ({
           ...prevLoadingStates,
@@ -264,7 +250,6 @@ const AnalyticsAndReportingGraphs = () => {
                     </div>
                   )}
                 </div>
-
                 <div style={{ position: 'relative' }} className="mt-6">
                   {index === 0 ? (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
@@ -307,6 +292,7 @@ const AnalyticsAndReportingGraphs = () => {
             </div>
           ))}
         </div>
+        <ToastContainer />
         <ActivityDetails token={bearerToken} />
       </section>
     </>
