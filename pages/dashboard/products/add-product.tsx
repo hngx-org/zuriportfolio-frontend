@@ -595,7 +595,7 @@ const AddProduct = () => {
               ) : (
                 <Image src={placeholder} className="w-[300px] object-contain rounded-sm my-3" alt="placeholder" />
               )}
-              <div className="flex flex-row gap-2 w-[300px] justify-between items-center">
+              {/* <div className="flex flex-row gap-2 w-[300px] justify-between items-center">
                 <div>
                   <p>Product Link</p>
                   <input
@@ -611,8 +611,8 @@ const AddProduct = () => {
                 </div>
                 {/* <div onClick={handleCopyLink} className="cursor-pointer">
                   <Image src={copy} alt="copy" width={20} height={20} />
-                </div> */}
-              </div>
+                </div> 
+              </div> */}
 
               <Button
                 type="submit"
