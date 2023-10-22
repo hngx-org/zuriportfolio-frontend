@@ -1,7 +1,6 @@
 import React from 'react';
 import Preview from '../../../modules/assessment/component/AssessmentPreview';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../components/Footer';
 import { withAdminAuth } from '../../../helpers/withAuth';
 
 function PreviewCreatedResponse() {
@@ -9,7 +8,6 @@ function PreviewCreatedResponse() {
     <>
       <SuperAdminNavbar />
       <Preview />
-      <Footer />
     </>
   );
 }
