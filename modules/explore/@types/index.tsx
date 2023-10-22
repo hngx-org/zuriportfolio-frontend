@@ -1,4 +1,5 @@
 export interface UserInfo {
+  totalPages: number;
   data: {
     address: string;
     createdAt: string;
