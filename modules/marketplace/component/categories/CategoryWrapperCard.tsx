@@ -1,9 +1,9 @@
 import ProductCard from '../ProductCard';
-import Button from '@ui/Button';
-import axios from 'axios';
+import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import CategoryLoading from './CategoryLoading';
 import CategoryError from './CategoryError';
+import http from '@modules/marketplace/http';
 
 interface CategoryWrapperCardProps {
   category: string;
@@ -15,19 +15,18 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   //   console.log(subCategory, category);
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}/${subCategory}/`;
+  // const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`;
 
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const res = await axios(url);
-        // console.log(res.data.products);
-        if (res.data.products.length === 0) {
+        const res = await http.get(`/products/${category}/${subCategory}/`);
+        if (res.data.data.length === 0) {
           return setError(true);
         }
 
         setError(false);
-        setData(res.data.products);
+        setData(res.data.data);
       } catch (e) {
         setError(true);
       } finally {
@@ -35,12 +34,12 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
       }
     };
     fetchSubCategories();
-  }, [url]);
+  }, [category, subCategory]);
 
   //   console.log(data, loading, error);
 
   if (error) {
-    return <CategoryError message={`No products found in ${category}`} />;
+    return <CategoryError message={`No products found in ${category} with subcategory of ${subCategory}`} />;
   }
 
   return (
@@ -49,9 +48,9 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
         <h1 className="capitalize w-[11rem] text-green-850 font-[700] text-[0.875rem] tracking-[0.00219rem] leading-[1.25rem] md:w-[25rem] md:text-[1.5rem] md:leading-[2rem] md:font-[600] lg:text-[1.75rem] lg:leading-[2.25rem]">
           {subCategory}
         </h1>
-        <Button
+        <Link
           href={`/marketplace/categories/${category}/${subCategory}`}
-          className="text-[0.75rem] space-x-[0.5rem] font-[600] tracking-[0.003rem] leading-[1rem] bg-transparent ml-auto text-green-300 gap-[0] p-[0] md:space-x-[0.625rem] md:text-[0.875rem] md:leading-[1.25rem] hover:bg-transparent hover:opacity-[0.5]"
+          className="flex items-center text-[0.75rem] space-x-[0.5rem] font-[600] tracking-[0.003rem] leading-[1rem] bg-transparent ml-auto text-green-300 px-[0rem] py-[0.5rem] md:space-x-[0.625rem] md:text-[0.875rem] md:leading-[1.25rem] hover:bg-transparent hover:opacity-[0.5] active:bg-green-300 active:text-white-100"
         >
           <span>View all</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -64,7 +63,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
               strokeLinejoin="round"
             />
           </svg>
-        </Button>
+        </Link>
       </div>
 
       {loading && (
@@ -87,6 +86,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
                 id={item.id}
                 image={item?.images[0]['url'] ? item?.images[0]['url'] : ''}
                 name={item.name}
+                shop={item?.shop}
                 price={item.price}
                 rating={item.rating}
                 user={item?.shop?.name || 'No user'}

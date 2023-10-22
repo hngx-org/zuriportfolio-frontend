@@ -24,23 +24,27 @@ const PaginationBar = ({
   };
   return (
     <nav className="w-fit mx-auto flex items-center gap-4 p-2 rounded-[15px] mb-16 bg-custom-color26">
-      <div>{pageLength > 1 && <PaginationLeft active={currentPage > 0} OnClick={decreasePage} />}</div>
+      <div className={`${currentPage > 1 && 'cursor-pointer'}`}>
+        {pageLength > 1 && <PaginationLeft active={currentPage > 1} OnClick={decreasePage} />}
+      </div>
       <ul className={`${inter.className} flex text-custom-color27 `}>
         {items.map((paginate) => (
           <li
             key={paginate}
             className={`${
-              paginate === currentPage + 1 ? 'bg-brand-green-primary text-white-100' : 'bg-transparent'
+              paginate === currentPage ? 'bg-brand-green-primary text-white-100' : 'bg-transparent'
             } px-[14px] py-2 rounded-lg flex place-items-center cursor-pointer`}
             onClick={() => {
-              changeCurrentPage(paginate - 1);
+              changeCurrentPage(paginate);
             }}
           >
             {paginate}
           </li>
         ))}
       </ul>
-      <div>{pageLength > 1 && <PaginationRight active={currentPage + 1 !== pageLength} OnClick={increasePage} />}</div>
+      <div className={`${currentPage <= pageLength && 'cursor-pointer'}`}>
+        {pageLength > 1 && <PaginationRight active={currentPage < pageLength} OnClick={increasePage} />}
+      </div>
     </nav>
   );
 };

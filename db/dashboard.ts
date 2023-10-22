@@ -52,9 +52,51 @@ export const metricsChartTimeline = [
 
 export const twelveMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const threeMonths = ['Jan', 'Feb', 'Mar'];
-export const thirtyDays = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
+export const thirtyDays = Array.from({ length: 30 }, (_, i) => {
+  const day = i + 1;
+  if (day === 11 || day === 12 || day === 13) {
+    return `${day}th`;
+  }
+  const lastDigit = day % 10;
+  switch (lastDigit) {
+    case 1:
+      return `${day}st`;
+    case 2:
+      return `${day}nd`;
+    case 3:
+      return `${day}rd`;
+    default:
+      return `${day}th`;
+  }
+});
 export const sevenDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-export const twentyFourHours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
+export const twentyFourHours = Array.from({ length: 24 }, (_, i) => {
+  if (i === 0) {
+    return '12am';
+  } else if (i < 12) {
+    return `${i}am`;
+  } else if (i === 12) {
+    return '12pm';
+  } else {
+    return `${i - 12}pm`;
+  }
+});
+
+export const nullSalesData = [
+  { timeframe: 'Nov', revenue: 0 },
+  { timeframe: 'Dec', revenue: 0 },
+  { timeframe: 'Jan', revenue: 0 },
+  { timeframe: 'Feb', revenue: 0 },
+  { timeframe: 'Mar', revenue: 0 },
+  { timeframe: 'Apr', revenue: 0 },
+  { timeframe: 'May', revenue: 0 },
+  { timeframe: 'Jun', revenue: 0 },
+  { timeframe: 'Jul', revenue: 0 },
+  { timeframe: 'Aug', revenue: 0 },
+  { timeframe: 'Sep', revenue: 0 },
+  { timeframe: 'Oct', revenue: 0 },
+];
+
 export const activityData = [
   {
     name: 'Dami Wikinson',

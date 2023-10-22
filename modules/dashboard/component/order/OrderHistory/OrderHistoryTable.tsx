@@ -10,8 +10,8 @@ const tableHeaders: {
     title: 'Order iD',
   },
   {
-    id: 'productName',
-    title: 'Product Name',
+    id: 'revenue',
+    title: 'Total Revenue',
   },
   {
     id: 'customerName',
@@ -38,6 +38,7 @@ const OrderHistoryTable: React.FC<{
       changeSort(val);
     }
   };
+
   return (
     <table className="w-full mb-10 hidden md:table">
       <thead>

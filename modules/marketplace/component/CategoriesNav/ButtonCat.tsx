@@ -39,12 +39,12 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onClick={() => handleActiveNav(index)}
         className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        <Link href={`/marketplace/categories/${category.name}`}>{category.name}</Link>
+        <Link href={`/marketplace/categories/${category.name.replace(/\s/g, '_')}`}>{category.name}</Link>
       </div>
       <div
         className={`py-3 flex-col gap-3 ${
           popupClass ? `flex opacity-100` : 'hidden opacity-0'
-        } rounded-lg absolute -translate-y-1 transition-all duration-500 w-[286px] bg-white-100 border-[0.5px] border-slate-50 z-50 shadow-lg`}
+        } rounded-lg absolute -translate-y-1 transition-all duration-500 w-[286px] bg-white-100 border-[0.5px] border-slate-50 z-50 shadow-lg hidden xl:visible`}
         style={{
           left: `${position.left}px`,
         }}
@@ -56,7 +56,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
             onClick={() => handleActiveNav(index)}
             className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
             key={i + 1}
-            href={`/marketplace/categories/${category?.name}/${item.name}`}
+            href={`/marketplace/categories/${category?.name?.replace(/\s/g, '_')}/${item.name?.replace(/\s/g, '_')}`}
           >
             {item.name}
           </Link>

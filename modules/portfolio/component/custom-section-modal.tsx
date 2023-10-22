@@ -1,10 +1,11 @@
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { Add, CloseSquare } from 'iconsax-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { years } from '../data';
 import Modal from '@ui/Modal';
 import Button from '@ui/Button';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 type Section = {
   type: string; // Type of the section (e.g., 'title', 'sub-title', etc.)
@@ -17,7 +18,14 @@ type CustomSectionModalProps = {
   onClose: () => void;
 };
 
-const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
+//{ isOpen, onClose }: CustomSectionModalProps
+
+const CustomSectionModal = () => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  let isOpen = openCustom,
+    onClose = () => setOpenCustom(false);
+
   const [fields, setFields] = useState<Section[]>([]); // Initialize fields state to store added fields
   // const [sections, setSections] = useState<any>([]);
   const [customTitle, setCustomTitle] = useState('');
@@ -29,6 +37,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [idCounter, setIdCounter] = useState(1);
 
+  // Check if any of the field is empty
   const isFieldEmpty = (field: Section) => {
     if (field.data.title === '') {
       alert('pls fill in all fields');
@@ -38,6 +47,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
     return false; // Default to not empty if the field type is not recognized.
   };
 
+  // Create a new field i.e Links, Inputs etc
   const handleAddField = (sectionType: string) => {
     setIdCounter((prev) => prev + 1);
     // Check if the section type is in the oneInstanceTypes array
@@ -64,7 +74,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
   };
 
   const handleSave = () => {
-    // Create a new section with the title "Section Title" and the current fields
+    // Create a new section with the title "Section Title" and the current fie lds
     setIsFormValid(true);
     const newSection = {
       title: customTitle, // You can customize this title as needed
@@ -79,19 +89,22 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
     setFields([]);
   };
 
+  // Update field with value of input
   const handleUpdateField = ({ sectionIndex, newData }: { sectionIndex: number; newData: Record<string, any> }) => {
     const updatedFields = [...fields];
     updatedFields[sectionIndex].data = newData;
     setFields(updatedFields);
   };
 
+  // Delete custom section
   const handleDeleteCustomItem = (id: number) => {
     const updatedExperience = sections.filter((section) => section.id !== id);
     setSections(updatedExperience);
   };
+
+  // Render fields based on buttons clicked
   const renderfields = () => {
     return (
-      // <div className="flex flex-col gap-7">
       <>
         {fields.map((field, index) => (
           <React.Fragment key={index}>
@@ -111,6 +124,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
                     className="border-[#E1E3E2] w-full h-[54px] rounded-md border-[1px]"
                     inputSize={'lg'}
                     onChange={(e) => {
+                      // data to add to field
                       const newData = { ...field.data, title: e.target.value };
                       handleUpdateField({ sectionIndex: index, newData });
                     }}
@@ -257,6 +271,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      {/* Get all custom sections */}
       <div className="px-5 flex flex-col gap-7">
         {sections.map((section, index) => (
           <CustomSectionItem
@@ -395,7 +410,6 @@ const SectionBtns = ({
         gridTemplateColumns: 'repeat(auto-fit, minmax(8rem, 1fr))',
         gap: '1rem',
       }}
-      className=""
     >
       <button
         onClick={handleAddTitle}
@@ -441,13 +455,13 @@ const InputField = ({ fields }: { fields: Section[] }) => {
 };
 
 const DescriptionField = ({ fields }: { fields: Section[] }) => {
-  const inputs = fields.filter((field: Section) => field.type === 'description');
+  const inputs = fields?.filter((field: Section) => field.type === 'description');
   return (
     <div className="flex flex-col gap-3">
       {inputs.map((field: any, index: number) => {
         return (
           <p key={index} className="text-[#737876] font-manropeL">
-            {field.data.title}
+            {field?.data?.title}
           </p>
         );
       })}
@@ -464,30 +478,30 @@ const CustomSectionItem = ({
   onClose: () => void;
   handleDeleteCustomItem: (id: number) => void;
 }) => {
-  const subTitle = sectionItem.fields.filter((field: Section) => field.type === 'sub-title');
+  const subTitle = sectionItem?.fields?.filter((field: Section) => field.type === 'sub-title');
 
   return (
     <article className="flex flex-col gap-4 justify-between">
       <div className="flex flex-col gap-2 mb-4">
         <div className="w-full flex justify-between items-center">
-          <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">{sectionItem.title}</p>
+          <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">{sectionItem?.title}</p>
           <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
         </div>
         <div className="bg-brand-green-primary w-full h-1 rounded-sm"></div>
       </div>
       <div className="flex justify-between gap-4">
         <div>
-          <p className="text-[1.115rem] mb-2 font-manropeB text-[#2E3130]">{subTitle[0].data.title}</p>
-          <InputField fields={sectionItem.fields} />
+          <p className="text-[1.115rem] mb-2 font-manropeB text-[#2E3130]">{subTitle[0]?.data?.title}</p>
+          <InputField fields={sectionItem?.fields} />
         </div>
-        <DescriptionField fields={sectionItem.fields} />
+        <DescriptionField fields={sectionItem?.fields} />
       </div>
       <div className="h-[1px] bg-[#E1E3E2] w-full"></div>
       <div className="self-end flex gap-4 font-manropeL">
         <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
         <span
           className="font-semibold cursor-pointer text-brand-red-hover"
-          onClick={() => handleDeleteCustomItem(sectionItem.id)}
+          onClick={() => handleDeleteCustomItem(sectionItem?.id)}
         >
           Delete
         </span>

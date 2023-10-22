@@ -5,11 +5,14 @@ const nextConfig = {
   images: {
     domains: [
       'res.cloudinary.com',
-      'staging.zuri.team',
-      'zuri.team',
-      'avatars.githubusercontent.com',
+      'placekitten.com',
+      'dummyimage.com',
+      'picsum.photos',
+      'images.unsplash.com',
       'ugc.futurelearn.com',
       'themeforest.img.customer.envatousercontent.com',
+      'i.pinimg.com',
+      'fisnikde.com',
     ],
   },
 };

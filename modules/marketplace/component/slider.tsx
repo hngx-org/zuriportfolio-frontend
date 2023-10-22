@@ -8,10 +8,9 @@ import slider5 from '../../../public/assets/slider5.jpg';
 import mainImage from '../../../public/assets/mainImage.png';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 
-const slides = [mainImage, slider1, slider2, slider3, slider4];
-
-export default function Slider({ updateImage }: any) {
+export default function Slider({ updateImage, slider0 }: any) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const slides = [slider0, slider1, slider2, slider3, slider4];
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
@@ -32,6 +31,8 @@ export default function Slider({ updateImage }: any) {
 
     return displayIndexes.map((index) => (
       <Image
+        width={500}
+        height={500}
         key={index}
         onClick={() => handleUpdateImage(index)}
         src={slides[index]}

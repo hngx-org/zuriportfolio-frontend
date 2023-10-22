@@ -9,29 +9,49 @@ import briefCaseIcon from './assets/briefcase.svg';
 import dashBoard from './assets/home-2.svg';
 import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
-import { Input, SelectInput } from '@ui/Input';
-import { SearchNormal1 } from 'iconsax-react';
-import MobileNav from '@modules/dashboard/component/MobileNav';
-import { ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
-import Logout from '@modules/auth/component/logout/Logout';
+import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
+import useUserSession from '../../hooks/Auth/useUserSession';
+import { getUserCart } from '../../http/checkout';
+import { useCart } from '@modules/shop/component/CartContext';
+import { toast } from 'react-toastify';
+import Notifications from '../Modals/Notifications';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
   const { auth: globalAuth } = useAuth();
+  const { signIn, signUp } = useUserSession();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
+  const notificationsRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
   const searchRef2 = useRef<HTMLDivElement | null>(null);
   const [searchMobile, setSearchMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [notificationMenu, setNotificationMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
-
   const [dropDown, setDropDown] = useState<string>('Explore');
+  const { cartCount, setCartCountNav } = useCart();
+
+  useEffect(() => {
+    async function cartFetch() {
+      let carts;
+      let token = localStorage.getItem('zpt') as string;
+
+      if (token) {
+        carts = await getUserCart(token as string);
+      } else {
+        carts = localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products') as string) : [];
+      }
+      setCartCountNav(carts.length);
+    }
+    cartFetch();
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -39,7 +59,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const handleClose = () => {};
   const handleToggle = () => {
     setToggle(!toggle);
-    console.log('toggle', toggle);
   };
   const router = useRouter();
   const activeLink = (path: string) =>
@@ -66,12 +85,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         setSearchMobile(false);
       }
       if (searchRef2.current && !searchRef2.current.contains(targetNode)) {
-        console.log(searchRef2.current);
         setToggle(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(targetNode)) {
+        console.log(notificationsRef.current);
+        setNotificationMenu(false);
       }
     }
 
-    if (authMenu || searchMobile || toggle) {
+    if (authMenu || searchMobile || toggle || notificationMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -80,37 +102,21 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [authMenu, searchMobile, toggle]);
-
-  const searchPosts = async (searchValue: string) => {
-    try {
-      const response = await fetch(
-        `https://coral-app-8bk8j.ondigitalocean.app/api/product-retrieval/?search=${searchValue}`,
-      );
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const posts: ProductResult[] = await response.json();
-      const searchResults = posts.filter((post) => post.name.toLowerCase().includes(searchValue.toLowerCase()));
-
-      return searchResults;
-    } catch (error) {
-      throw new Error(`Failed to fetch posts: ${error}`);
-    }
-  };
+  }, [authMenu, searchMobile, toggle, notificationMenu]);
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter' && dropDown === 'Marketplace') {
-      try {
-        const results = await searchPosts(searchQuery);
-        setSearchResults(results);
-        localStorage.setItem('keyword', searchQuery);
-        localStorage.setItem('search_result', JSON.stringify(results));
-        router.push(`/marketplace/search?searchQuery=${searchQuery}`);
-      } catch (error) {
-        console.error(error);
+    if (e.key === 'Enter') {
+      if (searchQuery.trim() === '') {
+        toast.error('A search term must be provided.');
+      } else {
+        if (dropDown === 'Marketplace') {
+          router.push(`/marketplace/search?q=${searchQuery}`);
+        }
+        if (dropDown === 'Explore') {
+          localStorage.setItem('searchQuery', searchQuery);
+          router.push(`/explore/search?searchQuery=${searchQuery}`);
+        }
       }
     }
   };
@@ -119,11 +125,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     setDropDown(option);
   }
 
+  const handleNotificationsToggle = () => {
+    setNotificationMenu(!notificationMenu);
+  };
+
   return (
     <>
-      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate fixed  ">
+      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40]  isolate sticky top-0  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
-          <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
+          <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] lg:gap-14 gap-6">
             <div className="flex items-center gap-1">
               {auth && (
                 <>
@@ -170,10 +180,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           <div
             className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
-            {/* <Search></Search>
-
-          Input */}
-            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
+            <div className="max-w-[53%] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
               <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-full w-auto">
                 <div className="w-4 h-4 justify-center items-center flex">
                   <div className="w-4 h-4 relative">
@@ -192,7 +199,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   onKeyUp={handleSearch}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
-                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
+                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%] font-manropeL"
                 />
               </div>
               <div className="justify-start items-center gap-4 flex ">
@@ -200,15 +207,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   htmlFor="explore"
                   className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
                 >
-                  {/* <select
-                    id="explore"
-                    className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
-                  bg-opacity-0 hover:cursor-pointer "
-                  >
-                    <option className="hover:cursor-pointer bg-white-100">Explore</option>
-                    <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
-                  </select> */}
-
                   <CustomDropdown
                     selectedValue={dropDown}
                     onChange={handleDropdown}
@@ -216,30 +214,17 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     options={['Explore', 'Marketplace']}
                     className="border-none"
                   />
-                  {/* <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
-                    <div className="w-6 h-6  ">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <g>
-                          <g>
-                            <path
-                              fill="#8D9290"
-                              d="M12 16.8c-.7 0-1.4-.27-1.93-.8L3.55 9.48a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l6.52 6.52c.48.48 1.26.48 1.74 0l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L13.93 16c-.53.53-1.23.8-1.93.8z"
-                            ></path>
-                          </g>
-                        </g>
-                      </svg>
-                    </div>
-                  </div> */}
                 </label>
               </div>
             </div>
             {/* Action Buttons */}
-            {auth || (
+            {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                <Cart items={6} />
+                <Cart items={cartCount} />
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
+                    onClick={signIn}
                     className="rounded-lg py-3 px-6 border-0 bg-green-50 bg-opacity-50"
                     intent={'secondary'}
                     size={'md'}
@@ -247,13 +232,19 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
+                  <Button
+                    href="/auth/signup"
+                    onClick={signUp}
+                    className="rounded-lg px-6 py-3"
+                    intent={'primary'}
+                    size={'md'}
+                  >
                     Sign Up
                   </Button>
                 </div>
               </div>
             )}
-            {auth && AuthUser()}
+            {globalAuth && AuthUser()}
           </div>
           {authMenu && (
             <div
@@ -264,14 +255,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">
+                    <h3 className="font-bold font-manropeEB">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </h3>
-                    <p>View Live Profile</p>
+                    <p className="font-manropeL">View Live Profile</p>
                   </div>
                 </li>
                 <Link
-                  href={'/marketplace/cart'}
+                  onClick={handleAuthMenu}
+                  href={'/shop'}
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -290,46 +282,53 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </g>
                   </svg>
-                  <p>Your Shop</p>
+                  <p className="font-manropeL">Your Shop</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={dashBoard} alt="dashboard" />
-                  <p>Customer Dashboard</p>
+                  <p className="font-manropeL">Customer Dashboard</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/user/customer-purchase-dashboard"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={dashBoard} alt="Setting" />
-                  <p>Customer Purchase Dashboard</p>
+                  <p className="font-manropeL">Customer Purchase Dashboard</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={briefCaseIcon} alt="Briefcase icon" />
-                  <p>Manage Portfolio</p>
+                  <p className="font-manropeL">Manage Portfolio</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={likesIcon} alt="Like" />
-                  <p>Assessments & Badges</p>
+                  <p className="font-manropeL">Assessments & Badges</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/settings"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={settingsIcon} alt="Setting" />
-                  <p>Settings</p>
+                  <p className="font-manropeL">Settings</p>
                 </Link>
 
                 {/* Import Logout button */}
-                <Logout />
+                <div className="font-manropeL" onClick={handleAuthMenu}>
+                  <Logout />
+                </div>
               </ul>
             </div>
           )}
@@ -337,6 +336,27 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {auth && (
               <div className="lg:hidden flex items-center gap-1 ">
                 <div className="flex gap-3">
+                  <Link href={'/marketplace/wishlist'}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <mask
+                        id="mask0_1377_22486"
+                        style={{ maskType: 'alpha' }}
+                        width="24"
+                        height="24"
+                        x="0"
+                        y="0"
+                        maskUnits="userSpaceOnUse"
+                      >
+                        <path fill="#D9D9D9" d="M0 0H24V24H0z"></path>
+                      </mask>
+                      <g mask="url(#mask0_1377_22486)">
+                        <path
+                          fill="#5B5F5E"
+                          d="M17.95 15.82l-2.494-2.47 1.069-1.054 1.425 1.41 3.525-3.525 1.07 1.044-4.595 4.594zM11 20.326L8.835 18.38a112.583 112.583 0 01-3.444-3.246c-.935-.927-1.691-1.774-2.269-2.54-.577-.766-.992-1.486-1.244-2.16A5.911 5.911 0 011.5 8.35c0-1.42.479-2.605 1.436-3.557S5.08 3.365 6.5 3.365c.873 0 1.698.205 2.475.613.777.408 1.452.994 2.025 1.757.573-.763 1.248-1.349 2.025-1.757a5.244 5.244 0 012.475-.613c1.254 0 2.312.37 3.174 1.11a5.065 5.065 0 011.678 2.775h-1.577c-.23-.744-.649-1.327-1.258-1.75a3.458 3.458 0 00-2.017-.635c-.83 0-1.566.23-2.205.688-.639.458-1.241 1.107-1.807 1.947h-.976c-.562-.846-1.174-1.497-1.835-1.952A3.76 3.76 0 006.5 4.865c-.963 0-1.787.331-2.472.993C3.343 6.519 3 7.35 3 8.35c0 .556.117 1.121.35 1.694.233.573.65 1.234 1.25 1.982s1.417 1.624 2.45 2.629C8.083 15.659 9.4 16.875 11 18.3c.472-.422.977-.87 1.515-1.344.539-.475.993-.888 1.362-1.24l1.07 1.069c-.38.352-.833.76-1.358 1.223-.525.463-1.02.905-1.485 1.327L11 20.327z"
+                        ></path>
+                      </g>
+                    </svg>
+                  </Link>
                   <span onClick={() => setSearchMobile(!searchMobile)} className="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <g>
@@ -347,14 +367,35 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </svg>
                   </span>
-                  <Cart items={7} />
+                  <Cart items={cartCount} />
+                  <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
+                    <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+                      {unreadNotifications}
+                    </span>
+                    <Image
+                      src={notificationIcon}
+                      onClick={handleNotificationsToggle}
+                      draggable={false}
+                      width={24}
+                      height={24}
+                      alt="Cart Icon"
+                    />
+
+                    {notificationMenu && (
+                      <div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+                        <Notifications
+                          notificationsRef={notificationsRef}
+                          unreadNotifications={setUnreadNotifications}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
                     <p className=" font-bold ">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </p>
-                    <p className="text-sm ">Zuri Team</p>
                   </div>
                   <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
                 </div>
@@ -373,7 +414,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </svg>
                 </span>
                 <Cart2
-                  items={6}
+                  items={cartCount}
                   style={{
                     marginRight: '20px',
                   }}
@@ -438,37 +479,59 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 
   function AuthUser(): React.ReactNode {
     return (
       <>
-        <span>
+        <Link href={'/marketplace/wishlist'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <g>
-              <g fill="#5B5F5E">
-                <path d="M9 17.75c-.41 0-.75-.34-.75-.75v-4.19l-.72.72c-.29.29-.77.29-1.06 0a.754.754 0 010-1.06l2-2c.21-.21.54-.28.82-.16.28.11.46.39.46.69v6c0 .41-.34.75-.75.75z"></path>
-                <path d="M11 13.75c-.19 0-.38-.07-.53-.22l-2-2a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l2 2c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22z"></path>
-                <path d="M15 22.75H9c-5.43 0-7.75-2.32-7.75-7.75V9c0-5.43 2.32-7.75 7.75-7.75h5c.41 0 .75.34.75.75s-.34.75-.75.75H9C4.39 2.75 2.75 4.39 2.75 9v6c0 4.61 1.64 6.25 6.25 6.25h6c4.61 0 6.25-1.64 6.25-6.25v-5c0-.41.34-.75.75-.75s.75.34.75.75v5c0 5.43-2.32 7.75-7.75 7.75z"></path>
-                <path d="M22 10.75h-4c-3.42 0-4.75-1.33-4.75-4.75V2c0-.3.18-.58.46-.69.28-.12.6-.05.82.16l8 8a.751.751 0 01-.53 1.28zm-7.25-6.94V6c0 2.58.67 3.25 3.25 3.25h2.19l-5.44-5.44z"></path>
-              </g>
+            <mask
+              id="mask0_1377_22486"
+              style={{ maskType: 'alpha' }}
+              width="24"
+              height="24"
+              x="0"
+              y="0"
+              maskUnits="userSpaceOnUse"
+            >
+              <path fill="#D9D9D9" d="M0 0H24V24H0z"></path>
+            </mask>
+            <g mask="url(#mask0_1377_22486)">
+              <path
+                fill="#5B5F5E"
+                d="M17.95 15.82l-2.494-2.47 1.069-1.054 1.425 1.41 3.525-3.525 1.07 1.044-4.595 4.594zM11 20.326L8.835 18.38a112.583 112.583 0 01-3.444-3.246c-.935-.927-1.691-1.774-2.269-2.54-.577-.766-.992-1.486-1.244-2.16A5.911 5.911 0 011.5 8.35c0-1.42.479-2.605 1.436-3.557S5.08 3.365 6.5 3.365c.873 0 1.698.205 2.475.613.777.408 1.452.994 2.025 1.757.573-.763 1.248-1.349 2.025-1.757a5.244 5.244 0 012.475-.613c1.254 0 2.312.37 3.174 1.11a5.065 5.065 0 011.678 2.775h-1.577c-.23-.744-.649-1.327-1.258-1.75a3.458 3.458 0 00-2.017-.635c-.83 0-1.566.23-2.205.688-.639.458-1.241 1.107-1.807 1.947h-.976c-.562-.846-1.174-1.497-1.835-1.952A3.76 3.76 0 006.5 4.865c-.963 0-1.787.331-2.472.993C3.343 6.519 3 7.35 3 8.35c0 .556.117 1.121.35 1.694.233.573.65 1.234 1.25 1.982s1.417 1.624 2.45 2.629C8.083 15.659 9.4 16.875 11 18.3c.472-.422.977-.87 1.515-1.344.539-.475.993-.888 1.362-1.24l1.07 1.069c-.38.352-.833.76-1.358 1.223-.525.463-1.02.905-1.485 1.327L11 20.327z"
+              ></path>
             </g>
           </svg>
-        </span>
+        </Link>
 
-        <Cart items={7} />
-        <span>
-          <Image draggable={false} src={notificationIcon} alt="notification icon" />
-        </span>
+        <Cart items={cartCount} />
+        <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
+          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+            {unreadNotifications}
+          </span>
+          <Image
+            src={notificationIcon}
+            onClick={handleNotificationsToggle}
+            draggable={false}
+            width={24}
+            height={24}
+            alt="Cart Icon"
+          />
+
+          {notificationMenu && (
+            <div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+              <Notifications notificationsRef={notificationsRef} unreadNotifications={setUnreadNotifications} />
+            </div>
+          )}
+        </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
-          <div className="details">
-            <p className=" font-bold">
-              {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
-            </p>
-            <p className="text-sm ">Zuri Team</p>
-          </div>
+          <p className=" font-bold font-manropeEB">
+            {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+          </p>
+
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>
       </>
@@ -543,6 +606,7 @@ function MenuUI({
   refMenu?: any;
 }) {
   const router = useRouter();
+  const { signIn, signUp } = useUserSession();
   const activeLink = (path: string) =>
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
@@ -601,6 +665,14 @@ function MenuUI({
               {router.pathname === '/dashboard' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/dashboard')} href={'/user/customer-purchase-dashboard'}>
+                Customer Purchase Dashboard
+              </Link>
+              {router.pathname === '/user/customer-purchase-dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/portfolio')} href={'/portfolio'}>
                 Manage Portfolio
               </Link>
@@ -620,31 +692,28 @@ function MenuUI({
               </Link>
               {router.pathname === '/settings' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
-            <Link
-              className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB focus:shadow-brand-green-shd   border-solid text-base py-3  border-0 bg-pink-50 text-[#FF2E2E] w-[100%]"
-              href="/"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="none" viewBox="0 0 25 24">
-                <g fill="#FF2E2E">
-                  <path d="M11.5 7h2v7h-2V7zm0 8h2v2h-2v-2z"></path>
-                  <path d="M22.207 7.293l-5-5A.996.996 0 0016.5 2h-8a.996.996 0 00-.707.293l-5 5A.996.996 0 002.5 8v8c0 .266.105.52.293.707l5 5A.997.997 0 008.5 22h8c.266 0 .52-.105.707-.293l5-5A.997.997 0 0022.5 16V8a.996.996 0 00-.293-.707zM20.5 15.586L16.086 20H8.914L4.5 15.586V8.414L8.914 4h7.172L20.5 8.414v7.172z"></path>
-                </g>
-              </svg>
-              Sign Out
-            </Link>
+
+            <MobileLogout />
           </div>
         )}
         {!auth && (
           <>
             <Button
               href="/auth/login"
+              onClick={signIn}
               className="rounded-lg border-0 bg-green-50 bg-opacity-50  w-[100%]"
               intent={'secondary'}
               size={'md'}
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button
+              href="/auth/signup"
+              onClick={signUp}
+              className="rounded-lg  w-[100%]"
+              intent={'primary'}
+              size={'md'}
+            >
               Sign Up
             </Button>
           </>
@@ -654,11 +723,11 @@ function MenuUI({
   );
 }
 
-function Cart({ items, style }: { items?: number; style?: {} }) {
+function Cart({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative">
-        {items && (
+        {items > 0 && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>
@@ -666,16 +735,15 @@ function Cart({ items, style }: { items?: number; style?: {} }) {
 
         <Image src={cartIcon} draggable={false} width={24} height={24} alt="Cart Icon" />
       </div>
-      {/* <span className=" lg:hidden">Cart</span> */}
     </Link>
   );
 }
 
-function Cart2({ items, style }: { items?: number; style?: {} }) {
+function Cart2({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative lg:hidden">
-        {items && (
+        {items > 0 && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>
@@ -683,7 +751,6 @@ function Cart2({ items, style }: { items?: number; style?: {} }) {
 
         <Image src={cartIcon} draggable={false} width={24} height={24} alt="Cart Icon" />
       </div>
-      {/* <span className=" lg:hidden">Cart</span> */}
     </Link>
   );
 }

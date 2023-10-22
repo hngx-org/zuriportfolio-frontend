@@ -3,14 +3,23 @@ import Image from 'next/image';
 import { VerificationLayoutProps } from '../../../@types';
 import logo from '../../../public/assets/404/logo-zuri-auth.svg';
 import Link from 'next/link';
+import { ArrowRight } from 'iconsax-react';
 
 function VerificationLayout({ children }: VerificationLayoutProps) {
   return (
     <div className=" h-[100dvh]">
       <div className="border-b border-[#EBEEEF] border-style:solid h-[10%]">
-        <header className="max-w-[1240px] mx-6 xl:mx-auto h-full flex items-center ">
+        <header className="max-w-[1240px] mx-6 xl:mx-auto h-full flex justify-between items-center ">
           <Link href={'/'}>
             <Image src={logo} alt="logo" />
+          </Link>
+
+          <Link
+            href={'/'}
+            className="font-manropeL text-sm md:text-base text-brand-green-primary hover:underline flex items-center gap-2"
+          >
+            <p>Back to Explore</p>
+            <ArrowRight size="24" color="#009254" />
           </Link>
         </header>
       </div>

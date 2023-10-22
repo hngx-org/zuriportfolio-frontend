@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
-import { ArrowLeft2, Import } from 'iconsax-react';
+import { ArrowLeft2 } from 'iconsax-react';
 import MainLayout from '../components/Layout/MainLayout';
 import InviteLink from '../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
 import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
-import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
-import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
+import { useAuth } from '../context/AuthContext';
+import Handling2FA from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
+import UpdatingProfilePic from '@modules/portfolio/component/portfolioSettingsComponents/UpdatingProfilePic';
+import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -22,18 +24,16 @@ const SettingPage = () => {
     refer: false,
   });
 
+  const { auth } = useAuth();
   const router = useRouter();
 
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [local, setlocal] = useState<boolean>(false);
-  const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
-  const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
+  const [closeAcc, setCloseAcc] = useState<boolean>(true);
 
-  const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setter((prev: boolean) => !prev);
-  };
+  const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
 
   const changeSettingOptions = (optionsSettings: keyof SettingOptionTypes) => {
     setSettingOption((prevSettingOption) => {
@@ -58,6 +58,7 @@ const SettingPage = () => {
       refer: false,
     };
     setSettingOption(newSettingOption);
+    setCloseAcc(true);
   };
 
   useEffect(() => {
@@ -71,8 +72,6 @@ const SettingPage = () => {
     }
   }, []);
 
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
-
   const [checkboxState, setCheckboxState] = useState<NotificationCheckboxType>({
     emailSummary: false,
     specialOffers: false,
@@ -80,17 +79,13 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
-      const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
-      const baseUrl = 'https://hng6-r5y3.onrender.com';
-      const method = storedNotificationData ? 'PATCH' : 'POST';
-
-      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}`;
+      const url = `${baseUrl}set-notification-settings/${auth?.user.id}`;
       const response = await fetch(url, {
-        method: method,
+        method: 'POST',
 
         headers: {
           'Content-Type': 'application/json',
@@ -99,15 +94,8 @@ const SettingPage = () => {
       });
 
       if (response.ok) {
-        console.log('Request type:', method);
         const data = await response.json();
         console.log('Notification settings updated successfully:', data.data);
-        const { userId, ...notificationData } = data.data;
-
-        setCheckboxState(notificationData);
-
-        localStorage.setItem(`notificationData${userId}`, JSON.stringify(notificationData));
-
         toast.success('Updated Successfully', {
           position: 'top-center',
           autoClose: 2000,
@@ -134,9 +122,14 @@ const SettingPage = () => {
           progress: undefined,
           theme: 'light',
         });
-        setTimeout(() => {
-          router.push('/');
-        }, 3100);
+
+        setCheckboxState({
+          emailSummary: false,
+          specialOffers: false,
+          communityUpdate: false,
+          followUpdate: false,
+          newMessages: false,
+        });
       }
     } catch (error) {
       console.error('An error occurred while updating notification settings:', error);
@@ -146,17 +139,9 @@ const SettingPage = () => {
     }
   };
 
-  const getNotificationSettingsFromLocalStorage = () => {
-    const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
-    if (storedNotificationData) {
-      const parsedData = JSON.parse(storedNotificationData);
-      setCheckboxState(parsedData);
-    }
+  const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter((prev: boolean) => !prev);
   };
-
-  useEffect(() => {
-    getNotificationSettingsFromLocalStorage();
-  }, [local]);
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -260,7 +245,13 @@ const SettingPage = () => {
                     <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagement />}
+                  {settingOption.accountManagement && (
+                    <div>
+                      <UpdatingProfilePic />
+                      <UpdatePassword />
+                      <Handling2FA closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -305,7 +296,6 @@ const SettingPage = () => {
                   >
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('refer');
                       }}
                       className="pb-4 md:py-3 w-full
@@ -323,7 +313,6 @@ const SettingPage = () => {
                   >
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('accountManagement');
                       }}
                       className="pb-4 md:py-3 w-full  
@@ -333,7 +322,6 @@ const SettingPage = () => {
                     </li>
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('notificationSettings');
                       }}
                       className="py-4 md:py-3 w-full hover:bg-brand-green-shade95 min-w-[50vw] border-b-[1px] border-white-500 "
@@ -342,7 +330,6 @@ const SettingPage = () => {
                     </li>
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('deleteAccount');
                       }}
                       className="py-4  md:py-3 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
@@ -369,7 +356,17 @@ const SettingPage = () => {
                     <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagementMobile />}
+                  {settingOption.accountManagement && (
+                    <div>
+                      {closeAcc && (
+                        <>
+                          <UpdatingProfilePic />
+                          <UpdatePassword />
+                        </>
+                      )}
+                      <Handling2FA closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
+                    </div>
+                  )}{' '}
                   {settingOption.refer && <InviteLink />}
                 </div>
               </div>
@@ -390,13 +387,13 @@ const SettingPage = () => {
              settingOption.accountManagement || settingOption.deleteAccount || settingOption.refer
                ? 'md:block lg:block hidden'
                : ''
-           }
+           } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
+          Save <span className={` ${showReferInfo && 'hidden md b:inline'}`}>& Close </span>
         </Button>
       </div>
     </MainLayout>
   );
 };
-export default SettingPage;
+export default withAuth(SettingPage);

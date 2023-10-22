@@ -2,19 +2,16 @@ import WorkExperienceModalSection from '@modules/portfolio/component/work-experi
 import React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
 import { WorkExperienceModalContextProvider } from '@modules/portfolio/context/work-experience-modal-context';
-import Button from '@ui/Button';
+import CustomSectionModal from '@modules/portfolio/component/custom-section-modal';
 
 const WorkExperienceModal = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <WorkExperienceModalContextProvider>
-      <WorkExperienceModalSection isOpen={isOpen} onClose={onClose} />
-      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-        <Button onClick={onOpen} className="rounded-md">
-          Open Modal
-        </Button>
-      </div>
+      {/* <WorkExperienceModalSection isOpen={isOpen} onCloseModal={onClose} /> */}
+      {/* <CustomSectionModal /> */}
+      <button onClick={onOpen}>Open bobo</button>
     </WorkExperienceModalContextProvider>
   );
 };

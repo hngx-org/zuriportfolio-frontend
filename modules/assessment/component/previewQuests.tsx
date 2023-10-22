@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import Link from 'next/link';
-import { questionArr } from './questionsArr';
+// import { questionArr } from './questionsArr';
 
-const PreviewQuests = () => {
+type AnswerType = {
+  options: string[];
+  correct_option: string;
+};
+
+type SingleQuestionType = {
+  question_no: number;
+  question_text: string;
+  question_type: string;
+  answer: AnswerType;
+};
+const PreviewQuests = ({
+  questions,
+  assessmentId,
+}: {
+  questions: SingleQuestionType[];
+  assessmentId: string | string[] | undefined;
+}) => {
+  const [questionArr, setQuestionArr] = useState(questions);
   const [currentSection, setCurrentSection] = useState(0);
 
   const handleNext = () => {
@@ -18,7 +36,7 @@ const PreviewQuests = () => {
     <React.Fragment>
       <div className="flex flex-col gap-y-3 items-center">
         {/* mapping Datas */}
-        {questionArr.map((items, index) => {
+        {questions.map((items, index, questions) => {
           return (
             <div
               key={index}
@@ -26,25 +44,32 @@ const PreviewQuests = () => {
                 index === currentSection ? '' : 'hidden'
               }`}
             >
-              <div className=" text-[20px] text-[#009254]">{`Question ${items.id} out of 10`}</div>
-              <Link href={`/assessment/preview-edit/${items.id}`} className="absolute top-2 right-10 cursor-pointer">
+              <div className=" text-[20px] text-[#009254]">{`Question ${items.question_no} out of 10`}</div>
+              <Link
+                href={`/super-admin/assessment/preview-edit/${items.question_no}?assessmentId=${assessmentId}`}
+                className="absolute top-2 right-10 cursor-pointer"
+              >
                 Edit
               </Link>
 
-              <div className="pt-4 text-[14px]">{items.question}</div>
-              <p className=" text-blue-100 pt-2">{items.tip}</p>
+              <div className="pt-4 text-[14px]">{items.question_text}</div>
+              <p className=" text-blue-100 pt-2">Pick only one correct answer</p>
 
               <div className="pt-10 flex flex-col gap-3">
-                <label className="inline-flex items-center gap-3" htmlFor={items.click}>
-                  <input
-                    type="radio"
-                    className="form-radio  h-5 w-5 ring-green-500 border-green-500"
-                    name="radio"
-                    id={items.click}
-                  />
-                  <span className="ml-2 text-[#5B5F5E]">{items.options[0]}</span>
-                </label>
-                <label className="inline-flex items-center gap-3" htmlFor="opt-2">
+                {items.answer.options.map((option, index) => {
+                  return (
+                    <label key={index} className="inline-flex items-center gap-3">
+                      <input
+                        type="radio"
+                        className="form-radio  h-5 w-5 ring-green-500 border-green-500"
+                        name="radio"
+                      />
+                      <span className="ml-2 text-[#5B5F5E]">{option}</span>
+                    </label>
+                  );
+                })}
+
+                {/* <label className="inline-flex items-center gap-3" htmlFor="opt-2">
                   <input
                     type="radio"
                     className="form-radio  h-5 w-5 ring-green-500 border-green-500"
@@ -70,19 +95,19 @@ const PreviewQuests = () => {
                     name="radio"
                   />
                   <span className="ml-2 text-[#5B5F5E]">{items.options[3]}</span>
-                </label>
+                </label> */}
               </div>
               <div className="flex justify-center items-center gap-[10px] pt-3">
-                {items.id < 2 ? null : (
+                {/* {questions.length < 2 ? null : (
                   <Button
                     className="p-4 border-2 border-white-100 text-green-500 text-center  bg-white-100 hover:text-white-100 text-sm"
                     onClick={handlePrev}
                   >
                     End Assessmnet
                   </Button>
-                )}
+                )} */}
 
-                {items.id < 10 ? (
+                {index < questions.length - 1 ? (
                   <button
                     onClick={handleNext}
                     className="py-[5px] px-[30px] w-[150px] text-white-100 text-center bg-green-500 rounded-xl "
