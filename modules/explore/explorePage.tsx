@@ -18,6 +18,7 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
   const searchTerm = useRouter();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleClearFilters = () => {
     setFilters({});
