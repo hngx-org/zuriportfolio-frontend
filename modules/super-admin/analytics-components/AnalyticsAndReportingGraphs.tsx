@@ -71,7 +71,7 @@ const AnalyticsAndReportingGraphs = () => {
             users: usersEntry ? usersEntry.users : 0,
             combinedInfo: combineInfo(salesEntry),
           };
-          
+
           return monthData;
         });
 

@@ -17,6 +17,7 @@ import ProjectSectionModal from '@modules/portfolio/component/modals/project-mod
 import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
+import { useRouter } from 'next/router';
 
 type PortfolioContext = {
   portfolioUrl: string;
@@ -114,6 +115,7 @@ const Portfolio = createContext<PortfolioContext>({
 
 export function PortfolioCtxProvider(props: { children: any }) {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
@@ -144,6 +146,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
   });
 
   useEffect(() => {
+    if (auth?.user?.slug === router?.query?.slug) {
+      router.push(`/portfolio/${auth?.user?.slug}/manage`);
+    }
+
     if (auth?.user?.id) {
       setUserId(auth?.user?.id!);
       setSlug(auth?.user?.slug!);
