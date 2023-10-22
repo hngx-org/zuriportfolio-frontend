@@ -3,8 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import $http from './axios';
 import axios from 'axios';
 
-export const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL == "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart" ?
-  process.env.NEXT_PUBLIC_CART_API_URL : 'https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart';
+export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 
