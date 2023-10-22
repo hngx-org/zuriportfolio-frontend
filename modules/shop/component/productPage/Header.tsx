@@ -10,7 +10,7 @@ import dashBoard from '../../../../components/Navbars/assets/home-2.svg';
 import likesIcon from '../../../../components/Navbars/assets/like-shapes.svg';
 import settingsIcon from '../../../../components/Navbars/assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
-import { SearchNormal1 } from 'iconsax-react';
+import { SearchNormal1, UserSquare } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
 import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
@@ -214,43 +214,6 @@ const Header: React.FC<HeaderProps> = ({
                   clearSearch={clearSearch}
                 />
               </div>
-              <div className="justify-start items-center gap-4 flex ">
-                <label
-                  htmlFor="explore"
-                  className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
-                >
-                  {/* <select
-                    id="explore"
-                    className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
-                  bg-opacity-0 hover:cursor-pointer "
-                  >
-                    <option className="hover:cursor-pointer bg-white-100">Explore</option>
-                    <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
-                  </select> */}
-
-                  <CustomDropdown
-                    selectedValue={dropDown}
-                    onChange={handleDropdown}
-                    placeholder="Explore"
-                    options={['Explore', 'Marketplace']}
-                    className="border-none"
-                  />
-                  {/* <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
-                    <div className="w-6 h-6  ">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <g>
-                          <g>
-                            <path
-                              fill="#8D9290"
-                              d="M12 16.8c-.7 0-1.4-.27-1.93-.8L3.55 9.48a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l6.52 6.52c.48.48 1.26.48 1.74 0l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L13.93 16c-.53.53-1.23.8-1.93.8z"
-                            ></path>
-                          </g>
-                        </g>
-                      </svg>
-                    </div>
-                  </div> */}
-                </label>
-              </div>
             </div>
             {/* Action Buttons */}
             {!globalAuth && (
@@ -288,7 +251,7 @@ const Header: React.FC<HeaderProps> = ({
             >
               <ul>
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
-                  <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+                  <UserSquare size="32" color="#555555" />{' '}
                   <div className="flex flex-col gap-[2px]">
                     <h3 className="font-bold font-manropeEB">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
@@ -411,7 +374,7 @@ const Header: React.FC<HeaderProps> = ({
                     </p>
                     <p className="text-sm ">Zuri Team</p>
                   </div>
-                  <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
+                  <UserSquare size="32" color="#555555" />{' '}
                 </div>
               </div>
             )}
@@ -482,20 +445,6 @@ const Header: React.FC<HeaderProps> = ({
                     />
                   </div>
                 </div>
-                <div className="justify-start items-center gap-4 flex ">
-                  <label
-                    htmlFor="explore"
-                    className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
-                  >
-                    <CustomDropdown
-                      selectedValue={dropDown}
-                      onChange={handleDropdown}
-                      placeholder="Explore"
-                      options={['Explore', 'Marketplace']}
-                      className="border-none px-1"
-                    />
-                  </label>
-                </div>
               </div>
             </div>
           </div>
@@ -541,7 +490,7 @@ const Header: React.FC<HeaderProps> = ({
             </p>
             <p className="text-sm font-manropeL">Zuri Team</p>
           </div>
-          <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+          <UserSquare size="32" color="#555555" />{' '}
         </div>
       </>
     );
