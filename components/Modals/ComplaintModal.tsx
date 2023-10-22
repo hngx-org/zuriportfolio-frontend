@@ -22,20 +22,20 @@ interface ModalProps {
 }
 interface ComplaintModalProps extends ModalProps {
   product: string;
-  customerID: string;
+  user: string;
 }
 //  const token = getAuthTokenFromCookies('UTM_tracker');
-const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout_cart/complaints`;
+const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/register-complaints/`;
 
-const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, customerID }) => {
+const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, user }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const data = { product_id: '136fda3b-6e1e-4711-a4ac-6dfb298615a9 ', complaint: description };
+  const data = { user: user, product: product, complaint: description };
   const stringifyData = JSON.stringify(data);
 
   //auth
-  const authToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`;
+  // const authToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
+            // Authorization: `Bearer ${authToken}`,
           },
           body: stringifyData,
         });
