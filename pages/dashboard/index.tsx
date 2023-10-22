@@ -16,7 +16,7 @@ function dashboard() {
         <link rel="icon" href="/assets/zuriLogo.svg" />
         <meta key="metaname" itemProp="name" name="title" content="Customer Dashboard" />
         <meta key="metadescription" itemProp="description" name="description" content="Customer Dashboard" />
-        <meta name="keywords" content="Zuri, portfolio, add, dashboard , product, customer" />
+        <meta name="keywords" content="Zuri, portfolio, add, product, dashboard" />
         <meta name="robots" content="index, follow" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>

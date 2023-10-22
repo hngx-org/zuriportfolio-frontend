@@ -6,7 +6,7 @@ import Head from 'next/head';
 
 
 export default function Successful() {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +19,6 @@ export default function Successful() {
       const confirmResponse = await confirmTransaction({ token, txn_ref, payment_gateway });
       setSuccess(confirmResponse);
       setIsLoading(false);
-      localStorage.setItem('trans_token',"")
     }
     confirmTransactionStatus();
 
