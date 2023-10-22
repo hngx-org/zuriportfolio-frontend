@@ -904,7 +904,8 @@ export interface ReviewData {
   };
   numberOfPages: 0;
   updatedAt: string;
-  createdAt: string;
+  createdAtTime: string;
+  createdAtDate: string;
 }
 
 export interface ReviewApiResponse {
