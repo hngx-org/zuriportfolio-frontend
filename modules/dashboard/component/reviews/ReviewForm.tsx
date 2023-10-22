@@ -11,6 +11,7 @@ import { postReviewByProductId } from '../../../../http/api/controllerReview';
 import { useRouter } from 'next/router';
 import ReviewSentModal from '../../../../components/Modals/ReviewSentModal';
 import { toast } from 'react-toastify';
+import { rating } from '@modules/marketplace/component/filter/data';
 
 function ReviewForms() {
   const router = useRouter();
@@ -80,7 +81,13 @@ function ReviewForms() {
         // You can also handle success, show a message, or redirect the user
       } catch (error: any) {
         setLoad(false);
-        toast.error('Kindly ensure to fill all fields *Including ratings*');
+        if (name === '' || description === '' || rateNo === 0) {
+          toast.error(
+            `Kindly ensure to fill all fields. Ensure these are filled: ${name === '' && 'your name'}, ${
+              description === '' && 'your review'
+            }, ${rateNo === 0 && 'rating'}.`,
+          );
+        }
       }
     }
   };
