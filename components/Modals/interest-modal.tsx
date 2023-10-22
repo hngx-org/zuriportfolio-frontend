@@ -41,6 +41,12 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
     }
   };
 
+    const deleteInputCharacter = (e: { key: string }) => {
+      if (e.key === 'Backspace') {
+        setInputValue(inputValue.slice(0, -1));
+      }
+    };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     if (value !== '') {
@@ -103,7 +109,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         .catch((err) => {
           setLoading(false);
           notify({
-            message: 'Error occurred',
+            message: err?.response?.data?.message || 'Error occurred',
             position: 'top-center',
             theme: 'light',
             type: 'error',
@@ -151,12 +157,16 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;
-        console.log(interestsArray);
         setValues(interestsArray ? interestsArray : []);
       })
       .catch((err) => {
         setInitialLoading(false);
-        console.log(err);
+        notify({
+          message: err?.response?.data?.message || 'Error occurred when fetching Interests',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
   };
 
@@ -192,7 +202,10 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
             className="w-full h-full focus:outline-none font-manropeL text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
             placeholder=""
             onChange={handleInputChange}
-            onKeyDown={handleEnterKeyPress}
+            onKeyDown={(e) => {
+              handleEnterKeyPress(e)
+              deleteInputCharacter(e)}
+            }
             maxLength={30}
             value={inputValue}
           />

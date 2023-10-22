@@ -483,17 +483,18 @@ const AddProduct = () => {
 
                     {...form.getInputProps('sub_category_id')}
                   >
-                    <option value="" className="placeholder:text-[#000] text-black capitalize">
+                    <option value="" className="placeholder:text-[#000] text-black capitalize" disabled>
                       Select product category
                     </option>
                     {categoriesData.map((category: any) => (
-                      <option
-                        value={category.id}
-                        key={category.id}
-                        className="placeholder:text-[#000] text-black capitalize"
-                      >
-                        {category.name}
-                      </option>
+                      <>
+                        {category.sub_categories?.length > 0 &&
+                          category.sub_categories.map((cat: any) => (
+                            <option className="" key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                      </>
                     ))}
                   </select>
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
