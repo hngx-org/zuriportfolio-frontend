@@ -26,7 +26,7 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
       setLoadingState(true);
       const bearerToken = localStorage.getItem('zpt');
       fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+        `https://staging.zuri.team/api/v1/super-admin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
         {
           method: 'GET',
           headers: {
@@ -49,7 +49,7 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
     } else {
       const bearerToken = localStorage.getItem('zpt');
       setLoadingState(true);
-      fetch('https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/', {
+      fetch('https://staging.zuri.team/api/v1/super-admin/analytics/data/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${bearerToken}`,

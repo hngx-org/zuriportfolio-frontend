@@ -48,16 +48,13 @@ const PerformanceDataPage: React.FC = () => {
   useEffect(() => {
     const bearerToken = localStorage.getItem('zpt');
     setLoadingState(true);
-    fetch(
-      `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/performance-data/?page=${currentPage}&page_size=10`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${bearerToken}`,
-          'Content-Type': 'application/json',
-        },
+    fetch(`https://staging.zuri.team/api/v1/super-admin/analytics/performance-data/?page=${currentPage}&page_size=10`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${bearerToken}`,
+        'Content-Type': 'application/json',
       },
-    )
+    })
       .then((res) => res.json())
       .then((data) => {
         setTotalPages(data.total_pages);
@@ -87,7 +84,7 @@ const PerformanceDataPage: React.FC = () => {
       const bearerToken = localStorage.getItem('zpt');
       setGetReport(true);
 
-      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/export-report/performance_data/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/export-report/performance_data/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl, {
@@ -126,7 +123,7 @@ const PerformanceDataPage: React.FC = () => {
 
       const bearerToken = localStorage.getItem('zpt');
 
-      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/performance-data/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/performance-data/?start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl, {
