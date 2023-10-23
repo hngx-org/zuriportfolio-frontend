@@ -209,7 +209,7 @@ function Assessmentresponses(props: PropsAss<any>) {
         })
       ) : (
         <div className="w-full flex items-center justify-between border-[1px] rounded p-4 md:p-6  border-brand-disabled2">
-          No assessments created yet! Today is a good day too
+          No assessments created yet! Today is a good day to start
         </div>
       )}
     </div>

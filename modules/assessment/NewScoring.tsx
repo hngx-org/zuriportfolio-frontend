@@ -19,7 +19,6 @@ const Newscoring = () => {
       const newt = { ...newobject };
       newt.duration_in_minutes = Math.round(Mintime.hours * 60 + Mintime.mins + Mintime.secs / 60);
       setObject(newt);
-      console.log(Mintime, newobject);
     }
   };
 
