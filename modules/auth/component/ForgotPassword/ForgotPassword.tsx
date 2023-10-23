@@ -26,8 +26,6 @@ const ForgotPassword = () => {
       router.push(`/auth/forgot-password-link-sent?email=${email}`);
       return;
     }
-
-    notifyError(data.message);
   };
 
   // Form validation
@@ -107,7 +105,7 @@ const ForgotPassword = () => {
                 <Input
                   id="email"
                   {...form.getInputProps('email')}
-                  type="email"
+                  type="text"
                   placeholder="Enter email"
                   className={`w-full text-black  h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'

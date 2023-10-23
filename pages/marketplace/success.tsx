@@ -4,9 +4,8 @@ import Loader from '../../components/Loader/loader2';
 import { confirmTransaction } from '../../http/checkout';
 import Head from 'next/head';
 
-
 export default function Successful() {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +20,6 @@ export default function Successful() {
       setIsLoading(false);
     }
     confirmTransactionStatus();
-
   });
   return (
     <>
@@ -49,12 +47,15 @@ export default function Successful() {
         <meta property="og:title" content="Zuri Marketplace" />
         <meta property="og:description" content="Confirming Transaction" />
       </Head>
-      {!isLoading ?
-        (success ? (
+      {!isLoading ? (
+        success ? (
           <CartPaymentsuccessModal></CartPaymentsuccessModal>
         ) : (
           <CartPaymentFailureModal></CartPaymentFailureModal>
-        )) : <Loader></Loader> }
+        )
+      ) : (
+        <Loader></Loader>
+      )}
     </>
   );
 }

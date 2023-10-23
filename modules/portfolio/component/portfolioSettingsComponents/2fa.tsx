@@ -34,20 +34,30 @@ const Handling2FA = (props: close) => {
       if (email) {
         const resendResponse = await resend2FACode({ email });
         console.log(resendResponse);
-        setToken(resendResponse?.response?.token);
-        setLoading(false);
-        setOpen2Fa(false);
-        setContinue2Fa(true);
-        notify({
-          message: 'code sent check your mail',
-          type: 'success',
-        });
-        setTimeout(() => {
-          if (inputRefs.length > 0) {
-            inputRefs[0]?.current?.focus();
-          }
-        }, 500);
-        setFill(false);
+        if (resendResponse?.statues === 200) {
+          setToken(resendResponse?.response?.token);
+          setLoading(false);
+          setOpen2Fa(false);
+          setContinue2Fa(true);
+
+          notify({
+            message: 'code sent check your mail',
+            type: 'success',
+          });
+          setTimeout(() => {
+            if (inputRefs.length > 0) {
+              inputRefs[0]?.current?.focus();
+            }
+          }, 500);
+          setFill(false);
+        } else {
+          setLoading(false);
+          setOpen2Fa(false);
+          notify({
+            message: `${resendResponse?.message}`,
+            type: 'error',
+          });
+        }
       } else {
         setLoading(false);
         notify({
@@ -352,7 +362,7 @@ const Handling2FA = (props: close) => {
         <div className="hidden md:block">
           <Modal isOpen={open2Fa} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
             <div className=" relative  max-w-[440px] px-5 text-[14px] py-[40px]">
-              <button onClick={toggleModal} className="absolute right-0 top-0">
+              <button onClick={toggleModal} className="absolute right-0 top-3">
                 {' '}
                 <CloseCircle size="20" color="#009254" />
               </button>

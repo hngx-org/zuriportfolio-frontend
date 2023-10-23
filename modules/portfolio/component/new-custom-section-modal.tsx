@@ -51,11 +51,9 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     validateInputOnChange: true,
     validate: {
       addList: {
-        title: (value) =>
-          value?.length === 0 || containsWhitespace(value) ? 'Title is empty or contains whitespaces' : null,
+        title: (value) => (value?.length === 0 ? 'Title is empty or contains whitespaces' : null),
         subtitle: {
-          title: (value) =>
-            value?.length === 0 || containsWhitespace(value) ? 'Subtitle is empty or contains whitespaces' : null,
+          title: (value) => (value?.length === 0 ? 'Subtitle is empty or contains whitespaces' : null),
           value: (value) => (value?.length === 0 ? 'Subtitle - value is empty or contains whitespaces' : null),
         },
         dates: {
@@ -76,7 +74,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
         fields: (value) => {
           const errors = value?.reduce((acc, field, index) => {
             if (field?.inputfield !== undefined) {
-              if (field.inputfield?.length === 0 || containsWhitespace(field.inputfield)) {
+              if (field.inputfield?.length === 0) {
                 acc.push(`Input title is empty or contains whitespaces`);
               }
               if (field?.value?.length === 0) {
@@ -84,7 +82,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
               }
             }
             if (field?.links !== undefined) {
-              if (field.links?.length === 0 || containsWhitespace(field.links)) {
+              if (field.links?.length === 0) {
                 acc.push(`Link title is empty or contains whitespaces`);
               }
               if (!urlRegex.test(field.value)) {
@@ -163,7 +161,6 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
         value: sectionForm?.values?.section[0].description,
       });
     }
-    console.log(sectionForm?.values?.section[0].fields);
     fields.push(
       ...sectionForm?.values?.section[0].fields
         .filter((field) => field.type && field.inputfield && field.value)
@@ -176,18 +173,12 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
         }),
     );
 
-    if (fields.length) {
+    if (fields.length < 1) {
       const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/field`, {
         customUserSectionId: sectionForm?.values?.section[0]?.id,
         fields: fields,
       });
       return response.data;
-    } else {
-      return notify({
-        message: 'No fields added',
-        autoClose: 1000,
-        type: 'error',
-      });
     }
   });
 
@@ -205,31 +196,31 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
         setNewSection(true);
       },
       onError: (error) => {
-        console.error('Mutation failed:', error);
+        notify({
+          message: 'No fields added',
+          autoClose: 1000,
+          type: 'error',
+        });
       },
     });
   };
 
   const handleSubmit = (values: any) => {
-    // createNewCustomSectionOption.mutate(undefined, {
-    //   onSuccess: (res) => {
-    //     sectionForm.setFieldValue('section', values?.addList);
-    //     sectionForm.setFieldValue('section.0.id', res?.data?.id);
-    //     setGetNewSection(true);
-    //     setNewSection(false);
-    //   },
-    //   onError: () => {
-    //     notify({
-    //       message: 'An error occurred please try again',
-    //       autoClose: 1000,
-    //       type: 'error',
-    //     });
-    //   },
-    // });
-    sectionForm.setFieldValue('section', values?.addList);
-    // sectionForm.setFieldValue('section.0.id', res?.data?.id);
-    setGetNewSection(true);
-    setNewSection(false);
+    createNewCustomSectionOption.mutate(undefined, {
+      onSuccess: (res) => {
+        sectionForm.setFieldValue('section', values?.addList);
+        sectionForm.setFieldValue('section.0.id', res?.data?.id);
+        setGetNewSection(true);
+        setNewSection(false);
+      },
+      onError: () => {
+        notify({
+          message: 'An error occurred please try again',
+          autoClose: 1000,
+          type: 'error',
+        });
+      },
+    });
   };
 
   const handleClose = () => {

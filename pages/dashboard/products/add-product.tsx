@@ -59,9 +59,9 @@ const AddProduct = () => {
     initialValues: {
       name: '',
       description: '',
-      category_id: '',
+      sub_category_id: '',
       price: '',
-      discountPrice: '',
+      discountPrice: '0',
       tax: '',
       currency: 'NGN',
       assets_link: '',
@@ -147,7 +147,7 @@ const AddProduct = () => {
     event.target.blur();
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, category_id: event.target.value });
+    setProducts({ ...products, sub_category_id: event.target.value });
   };
 
   const fetchCategories = async () => {
@@ -194,7 +194,7 @@ const AddProduct = () => {
     name: '',
     description: '',
     quantity: '',
-    category_id: '',
+    sub_category_id: '',
     price: '',
     discountPrice: '0',
     tax: '',
@@ -368,7 +368,7 @@ const AddProduct = () => {
         </div>
         <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'hidden'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
-            <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
+            <div className="border-r-[1px]  md:max-h-[80vh] md:overflow-y-scroll md:scrollbar-thin md:scrollbar-thumb-white-610 border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
@@ -500,12 +500,12 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-black py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.category_id}
+                    // value={products.sub_category_id}
                     // onChange={handleOptionChange}
 
-                    {...form.getInputProps('category_id')}
+                    {...form.getInputProps('sub_category_id')}
                   >
                     <option value="" className="placeholder:text-[#000] text-black capitalize" disabled>
                       Select product category
@@ -524,9 +524,9 @@ const AddProduct = () => {
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
                   {/* <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.sub_category_id}
+                    // value={products.sub_sub_category_id}
                     // onChange={handleOptionChange}
 
                     {...form.getInputProps('shopId')}

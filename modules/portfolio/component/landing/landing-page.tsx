@@ -6,10 +6,8 @@ import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
 import Home from '../modals/add-section';
 import Portfolio from '../../../../context/PortfolioLandingContext';
-import Profile, { CoverDiv } from './avatars';
-import Loader from './Loader';
+import { CoverDiv } from './avatars';
 import EditProfile from '../modals/edit-profile';
-import ViewTemplate from '../modals/view-template';
 import { Edit2 } from 'iconsax-react';
 import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
@@ -20,7 +18,6 @@ const Landing = () => {
     profileUpdate,
     showProfileUpdate,
     showBuildPortfolio,
-    showViewtemplates,
     userData,
     getUserSections,
     userSections,
@@ -56,18 +53,14 @@ const Landing = () => {
       </div>
       <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
         {getUserSections.isLoading ? (
-          <SkeletonLoader />
+          <SkeletonLoader pulse={true} error={false} message={''} />
         ) : !getUserSections.isSuccess ? (
-          <div className="flex justify-center items-center min-h-[50vh]">
-            <p className="text-red-200 text-2xl font-semibold text-center">
-              Something went wrong, please try again later
-            </p>
-          </div>
+          <SkeletonLoader pulse={false} error={true} message={'Something went wrong, please try again later'} />
         ) : (
           <>
             <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5">
               {cover}
-              {/* <Cover userData={userData} /> */}
+              <Cover userData={userData} />
               <div className="absolute top-0 right-5 md:right-10 text-white-100 flex flex-col justify-between items-end h-[200px] sm:h-[250px] md:h-[300px] py-5">
                 <EditCover Link={Link} handleUploadCover={handleUploadCover} />
               </div>
