@@ -5,14 +5,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const fetchActivityDetails = async (token: string) => {
-  const response = await fetch(
-    'https://staging.zuri.team/api/v1/super-admin/analytics/activities/',
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const response = await fetch('https://staging.zuri.team/api/v1/super-admin/analytics/activities/', {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch data. Status: ${response.status}`);
