@@ -132,7 +132,7 @@ export const fetchSalesReports = async (timeframe: string) => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const salesReport = res?.data?.data;
+    const salesReport = res?.data?.data?.reports;
     return salesReport;
   } catch (error) {
     throw error;

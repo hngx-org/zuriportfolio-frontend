@@ -1,7 +1,21 @@
 import { useQueries, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { MetricChartProps, MetricTimelineProps } from '../../../../@types';
-import { metricsChartTimeline, salesReportFrames, storeTrafficFrames } from '../../../../db/dashboard';
+import {
+  metricsChartTimeline,
+  nullSalesData24Hours,
+  nullSalesData30Days,
+  nullSalesData7Days,
+  nullSalesDataThreeMonths,
+  nullSalesDataTwelveMonths,
+  nullTrafficData24Hours,
+  nullTrafficData30Days,
+  nullTrafficData7Days,
+  nullTrafficDataThreeMonths,
+  nullTrafficDataTwelveMonths,
+  salesReportFrames,
+  storeTrafficFrames,
+} from '../../../../db/dashboard';
 import { logQueryResult } from '../../../../helpers/dashboard';
 import { fetchSalesReports, fetchShopID, fetchStoreTraffic } from '../../../../http/dashboard';
 import Chart from './chart';
@@ -38,17 +52,17 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   });
   logQueryResult('store-traffic', storeTrafficQueryResults);
 
-  const query12MonthStoreTrafficData = storeTrafficQueryResults[0];
-  const query3MonthStoreTrafficData = storeTrafficQueryResults[1];
-  const query30DayStoreTrafficData = storeTrafficQueryResults[2];
-  const query7DayStoreTrafficData = storeTrafficQueryResults[3];
-  const query24HourStoreTrafficData = storeTrafficQueryResults[4];
+  const query12MonthStoreTrafficData = storeTrafficQueryResults[0]?.data || nullTrafficDataTwelveMonths;
+  const query3MonthStoreTrafficData = storeTrafficQueryResults[1]?.data || nullTrafficDataThreeMonths;
+  const query30DayStoreTrafficData = storeTrafficQueryResults[2]?.data || nullTrafficData30Days;
+  const query7DayStoreTrafficData = storeTrafficQueryResults[3]?.data || nullTrafficData7Days;
+  const query24HourStoreTrafficData = storeTrafficQueryResults[4]?.data || nullTrafficData24Hours;
 
-  const query12MonthSalesReportData = salesReportQueryResults[0];
-  const query3MonthSalesReportData = salesReportQueryResults[1];
-  const query30DaySalesReportData = salesReportQueryResults[2];
-  const query7DaySalesReportData = salesReportQueryResults[3];
-  const query24HourSalesReportData = salesReportQueryResults[4];
+  const query12MonthSalesReportData = salesReportQueryResults[0]?.data || nullSalesDataTwelveMonths;
+  const query3MonthSalesReportData = salesReportQueryResults[1]?.data || nullSalesDataThreeMonths;
+  const query30DaySalesReportData = salesReportQueryResults[2]?.data || nullSalesData30Days;
+  const query7DaySalesReportData = salesReportQueryResults[3]?.data || nullSalesData7Days;
+  const query24HourSalesReportData = salesReportQueryResults[4]?.data || nullSalesData24Hours;
 
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
   const [trafficChartData, setTrafficChartData] = useState<UseQueryResult<any, unknown>>(query12MonthStoreTrafficData);
