@@ -44,8 +44,10 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
   return (
     <>
       <div className=" flex flex-col space-y-[16px] items-start container mx-auto">
-        <h1 className="font-semibold md:text-[22px] text-sm font-manropeB text-dark-105">Notification Setting</h1>
-        <p className="text-sm md:text-[16px] font-manropeB text-[#444846]">Email Notification</p>
+        <h1 className="font-manropeL text-[1rem] sm:text-[22px] text-[#2E3130] leading-[1.75rem]">
+          Notification Setting
+        </h1>
+        <p className="text-[14px] md:text-[16px] font-manropeB text-[#444846]">Email Notification</p>
         <div className="md:text-[16px] text-[14px] font-manropeL space-y-[16px] text-white-650">
           <div className="flex items-center gap-2">
             <input
@@ -53,7 +55,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="emailSummary"
               id="emailSummary"
               onChange={() => handleLabelClick('emailSummary')}
-              checked={checkboxState.emailSummary}
+              checked={checkboxState?.emailSummary}
               className="appearance-none hidden"
             />
             <label
@@ -63,11 +65,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.emailSummary && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.emailSummary && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.emailSummary && (
+                  {checkboxState?.emailSummary && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
@@ -84,7 +86,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="specialOffers"
               id="specialOffers"
               onChange={() => handleLabelClick('specialOffers')}
-              checked={checkboxState.specialOffers}
+              checked={checkboxState?.specialOffers}
               className="appearance-none hidden"
             />
             <label
@@ -94,11 +96,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.specialOffers && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.specialOffers && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.specialOffers && (
+                  {checkboxState?.specialOffers && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
@@ -115,7 +117,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="communityUpdate"
               id="communityUpdate"
               onChange={() => handleLabelClick('communityUpdate')}
-              checked={checkboxState.communityUpdate}
+              checked={checkboxState?.communityUpdate}
               className="appearance-none hidden"
             />
             <label
@@ -125,11 +127,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.communityUpdate && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.communityUpdate && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.communityUpdate && (
+                  {checkboxState?.communityUpdate && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
@@ -146,7 +148,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="followUpdate"
               id="followUpdate"
               onChange={() => handleLabelClick('followUpdate')}
-              checked={checkboxState.followUpdate}
+              checked={checkboxState?.followUpdate}
               className="appearance-none hidden"
             />
             <label
@@ -160,7 +162,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
+                  {checkboxState?.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
                 </p>
               </div>
               Notify when someone follows you
@@ -172,7 +174,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="newMessages"
               id="newMessages"
               onChange={() => handleLabelClick('newMessages')}
-              checked={checkboxState.newMessages}
+              checked={checkboxState?.newMessages}
               className="appearance-none hidden"
             />
             <label
@@ -182,11 +184,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.newMessages && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.newMessages && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.newMessages && (
+                  {checkboxState?.newMessages && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}

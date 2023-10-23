@@ -172,7 +172,7 @@ const OrderHistory: React.FC = () => {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
-      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all?page=${currentPage}`;
+      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/orders/all?page=${currentPage}`;
       // const url = `http://localhost:8080/api/orders/all?page=${currentPage}&itemsPerPage=${itemsPerPage}`;
       const { data } = await axios({
         url,

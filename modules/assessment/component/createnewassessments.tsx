@@ -2,26 +2,27 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
-import minus from './minus.svg';
 import questions_and_answers from './newlist';
 import useDisclosure from '../../../hooks/useDisclosure';
-import Modal from '@ui/Modal';
 import { ToPushContext } from '../../../pages/super-admin/assessment/new';
 import { UpdateContext } from '../../../pages/super-admin/assessment/new';
 import { toast } from 'react-toastify';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import Mintime from './mintime';
+import trashred from '../../../public/assets/assessment/trashred.png';
+import cancel from '../../../public/assets/assessment/cancel.png';
 
 import Image from 'next/image';
+
 const CreateTemplate = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
-  const [delModal, setDelModal] = useState(false);
-  const [delQuestId, setDelQuestId] = useState(0);
   const updatelistinobj = () => {
     const newt = { ...newobject };
     newt.questions_and_answers = list;
     setObject(newt);
+    console.log(newobject);
   };
   const handleinputQuestion = (e: any, index: number) => {
     const updatedData = [...list];
@@ -57,7 +58,6 @@ const CreateTemplate = () => {
   //adding options
   const handleIncreaseOption = (index: number) => {
     const updatedData = [...list];
-    //updatedData[indextoadd]?.options.push('')
     updatedData[index].options.push('');
     setList(updatedData);
     updatelistinobj();
@@ -84,28 +84,14 @@ const CreateTemplate = () => {
   };
   const delquest = (index: number) => {
     if (list.length > 1) {
-      setDelQuestId(index);
-      setDelModal(true);
+      const updatedData = [...list];
+      const newdata = splicearr(updatedData, index);
+      newobject.questions_and_answers = newdata;
+      setList(newobject.questions_and_answers);
     } else {
       toast.error('You have only one question, you can not delete it');
     }
   };
-  const [yesdel, setYesdel] = useState(false);
-  const confirmDelQuest = () => {
-    setYesdel(true);
-    setDelModal(false);
-  };
-
-  useEffect(() => {
-    if (yesdel === true) {
-      const updatedData = [...list];
-      const newdata = splicearr(updatedData, delQuestId);
-      newobject.questions_and_answers = newdata;
-      setList(newobject.questions_and_answers);
-      setYesdel(false);
-    }
-  }, [delModal, newobject]);
-
   useEffect(() => {
     if (listupdate === 'addquest') {
       setList(newobject.questions_and_answers);
@@ -121,7 +107,6 @@ const CreateTemplate = () => {
       const newt = { ...newobject };
       newt.questions_and_answers = list;
       setObject(newt);
-      console.log(newobject);
 
       setListupdate('post');
     }
@@ -134,37 +119,32 @@ const CreateTemplate = () => {
         cleared[0].question_text = '';
         (cleared[0].options = ['']), (cleared[0].correct_option = 0), setList(cleared);
       }
+      Mintime.hours = 0;
+      Mintime.mins = 0;
+      Mintime.secs = 0;
       setListupdate('waiting');
     }
-  }, [listupdate, newobject, setObject, setListupdate, list]);
+  }, [listupdate, newobject, setObject, setListupdate, list, Mintime]);
+
   return (
     <>
       <div className="flex flex-col gap-y-8">
-        {delModal && (
-          <Modal
-            isOpen={!isOpen}
-            closeModal={onOpen}
-            title={'Are you sure you are deleting this question? Deleted questions can not be retrieved'}
-            isCloseIconPresent={false}
-            size="sm"
-          >
-            <div className="flex my-5 gap-2 w-full">
-              <Button className="w-full flex-1" onClick={() => setDelModal(false)}>
-                NO
-              </Button>
-              <Button className="w-full bg-red-300 flex-1" onClick={confirmDelQuest}>
-                Yes
-              </Button>
-            </div>
-          </Modal>
-        )}
         {list.map((item, index) => {
           return (
             <div
               key={index}
               className="w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left"
             >
-              <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${index + 1}`}</div>
+              <div className="font-semibold text-[20px] flex justify-between w-full text-[#1A1C1B]">
+                <div>{`Question ${index + 1}`}</div>
+                <div
+                  onClick={() => {
+                    delquest(index);
+                  }}
+                >
+                  <Image src={trashred} width={20} height={20} alt="trash question" />
+                </div>
+              </div>
               <div className="flex items-center pt-4 gap-x-4">
                 <Input
                   className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
@@ -176,14 +156,6 @@ const CreateTemplate = () => {
                   intent={'default'}
                   size={15}
                 />
-                <div
-                  className="text-white-100 bg-red-200 p-3 shadow cursor-pointer rounded hover:shadow-lg"
-                  onClick={() => {
-                    delquest(index);
-                  }}
-                >
-                  Del
-                </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
               {list[index].options.map((opt: any, n: any) => {
@@ -206,26 +178,22 @@ const CreateTemplate = () => {
                         size={15}
                       />
                       <div
+                        className="pl-2"
                         onClick={() => {
                           handleDelete(index, n);
                         }}
                       >
-                        <Image src={minus} alt="minus" width={28} height={28} />
+                        <Image src={cancel} alt="delete option" width={10} height={10} />
                       </div>
                     </div>
                   </div>
                 );
               })}
-              <div className="pt-2">
-                <Button
-                  onClick={() => handleIncreaseOption(index)}
-                  rightIcon={<Add color="black" />}
-                  intent={'primary'}
-                  size={'md'}
-                  className="bg-[tansparent] text-dark-100 hover:text-dark-100 hover:bg-[transparent]"
-                >
-                  Add Another Option
-                </Button>
+              <div
+                className="py-3 text-dark-100 cursor-pointer text-sm hover:text-brand-green-focused"
+                onClick={() => handleIncreaseOption(index)}
+              >
+                Add Another Option
               </div>
               <div className=" text-[20px] font-semibold  text-[#1A1C1B] pt-3">Choose Correct Answer</div>
               <div className="pt-4 w-full ">
@@ -256,9 +224,9 @@ const CreateTemplate = () => {
         <Button
           onClick={handleAddquestion}
           leftIcon={<Add color="black" />}
-          intent={'primary'}
+          intent={'secondary'}
           size={'md'}
-          className="bg-[transparent] text-dark-100 border-2 border-[#009444]"
+          className="text-dark-100"
         >
           Add Question
         </Button>

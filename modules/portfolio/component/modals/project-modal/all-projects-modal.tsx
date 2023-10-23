@@ -60,11 +60,14 @@ const AllProjectsModal = ({
       });
   };
 
+  useEffect(() => {
+    console.log(projects, 'all Projects modal');
+  }, [projects]);
+
   const handleDelete = (id: number | null) => {
     axios
       .delete(`${endpoint}/api/projects/${id}`)
       .then((res) => {
-        console.log(res.data);
         notify({
           message: 'Project deleted successfully',
           position: 'top-center',
@@ -74,7 +77,6 @@ const AllProjectsModal = ({
         getAllProjects();
       })
       .catch((err) => {
-        console.log(err);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -92,32 +94,39 @@ const AllProjectsModal = ({
             const { description, tags, url, title, thumbnail, id } = project;
             return (
               <Fragment key={id}>
-                <section className="flex flex-wrap gap-10 mt-10">
+                <section className="flex flex-wrap gap-6 mt-10">
                   <section className="w-full min-[920px]:w-[250px] h-[220px]">
                     <Image src={thumbnail} width={250} height={400} className="h-full" alt="Project sample image" />
                   </section>
                   <section className="min-[920px]:flex-1 font-manropeL">
                     <h2 className="font-manropeL text-2xl sm:text-3xl md:text-4xl">{title}</h2>
 
-                    <p className="font-semibold wrap font-manropeL break-normal w-full mt-5 text-sm sm:text-base text-white-650 md:text-xl md:leading-[2rem]">
+                    <p className="font-semibold wrap font-manropeL break-normal w-full mt-2 text-sm sm:text-base text-white-650 md:text-xl md:leading-[2rem]">
                       {description}
                     </p>
 
-                    <div className="flex flex-wrap gap-3 mt-5 mb-5 text-sm text-[#444846] capitalize">
+                    <div className="flex flex-wrap gap-3 mt-3 mb-5 text-sm text-[#444846] capitalize">
                       {tags.split(',').length > 0 &&
-                        tags.split(',').map((tag: string) => (
-                          <span key={tag} className="border-2 border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
-                            {tag}
-                          </span>
-                        ))}
+                        tags.split(',').map((tag: string) => {
+                          if (tag.length > 0) {
+                            return (
+                              <span
+                                key={tag}
+                                className="border-2 border-[#8D9290] rounded-full px-2 py-1 font-manropeL"
+                              >
+                                {tag}
+                              </span>
+                            );
+                          }
+                        })}
                     </div>
 
-                    <section className="flex flex-wrap gap-4">
+                    <section className="flex flex-wrap gap-4 mt-2">
                       <Link
                         href={url}
                         target="_blank"
                         rel="noreferrer"
-                        className="font-semibold text-[#5B8DEF] text-sm md:text-base mt-5 font-manropeL block"
+                        className="font-semibold text-green-600 text-sm md:text-base font-manropeL block"
                       >
                         Link to project <span className="ml-1 text-base">&#8599;</span>
                       </Link>
@@ -126,7 +135,7 @@ const AllProjectsModal = ({
                           handleEdit(project);
                           handleSetRoute('single-project');
                         }}
-                        className="text-green-600 text-sm md:text-base mt-5 font-manropeL font-semibold cursor-pointer"
+                        className="text-green-600 text-sm md:text-base font-manropeL font-semibold cursor-pointer"
                       >
                         View More
                       </span>
@@ -134,7 +143,7 @@ const AllProjectsModal = ({
                   </section>
                 </section>
 
-                <section className="flex justify-end gap-2.5 mt-5 text-base font-semibold pr-5">
+                <section className="flex justify-end gap-2.5 mt-3 text-base font-semibold pr-5">
                   <span
                     className="text-[#5B8DEF] cursor-pointer font-manropeL"
                     onClick={() => {
@@ -142,10 +151,10 @@ const AllProjectsModal = ({
                       handleSetRoute('add-project');
                     }}
                   >
-                    <Edit2 size="32" color="#37d67a" variant="Outline" />
+                    <Edit2 size="20" color="#37d67a" variant="Outline" />
                   </span>
                   <span className="text-[#FF5C5C] cursor-pointer font-manropeL" onClick={() => handleDelete(id)}>
-                    <Trash size="32" color="#f47373" variant="Outline" />
+                    <Trash size="20" color="#f47373" variant="Outline" />
                   </span>
                 </section>
 

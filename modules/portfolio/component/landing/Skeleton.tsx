@@ -1,4 +1,4 @@
-import { ArrowUp, ExportSquare } from 'iconsax-react';
+import { ArrowUp, Image as P } from 'iconsax-react';
 import Image from 'next/image';
 import AddShopErrorModal from '../addShopErrorModal';
 import { useContext, useEffect, useState } from 'react';
@@ -19,12 +19,12 @@ type SkeletonProps = {
 
 // styles
 
-const text = `text-gray-500 text-sm font-light leading-6 font-manropeL tracking-wide [word-spacing:3px]`;
-const description = `text-sm text-gray-600 leading-5 font-manropeL tracking-wide`;
-const main = `text-gray-800 text-xl font-semibold`;
-const date = `text-gray-500 text-sm font-semibold`;
-const array = 'grid place-content-center p-2 rounded-lg shadow-[0_0px_4px_1px_rgba(0,0,0,0.1)]';
-const arrayText = 'text-base text-gray-800 font-semibold opacity-70';
+const text = `text-gray-500 text-sm font-light leading-6 font-manropeL tracking-wide [word-spacing:3px] break-all`;
+const description = `text-sm text-gray-600 leading-5 font-manropeL tracking-wide break-all`;
+const main = `text-gray-800 text-xl font-semibold break-all`;
+const date = `text-gray-500 text-sm font-semibold break-all`;
+const array = 'grid place-content-center p-2 rounded-lg shadow-[0_0px_4px_1px_rgba(0,0,0,0.1)] break-all';
+const arrayText = 'text-base text-gray-800 font-semibold opacity-70 break-all';
 
 // components
 export const About = ({ bio }: AboutProps) => {
@@ -170,7 +170,7 @@ export const Certificate = ({ data }: SkeletonProps) => {
 
 export const Education = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
+    <div className="flex flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
       <p className="text-gray-300 font-semibold text-base flex-1">
         <span>{data?.from}</span> - <span>{data?.to}</span>
       </p>
@@ -178,7 +178,7 @@ export const Education = ({ data }: SkeletonProps) => {
         <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
         <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
       </div>
-      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
+      <p className={description}>{data?.description}</p>
     </div>
   );
 };
@@ -196,7 +196,10 @@ export const Project = ({ data }: SkeletonProps) => {
       className="w-full object-cover object-center aspect-square rounded-xl border-2 border-gray-300 border-opacity-5 shadow-md"
     />
   ) : (
-    'Thumbnail not found'
+    <div className='"w-full object-cover object-center aspect-square rounded-xl border-2 border-gray-300 border-opacity-20 shadow-md flex justify-center items-center flex-col gap-1'>
+      <P size="50" className="text-brand-green-primary opacity-90" />
+      <p className="opacity-30">Thumbnail not found</p>
+    </div>
   );
   return (
     <div className="flex md:flex-row flex-col mb-10 gap-1">
@@ -209,6 +212,7 @@ export const Project = ({ data }: SkeletonProps) => {
 
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
+        <p className={date}>Year - {data?.year}</p>
         <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-2 md:mb-0 mb-3">
           {dataToMap.length > 1 &&
@@ -218,10 +222,6 @@ export const Project = ({ data }: SkeletonProps) => {
               </span>
             ))}
         </div>
-
-        <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
-          Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
-        </a>
       </div>
     </div>
   );
@@ -278,22 +278,39 @@ export const Shop = () => {
 };
 
 export const Contact = ({ data }: SkeletonProps) => {
+  let urlTitle;
+  let color;
+
+  if (data?.url?.includes('facebook')) {
+    urlTitle = 'Facebook';
+    color = 'text-blue-500';
+  } else if (data?.url?.includes('twitter')) {
+    urlTitle = 'Twitter';
+    color = 'text-blue-400';
+  } else if (data?.url?.includes('linkedin')) {
+    urlTitle = 'LinkedIn';
+    color = 'text-blue-600';
+  } else if (data?.url?.includes('github')) {
+    urlTitle = 'Github';
+    color = 'text-gray-800';
+  } else if (data?.url?.includes('threads')) {
+    urlTitle = 'Threads';
+    color = 'text-black';
+  }
+
   return (
-    <div className="flex flex-col w-full gap-5">
-      {/* {data?.map((contact: { title: string; info: string; url: string }, i: string) => ( */}
+    <div className="flex flex-col gap-5">
       <div>
-        <div className="flex justify-start items-center gap-10">
-          <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.title}</span>
-          <a
-            className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
-            href={data.url}
-          >
-            {data.url}
-            <ExportSquare size={14} />
-          </a>
-        </div>
+        <a
+          className={`${color} font-semibold text-sm flex-[2] flex max-w-fit items-center text-center gap-3"`}
+          href={data.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {urlTitle}
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </a>
       </div>
-      {/* ))} */}
     </div>
   );
 };

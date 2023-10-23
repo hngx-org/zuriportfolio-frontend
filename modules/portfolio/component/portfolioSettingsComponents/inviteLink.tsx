@@ -10,12 +10,11 @@ import Social1 from '../../../../public/assets/inviteAssets/Social1.svg';
 import Share from '../../../../public/assets/inviteAssets/share-01.svg';
 import { useAuth } from '../../../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
-import Profile from '../landing/avatars';
 
 export default function InviteLink() {
   const { auth } = useAuth();
   const websiteURL = window.location.origin;
-  const profileUrl = `${websiteURL}/portfolio`;
+  const profileUrl = `${websiteURL}/portfolio/${auth?.user.slug}`;
   const copyInvite = useRef<any>(null);
   const handleCopyToClipboard = () => {
     if (copyInvite.current) {
@@ -38,14 +37,16 @@ export default function InviteLink() {
 
   const toggleModal = () => {
     setOPenModal((prev: boolean) => !prev);
-    console.log(`${websiteURL}/portfolio/${auth?.user.id}`);
+    console.log(`${websiteURL}/portfolio/${auth?.user.slug}`);
   };
 
   return (
     <div className={`  space-y-4 font-manropeB container mx-auto  `}>
-      <p className="  text-dark-110  font-manropeB text-sm md:text-[22px]">Invite your friends! </p>
+      <h3 className="font-manropeL text-[1rem] sm:text-[22px] text-[#2E3130] leading-[1.75rem]">
+        Invite your friends!
+      </h3>
       <p className="text-white-650 leading-[20px]  font-manropeL  text-sm">
-        Share the website link to help us grow the community and get rewards.{' '}
+        Share your Profile link to help us grow the community and get rewards.{' '}
       </p>
       <div className="w-full flex  ">
         <input

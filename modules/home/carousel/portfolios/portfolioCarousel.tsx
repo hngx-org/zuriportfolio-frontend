@@ -26,10 +26,6 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    src: portraitOne.src,
-    section: 'portrait',
-  },
-  {
     src: portraitTwo.src,
     alt: 'portfolio',
     name: 'Daniel Buffa',
@@ -52,10 +48,7 @@ const slides: Slide[] = [
     skills: ['Animation', 'Figma'],
     section: 'portfolio',
   },
-  {
-    src: portraitFour.src,
-    section: 'portrait',
-  },
+
   {
     src: portraitFive.src,
     alt: 'portfolio',
@@ -78,10 +71,6 @@ const slides: Slide[] = [
     role: 'Teacher',
     skills: ['Math', 'English'],
     section: 'portfolio',
-  },
-  {
-    src: portraitSeven.src,
-    section: 'portrait',
   },
   {
     src: portraitEight.src,
@@ -165,7 +154,7 @@ const PortfolioCarousel = () => {
             {/* Shop section */}
             {logo?.section === 'shop' && (
               <div
-                className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
+                className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-[11px]"
                 style={{ backgroundImage: `url(${logo?.src})` }}
               >
                 <div className="flex justify-center w-full items-center bg-white-100 p-2 rounded-b">
