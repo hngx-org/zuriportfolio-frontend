@@ -1,7 +1,7 @@
 //* Removed some unnecessary imports
 
 import React, { useState, useEffect } from 'react';
-import NavDashBoard from '../../../../../modules/dashboard/component/Navbar';
+import NavDashBoard from '@modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -15,10 +15,11 @@ import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/Em
 import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
 import { ReviewData, ReviewApiResponse, RatsData } from '../../../../../@types';
-import Breadcrumbs from '../../../../../components/Breadcrumbs';
+import { set } from 'nprogress';
 
 //* Moved type definitions to @types/index.d.ts
 const SellersView = () => {
+  //* Added a function to set the page number in the url
   const setPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     router.push({
@@ -37,6 +38,7 @@ const SellersView = () => {
   const [rats, setRats] = useState<RatsData>();
   const [filterRating, setFilterRating] = useState<string>('all');
   const [filterView, setFilterView] = useState<string>('topReviews');
+  const [metaData, setMetaData] = useState<any>();
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
   const [productName, setProductName] = useState<string>('');
   const [mountUI, setMountUI] = useState<boolean>(false);
@@ -69,15 +71,21 @@ const SellersView = () => {
       }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
-        .then((data: ReviewApiResponse) => setData(data.data))
+        .then((data) => {
+          setMetaData(data.data.meta);
+          setData(data.data.items);
+        })
         .catch((e) => console.log(e));
     } else {
-      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/${id}/reviews/rating?rating=${filterRating}&pageNumber=${
         currentPage - 1
       }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
-        .then((data: ReviewApiResponse) => setData(data.data))
+        .then((data) => {
+          setMetaData(data.data.meta);
+          setData(data.data.items);
+        })
         .catch((e) => console.log(e));
     }
   }, [mountUI, filterRating, filterView, currentPage, id]);
@@ -92,11 +100,11 @@ const SellersView = () => {
   }, [id]);
 
   const ratingData = [
-    { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
-    { rating: 4, users: rats?.fourStar!, total: rats?.numberOfRating! },
-    { rating: 3, users: rats?.threeStar!, total: rats?.numberOfRating! },
-    { rating: 2, users: rats?.twoStar!, total: rats?.numberOfRating! },
-    { rating: 1, users: rats?.oneStar!, total: rats?.numberOfRating! },
+    { rating: 5, users: rats?.fiveStar! || 0, total: rats?.numberOfRating! },
+    { rating: 4, users: rats?.fourStar! || 0, total: rats?.numberOfRating! },
+    { rating: 3, users: rats?.threeStar! || 0, total: rats?.numberOfRating! },
+    { rating: 2, users: rats?.twoStar! || 0, total: rats?.numberOfRating! },
+    { rating: 1, users: rats?.oneStar! || 0, total: rats?.numberOfRating! },
   ];
 
   // ToDo: Remove all commented out code
@@ -121,9 +129,17 @@ const SellersView = () => {
     if (view === 'topReviews') {
       filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
     } else if (view === 'newest') {
-      filteredReviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      filteredReviews.sort(
+        (a, b) =>
+          new Date(b.createdAtDate + ' ' + b.createdAtTime).getTime() -
+          new Date(a.createdAtDate + ' ' + a.createdAtTime).getTime(),
+      );
     } else if (view === 'oldest') {
-      filteredReviews.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      filteredReviews.sort(
+        (a, b) =>
+          new Date(a.createdAtDate + ' ' + a.createdAtTime).getTime() -
+          new Date(b.createdAtDate + ' ' + b.createdAtTime).getTime(),
+      );
     }
 
     return filteredReviews;
@@ -148,12 +164,12 @@ const SellersView = () => {
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
-        <Breadcrumbs />
-        {!rats ? (
+        <NavDashBoard active="reviews" />
+        {!data ? (
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
           </div>
-        ) : rats === null || rats.averageRating === undefined ? (
+        ) : data === null ? (
           <EmptyReviewPage />
         ) : (
           <div className="flex flex-col justify-center items-center md:mb-16">
@@ -164,26 +180,45 @@ const SellersView = () => {
                   onClick={() => router.back()}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
+                  {/* Commented out title for testing */}
                   {/* {router.query.title} */}
-                  Customer Feedback
+                  Customer Reviews
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
-                    <RatingBar avgRating={rats?.averageRating!} verUser={100} />
+                    <RatingBar avgRating={rats?.averageRating! || 0} verUser={rats?.numberOfRating! || 0} />
+                    {/* <div className="md:hidden block">
+                      <p className="pt-6">Have any thoughts?</p>
+                      <Link
+                        href={`../create/${rats?.productId}`}
+                        className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
+                      >
+                        <button className="hover:text-green-200">Write a Review!</button>
+                      </Link>
+                    </div> */}
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
                     ))}
+                    {/* <div className="hidden md:block">
+                      <p className="pt-6">Have any thoughts?</p>
+                      <Link
+                        href={`../create/${rats?.productId}`}
+                        className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
+                      >
+                        <button className="hover:text-green-200">Write a Review!</button>
+                      </Link>
+                    </div> */}
                   </div>
                 </div>
-                <div id="top" className="flex flex-col">
+                <div className="flex flex-col">
                   <div className="w-full justify-start">
                     <Filter
-                      rating={rats?.totalRating!}
-                      review={rats?.numberOfRating!}
+                      rating={rats?.totalRating! || 0}
+                      review={rats?.numberOfRating! || 0}
                       filterReview={(view, rating) => handleFilter(view, rating)}
                     />
                   </div>
@@ -191,13 +226,13 @@ const SellersView = () => {
                     {!filteredData ? (
                       <Loader />
                     ) : filteredData?.length === 0 ? (
-                      <h2>No results</h2>
+                      <EmptyReviewPage />
                     ) : (
                       filteredData?.map((review) => (
                         <SellerReview
                           key={review.reviewId}
                           buyerName={review.customerName}
-                          mainDate={review.createdAt}
+                          mainDate={review.createdAtDate + ' ' + review.createdAtTime}
                           adminDate={review.reply?.createdAt}
                           review={review.description}
                           noOfStars={review.rating}
@@ -211,19 +246,13 @@ const SellersView = () => {
                 </div>
               </div>
             </div>
-            {data === null || data === undefined || data.length === 0 ? (
-              <div className=" w-0 h-0 m-0 p-0 hidden"></div>
-            ) : (
-              <a href="#top" className="w-fit">
-                <Pagination
-                  page={currentPage}
-                  pages={data[0]?.numberOfPages}
-                  activePage={currentPage}
-                  visiblePaginatedBtn={3}
-                  setPage={setPage}
-                />
-              </a>
-            )}
+            <Pagination
+              page={currentPage}
+              pages={metaData?.totalPages!}
+              activePage={currentPage}
+              visiblePaginatedBtn={3}
+              setPage={setPage}
+            />
           </div>
         )}
       </Container>

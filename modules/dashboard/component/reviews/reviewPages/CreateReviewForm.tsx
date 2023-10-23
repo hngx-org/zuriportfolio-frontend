@@ -4,11 +4,10 @@ import Container from '@modules/auth/component/Container/Container';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
+import Link from 'next/link';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useRouter } from 'next/router';
-import { revNavProps } from '../../../../../@types';
-import Breadcrumbs from '../../../../../components/Breadcrumbs';
+import NavDashBoard from '@modules/dashboard/component/Navbar';
 
 interface RatsData {
   oneStar: number;
@@ -27,7 +26,7 @@ interface RatsApiResponse {
   data: RatsData;
 }
 
-export default function CreateReviewForm(navProps: revNavProps) {
+export default function CreateReview() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -62,14 +61,15 @@ export default function CreateReviewForm(navProps: revNavProps) {
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
-          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
-          {navProps.marketPlaceNav === true && <CategoriesNav navItems={categories} isLoading={loading} />}
-          {navProps.shopNav === true && <Breadcrumbs />}
+          <NavDashBoard active="reviews" />
         </div>
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">
             <div className=" flex md:flex-col items-center flex-row md:mr-7 mr-0 p-4 ">
-              <RatingBar avgRating={rats?.averageRating === undefined ? 0 : rats?.averageRating!} verUser={100} />
+              <RatingBar
+                avgRating={rats?.averageRating === undefined ? 0 : rats?.averageRating!}
+                verUser={rats?.numberOfRating! || 0}
+              />
               <div className=" my-5">
                 {ratingData.map((data, index) => (
                   <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
@@ -77,6 +77,15 @@ export default function CreateReviewForm(navProps: revNavProps) {
                 <p className="md:hidden text-xs py-1 font-manropeL text-center tracking-tight">
                   {rats?.totalRating} total ratings, {rats?.numberOfRating} with reviews
                 </p>
+              </div>
+              <div className="hidden md:block">
+                <p className="pt-6">Have any thoughts?</p>
+                <Link
+                  href={`../product-details/${id}`}
+                  className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
+                >
+                  <button className="hover:text-green-200 font-semibold">Here are some recent reviews.</button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col content-center mx-auto items-center justify-center">

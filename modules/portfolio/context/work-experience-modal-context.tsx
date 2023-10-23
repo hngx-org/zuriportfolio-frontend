@@ -83,89 +83,18 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       sectionId: 2,
     });
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/updateexperience/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: experienceObject,
-      });
-      if (response.ok) {
-        setIsEditMode(false);
-        setIsData(true);
-        setIsForm(false);
-        getAllWorkExperience();
-      }
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDeleteExperience = async (id: string, e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const experienceId = parseInt(id, 10); // Convert id to a number
-    if (isNaN(experienceId)) {
-      console.error('Invalid experience id:', id);
-      return;
-    }
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(`${API_BASE_URL}api/v1/experience/${id}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        notify({
-          message: `Work experience ${isEditMode ? 'Edited' : 'Deleted'} successfully`,
-          position: 'top-center',
-          theme: 'light',
-          type: 'success',
-        });
-        setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
-      }
-    } catch (error) {
-      console.error(error);
-      notify({
-        message: 'Was not able to delete work experience 😞',
-        position: 'top-center',
-        theme: 'light',
-        type: 'error',
-      });
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getAllWorkExperience = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${portfolioUrl}/${slug}`);
-
-      if (response.ok) {
-        const data = await response.json();
-        const { workExperience } = data;
-        if (workExperience.length === 0) {
-          setIsForm(true);
-        }
-        setWorkExperiences(workExperience);
-      }
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [userId, slug]);
-
-  const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
-    setIsLoading(true);
-    try {
       const missingFields = [];
+      const numberFields = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (numbersOnlyRegex.test(role)) {
+        numberFields.push('Role');
+      }
+      if (numbersOnlyRegex.test(company)) {
+        numberFields.push('Company');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
 
       if (role === '') {
         missingFields.push('Role');
@@ -195,6 +124,162 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         // Notify the user about missing fields
         notify({
           message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}api/v1/updateexperience/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: experienceObject,
+      });
+      if (response.ok) {
+        setIsEditMode(false);
+        notify({
+          message: `Work experience edited successfully`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setIsData(true);
+        setIsForm(false);
+
+        getAllWorkExperience();
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteExperience = async (id: string, e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const experienceId = parseInt(id, 10); // Convert id to a number
+    if (isNaN(experienceId)) {
+      console.error('Invalid experience id:', id);
+      return;
+    }
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}api/v1/experience/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        notify({
+          message: `Work experience deleted successfully`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
+      }
+    } catch (error) {
+      console.error(error);
+      notify({
+        message: 'Was not able to delete work experience 😞',
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getAllWorkExperience = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${portfolioUrl}/${slug}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        const { workExperience } = data.data;
+        setWorkExperiences(workExperience);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId, slug]);
+
+  const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    setIsLoading(true);
+    try {
+      const missingFields = [];
+      const numberFields = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (numbersOnlyRegex.test(role)) {
+        numberFields.push('Role');
+      }
+      if (numbersOnlyRegex.test(company)) {
+        numberFields.push('Company');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
+      if (role === '') {
+        missingFields.push('Role');
+      }
+      if (company === '') {
+        missingFields.push('Company');
+      }
+      if (description === '') {
+        missingFields.push('Description');
+      }
+      if (startMonth === '') {
+        missingFields.push('Start Month');
+      }
+      if (startYear === '') {
+        missingFields.push('Start Year');
+      }
+      if (endMonth === '') {
+        missingFields.push('End Month');
+      }
+      if (endYear === '') {
+        missingFields.push('End Year');
+      }
+
+      if (missingFields.length > 0) {
+        // Handle the case when required values are missing
+        const missingFieldsString = missingFields.join(', ');
+        // Notify the user about missing fields
+        notify({
+          message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
           position: 'top-center',
           theme: 'light',
           type: 'error',
@@ -289,7 +374,14 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     if (userId.trim().length > 0) {
       getAllWorkExperience();
     }
-  }, [getAllWorkExperience, userId]);
+  }, [getAllWorkExperience, userId, slug]);
+
+  useEffect(() => {
+    console.log('workExperiences', workExperiences);
+    if (workExperiences.length === 0) {
+      setIsForm(true);
+    }
+  }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider

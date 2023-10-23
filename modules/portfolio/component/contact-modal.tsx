@@ -9,6 +9,7 @@ import axios from 'axios';
 import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
 import { notify } from '@ui/Toast';
 import { Trash } from 'iconsax-react';
+import Loader from '@ui/Loader';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -29,7 +30,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [availableSocials, setAvailableSocials] = useState<{ Id: number; name: string }[] | []>([]);
 
   const handleAddNewSocial = () => {
@@ -92,7 +93,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     }));
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
-      .then((response) => {
+      .then((response: any) => {
         setLoading(false);
         notify({
           message: 'Contact created successfully',
@@ -100,11 +101,20 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           theme: 'light',
           type: 'success',
         });
-        console.log('response', response);
+        console.log('responseresponseresponseresponse', response);
+        onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        if (err.response.data.message.includes('contact already exists')) {
+          notify({
+            message: 'Contact already exists',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -114,6 +124,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       });
   };
   const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log('delete clicked');
     const id = 5;
     try {
@@ -185,7 +196,9 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
             </div>
             ​
             <div className="flex mx-auto flex-col gap-[.5rem] w-full sm:w-[90%]">
-              <label className="font-semibold text-[#444846] text-[.9rem]">Email *</label>
+              <label className="font-semibold text-[#444846] text-[.9rem]">
+                Email <span className="text-red-300">*</span>
+              </label>
               <Input
                 placeHolder="Enter email"
                 onChange={(e) => {
@@ -208,8 +221,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                             if (selectedSocial) {
                               handleSocialSelectChange(selectedSocial.Id, index);
                             }
-                            console.log(value);
-                            console.log(social);
                           }}
                         >
                           <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
@@ -233,7 +244,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     <div className="flex flex-col justify-center w-[100%] h-full">
                       <label className="font-semibold text-[#444846] text-[.9rem] mb-[.1rem]">Link to social</label>
                       <div className="flex rounded-md justify-center items-center border h-[2.5rem] border-[#E1E3E2]">
-                        <span className="font-manropeL w-1/3 text-xs text-center">Type link</span>
+                        {/* <span className="font-manropeL w-1/3 text-xs text-center">Type link</span> */}
                         <Input
                           placeHolder="Enter social link"
                           onChange={(e) => {
@@ -247,15 +258,15 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     </div>
                   </div>
 
-                  <div className="mb-3 font-manropeL mx-auto w-full sm:w-[90%] text-right">
+                  <div className="mb- font-manropeL mx-auto w-full sm:w-[90%] text-right">
                     <span
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
                     >
-                      <Trash size="32" color="#f47373" variant="Outline" />
+                      <Trash size="20" color="#f47373" variant="Outline" />
                     </span>
                   </div>
-                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+                  <hr className="mb-6 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
@@ -283,8 +294,9 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                 className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}
                 onClick={handleSubmit}
+                disabled={loading}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </div>

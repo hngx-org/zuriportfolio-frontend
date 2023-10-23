@@ -9,7 +9,7 @@ const useUserSession = () => {
 
   const setCurrentPathForOAuth = () => {
     handleUserCameFromForOAuth(url);
-  }
+  };
 
   const signUp = () => {
     // set the route the user came from to context
@@ -29,14 +29,14 @@ const useUserSession = () => {
       notify({
         message: 'Logged out',
         type: 'success',
-        theme: 'dark',
+        theme: 'light',
       });
       handleAuth(undefined);
       router.push('/');
     }
   };
 
-  return { signUp, signIn, logout,  setCurrentPathForOAuth};
+  return { signUp, signIn, logout, setCurrentPathForOAuth };
 };
 
 export default useUserSession;

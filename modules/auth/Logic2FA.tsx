@@ -31,16 +31,27 @@ function Code2FALogic() {
         notify({
           message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
         return;
-      } else {
+      }
+
+      if (res.status === 401) {
         notify({
-          message: 'Invalid Code',
+          message: res?.message,
           type: 'error',
+          theme: 'light',
         });
       }
+    },
+    onError: (error: any) => {
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 
@@ -61,8 +72,16 @@ function Code2FALogic() {
         notify({
           message: 'Two Factor Authentication Code Re-sent',
           type: 'success',
+          theme: 'light',
         });
       }
+    },
+    onError: (error: any) => {
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 

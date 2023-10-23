@@ -25,6 +25,8 @@ interface ComplaintDetails {
       last_name: string;
       email: string;
       profile_pic: string;
+      location: string;
+      country: string;
 
       // Add other properties as needed
     };
@@ -107,7 +109,14 @@ function ComplaintsDetails() {
       if (response.status === 200) {
         const data = await response.data;
         setcomplainDetails(data);
+
+        fetchReplies(complaintsId); // Fetch replies when complaint details are fetched
         console.log(data);
+
+        if (data.replies && data.replies.length > 0) {
+          setReplies(data.replies);
+          console.log(data);
+        }
       } else {
         console.error('Failed to fetch complaint details');
       }
@@ -116,21 +125,49 @@ function ComplaintsDetails() {
     }
   };
 
-  // const [reload, setReload] = useState(false);
+  const [adminReply, setadminReply] = useState([]);
 
-  // const reloadPage = () => {
-  //   setReload(true);
+  const fetchReplies = async (complaintId: any) => {
+    const bearertoken = localStorage.getItem('zpt');
 
-  //   setTimeout(() => {
-  //     window.location.reload();
+    try {
+      const response = await axios.get(
+        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintId}/comments/`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearertoken}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        const data = await response.data;
+        console.log('Replies data:', data);
+        console.log(data[0][0].comment);
 
-  //     setReload(false);
-  //   }, 6000);
-  // };
+        setadminReply(data);
+        if (data.length > 0) {
+          // Hide the resolve button if replies exist
+          showResolveButton();
+        }
+      } else {
+        console.error('Failed to fetch replies');
+      }
+    } catch (error) {
+      console.error('Error fetching replies:', error);
+    }
+  };
+
+  useEffect(() => {
+    const { complaintsId } = router.query;
+    if (complaintsId) {
+      fetchcomplaindetails(complaintsId);
+      fetchReplies(complaintsId);
+    }
+  }, [router.query]);
 
   const [showform, setshowForm] = useState(false);
   const [text, setText] = useState('');
-  const [profile, setProfile] = useState(false);
+  const [profile, setProfile] = useState(true);
 
   const [modalOpen, setmodalOpen] = useState(false);
 
@@ -219,13 +256,13 @@ function ComplaintsDetails() {
   return (
     <>
       <Nav />
-      <div className="p-10 container mx-auto">
-        <div className="flex items-center gap-3">
+      <div className="p-10 container mx-auto ">
+        <div className="flex items-center gap-3 border-b border-white-300">
           <Link href="/super-admin/feedback-and-customer-support/general-complaints">
             <Image src="/assets/complaintsassets/arrow-right.svg" alt="back" width={20} height={20} />{' '}
           </Link>
 
-          <div>
+          <div className="py-7">
             <h3 className="text-lg">Complaint Details </h3>
           </div>
         </div>
@@ -280,21 +317,23 @@ function ComplaintsDetails() {
                       <p className="text-xs text-green-750">Resolved</p>
                     </div>
                   ) : (
-                    <div>...</div>
-                    // <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                    //   <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
-                    //   <p className="text-xs text-yellow-300">Pending</p>
-                    // </div>
+                    <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                      <div className="w-2 h-2 bg-blue-105 rounded-md"></div>
+                      <p className="text-xs text-blue-105">In Progress</p>
+                    </div>
                   ) // Add another case or null if needed
                 }
               </div>
             </div>
             <h1 className="text-1xl">
-              A UX Designer loves to make UX and the career easier for others, no fancy stuff.
+              {complainDetails?.data.user_details.first_name} is an innovated explorer 🌌🔍 | Unraveling the future, one
+              byte at a time. 📱🤖 {complainDetails?.data.user_details.first_name} -
+              {complainDetails?.data.user_details.last_name} is from the city of
+              {complainDetails?.data.user_details.location} in {complainDetails?.data.user_details.country}
             </h1>
           </div>
 
-          <div className="flex gap-10 my-2">
+          <div className="flex gap-10 my-2 border-b border-white-300 pb-7">
             {complainDetails?.data.user_details && complainDetails.data.createdAt ? (
               <p className="font-manropeL font-medium text-base truncate text-slate-500">
                 {new Date(complainDetails?.data.createdAt).toLocaleDateString('en-US', {
@@ -308,7 +347,7 @@ function ComplaintsDetails() {
             ) : (
               <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
             )}
-            <h1 className="text-sm font-bold text-gray-500">3.3/5</h1>
+            <h1 className="text-sm font-bold text-gray-500">No Ratings yet</h1>
           </div>
 
           <div>

@@ -16,8 +16,18 @@ import {
   Certificate,
 } from './Skeleton';
 import Wrapper from './placeholders/Wrapper';
-import { Book, Briefcase, LanguageSquare, LikeTag, PathTool, Personalcard } from 'iconsax-react';
-
+import {
+  Book,
+  Briefcase,
+  LanguageSquare,
+  LikeTag,
+  PathTool,
+  Personalcard,
+  Profile2User,
+  UserCirlceAdd,
+  Verify,
+} from 'iconsax-react';
+import { useState } from 'react';
 type Props = {
   userSections: any;
 };
@@ -62,7 +72,12 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
 
               {section?.id === 'certificate' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <Wrapper id={section.id} disableEdit={true} title={section.title}>
+                  <Wrapper
+                    id={section.id}
+                    disableEdit={true}
+                    icon={<Verify variant="Bold" size="24" color="#006811" />}
+                    title={section.title}
+                  >
                     {section.data.map((el: any, i: any) => {
                       return <Certificate key={i} data={el} />;
                     })}
@@ -138,7 +153,12 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
               )}
               {section?.id === 'reference' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <Wrapper id={section.id} disableEdit={true} title={section.title}>
+                  <Wrapper
+                    id={section.id}
+                    disableEdit={true}
+                    icon={<UserCirlceAdd variant="Bold" size="24" color="#006811" />}
+                    title={section.title}
+                  >
                     {section?.data.map((el: any, i: number) => {
                       return <Reference key={i} data={el} />;
                     })}
@@ -148,7 +168,12 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
 
               {section?.id === 'contact' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <Wrapper id={section.id} disableEdit={true} title={section.title}>
+                  <Wrapper
+                    id={section.id}
+                    disableEdit={true}
+                    icon={<Profile2User variant="Bold" size="24" color="#006811" />}
+                    title={section.title}
+                  >
                     <Contact key={i} data={section.data} />
                   </Wrapper>
                 </React.Fragment>

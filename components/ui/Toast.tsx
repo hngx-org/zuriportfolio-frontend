@@ -29,3 +29,6 @@ const notify = (props: ToastProps) => {
 };
 
 export { notify };
+
+export const fetchErrorToast = (data: string) =>
+  notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });

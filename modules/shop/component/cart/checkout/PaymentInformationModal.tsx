@@ -9,11 +9,10 @@ const PaymentInformationModal = ({
   token,
 }: {
   closeModal: () => void;
-  orderTotal: number;
+  orderTotal: number | string;
   token: string;
 }) => {
   const [modalOpen, setModalOpen] = useState(true);
-  const [showOTP, setShowOTP] = useState(true);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [paymentMethodError, setPaymentMethodError] = useState('');
   const [paymentButtonClicked, setPaymentButtonClicked] = useState(false);
@@ -28,6 +27,9 @@ const PaymentInformationModal = ({
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod, token);
+
+        localStorage.setItem('trans_token', token);
+        localStorage.setItem('gateway', selectedPaymentMethod);
         window.location.href = response.data.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
