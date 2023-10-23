@@ -6,7 +6,9 @@ import MainLayout from '../../../../components/Layout/MainLayout';
 import BadgeComponent from '@modules/assessment/component/Badges/BadgeComponent';
 import ErrorData from '@modules/assessment/component/Badges/errordata';
 import BadgesComponentHeader from '@modules/assessment/component/Badges/BadgesComponentHeader';
+import { MdArrowBackIosNew } from 'react-icons/md';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Head from 'next/head';
 
 interface Skill {
   id: number;
@@ -104,15 +106,13 @@ const Earnedbadges: React.FC = () => {
 
   useEffect(() => {
     const bearerToken = localStorage.getItem('zpt');
-    console.log(bearerToken);
 
     const fetchData = async () => {
       try {
         const badgelabel = router.query?.badges;
-        console.log(badgelabel);
+
         if (badgelabel) {
           const apiUrl = `https://staging.zuri.team/api/badges/user/badges?badges=${badgelabel}`;
-          console.log(apiUrl);
 
           const response = await fetch(apiUrl, {
             method: 'GET',
@@ -141,27 +141,49 @@ const Earnedbadges: React.FC = () => {
     fetchData();
   }, [router.query]);
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="w-full h-auto font-manropeL">
+      <Head>
+        <title>Badges</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="keywords" content="Zuri, Zuri portfolio, Zuri Badges, Zuri skill badges" />
+        <meta httpEquiv="content-language" content="en" />
+        <meta name="description" content="Keep track on all of your earned badges" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <div className="w-full flex flex-col items-center h-auto font-manropeL">
         <BadgesComponentHeader />
 
         {isLoading ? (
-          <div className="flex justify-center items-center h-96">
+          <div className="flex justify-center items-center h-[600px]">
             <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
           </div>
         ) : errorMessage ? (
           <ErrorData />
         ) : (
-          <div className="h-full lg:px-[60px] xl:px-[150px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
-            <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
-              {router.query?.badges} Badges
-            </h1>
+          <div className="h-full w-full lg:max-w-[1440px] relative lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:my-[50px] pb-[80px] sm:pb-[200px] gap-[26px]">
+            <div>
+              <div className="flex py-4 pb-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
+                <div onClick={handleBack} className="hidden sm:block">
+                  <MdArrowBackIosNew />
+                </div>
+                <p onClick={handleBack} className="sm:hidden text-[14px] underline cursor-pointer absolute bottom-5">
+                  go back
+                </p>
+              </div>
+              <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
+                {router.query?.badges} Badges
+              </h1>
+            </div>
             {badges.length <= 0 ? (
-              <>
+              <div className="flex flex-col items-center gap-8 h-[150px]">
                 <h2 className="capitalize">Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
                 <Button href="/assessments/dashboard">Go To Dashboard</Button>
-              </>
+              </div>
             ) : (
               <div className="badgecomponents flex flex-col md:flex-row items-center justif gap-[30px]  md:gap-[24px]  ">
                 {badges.map((badge, index) => (
@@ -171,7 +193,7 @@ const Earnedbadges: React.FC = () => {
                     imageAlt={`${badge.Badge.name} Page`}
                     title={`${badge.Badge.name}`}
                     description={`Badge earned in the ${badge.Badge.Skill.category_name} category.`}
-                    earnedDate={`Earned on: ${formatDate(badge.Badge.Skill.created_at)}`}
+                    earnedDate={`Earned on: ${formatDate(badge.Badge.Skill.updated_at)}`}
                     badgelabel={'nfj'}
                     href="/assessments/dashboard/badge/[id]"
                     as={`/assessments/dashboard/badge/${badge.id}`}
