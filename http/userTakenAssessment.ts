@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const assessmentBaseUrl = `https://assessment.cofucan.tech/api/v1`;
+const assessmentBaseUrl = `https://hng-stage-9.onrender.com/api/v1`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {
@@ -10,7 +10,7 @@ export const fetchAssessmentHistory = async (token: string) => {
         token: token,
       },
     });
-    return res.data;
+    return res.data.data;
   } catch (error) {
     console.error('Error Assessment History:', error);
     throw error;
