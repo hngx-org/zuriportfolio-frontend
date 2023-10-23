@@ -226,8 +226,8 @@ const SearchAndFilterProducts = (prop: {
 
   if (isCategoryError || isProductsError) {
     return (
-      <div className="flex justify-center items-center flex-col space-y-4">
-        <div>Sorry, we couldn&apos;t load the products.</div>
+      <div className="flex font-manropeL justify-center items-center flex-col space-y-4">
+        <div>Sorry, we couldn&apos;t load products at the moment.</div>
         <button onClick={() => refetchCategories()} className="text-green-600">
           Retry
         </button>
