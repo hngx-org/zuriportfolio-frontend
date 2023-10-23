@@ -238,12 +238,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {!globalAuth && (
               <div className=" p-2 justify-center relative items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
                 <Cart items={cartCount} />
-                
-                
-        
 
-
-{/* {notificationMenu && 
+                {/* {notificationMenu && 
 <div className="absolute z-[300000] mt-4 w-fit" ref={notificationsRef}>
 
 <Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
@@ -332,7 +328,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </Link>
                 <Link
                   onClick={handleAuthMenu}
-                  href={`/portfolio/${globalAuth?.user?.slug}`}
+                  href={`/portfolio/${globalAuth?.user?.slug}/manage`}
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={briefCaseIcon} alt="Briefcase icon" />
@@ -410,9 +406,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       height={24}
                       alt="Cart Icon"
                     />
-
-
-      </div>
+                  </div>
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -503,21 +497,18 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
 
-{notificationMenu && 
-<div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4 right-0 " ref={notificationsRef}>
-
-<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
- </div>
-}
+        {notificationMenu && (
+          <div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4 right-0 " ref={notificationsRef}>
+            <Notifications notificationsRef={notificationsRef} unreadNotifications={setUnreadNotifications} />
+          </div>
+        )}
       </nav>
     </>
   );
 
   function AuthUser(): React.ReactNode {
     return (
-      
-      <div className='flex gap-4 justify-center items-center align-middle relative'>
-
+      <div className="flex gap-4 justify-center items-center align-middle relative">
         <Link href={'/marketplace/wishlist'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <mask
@@ -553,8 +544,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             height={24}
             alt="Cart Icon"
           />
-
-    </div>
+        </div>
 
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <p className=" font-bold font-manropeEB">
@@ -712,8 +702,8 @@ function MenuUI({
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link
-                className={activeLink(`/portfolio/${globalAuth?.user?.slug}`)}
-                href={`/portfolio/${globalAuth?.user?.slug}`}
+                className={activeLink(`/portfolio/${globalAuth?.user?.slug}/manage`)}
+                href={`/portfolio/${globalAuth?.user?.slug}/manage`}
               >
                 Manage Portfolio
               </Link>
