@@ -1,3 +1,6 @@
+export const storeTrafficFrames = ['12months', '3months', '30days', '7days', '24hrs'];
+export const salesReportFrames = ['12m', '3m', '30d', '7d', '24h'];
+
 export const metricsCardData = [
   {
     title: "Today's revenue",

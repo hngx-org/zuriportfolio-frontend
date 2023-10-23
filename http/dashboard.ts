@@ -22,7 +22,7 @@ export const fetchShopID = async () => {
       },
     });
     const shopID = res?.data?.data?.id;
-    logQueryResult('shop id', shopID);
+    // logQueryResult('shop id', shopID);
     return shopID;
   } catch (error) {
     throw error;
@@ -125,15 +125,14 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 // sales report
 
-export const fetchSalesReports = async () => {
+export const fetchSalesReports = async (timeframe: string) => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=12m,3m,30d,7d,24h`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=${timeframe}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const salesReport = res?.data;
-    logQueryResult('sales report', salesReport);
+    const salesReport = res?.data?.data;
     return salesReport;
   } catch (error) {
     throw error;
@@ -141,11 +140,10 @@ export const fetchSalesReports = async () => {
 };
 
 //  store traffic
-
-export const fetch12MonthStoreTraffic = async (shop_id: string) => {
+export const fetchStoreTraffic = async (shop_id: string, timeframe: string) => {
   try {
     const token = localStorage.getItem('zpt');
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/12months/${shop_id}`, {
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/${timeframe}/${shop_id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -157,67 +155,7 @@ export const fetch12MonthStoreTraffic = async (shop_id: string) => {
   }
 };
 
-export const fetch3MonthStoreTraffic = async (shop_id: string) => {
-  try {
-    const token = localStorage.getItem('zpt');
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/3months/${shop_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const storeTraffic = res?.data?.data;
-    return storeTraffic;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetch30DayStoreTraffic = async (shop_id: string) => {
-  try {
-    const token = localStorage.getItem('zpt');
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/30days/${shop_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const storeTraffic = res?.data?.data;
-    return storeTraffic;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetch7DayStoreTraffic = async (shop_id: string) => {
-  try {
-    const token = localStorage.getItem('zpt');
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/7days/${shop_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const storeTraffic = res?.data?.data;
-    return storeTraffic;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetch24HourStoreTraffic = async (shop_id: string) => {
-  try {
-    const token = localStorage.getItem('zpt');
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/24hrs/${shop_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const storeTraffic = res?.data?.data;
-    return storeTraffic;
-  } catch (error) {
-    throw error;
-  }
-};
-
-// activity.tsx
+// activity
 
 export const fetchActivity = async () => {
   try {

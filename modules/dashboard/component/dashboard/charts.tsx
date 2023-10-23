@@ -1,80 +1,59 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { MetricChartProps, MetricTimelineProps } from '../../../../@types';
-import { metricsChartTimeline, nullSalesData } from '../../../../db/dashboard';
+import { metricsChartTimeline, salesReportFrames, storeTrafficFrames } from '../../../../db/dashboard';
 import { logQueryResult } from '../../../../helpers/dashboard';
-import {
-  fetch12MonthStoreTraffic,
-  fetch24HourStoreTraffic,
-  fetch30DayStoreTraffic,
-  fetch3MonthStoreTraffic,
-  fetch7DayStoreTraffic,
-  fetchSalesReports,
-  fetchShopID,
-} from '../../../../http/dashboard';
+import { fetchSalesReports, fetchShopID, fetchStoreTraffic } from '../../../../http/dashboard';
 import Chart from './chart';
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   // fetch shop id
-  const { data: shop_id } = useQuery({
+  const {
+    data: shop_id,
+    isFetching,
+    isFetched,
+  } = useQuery({
     queryFn: () => fetchShopID(),
     queryKey: ['shop-id'],
-    enabled: true,
   });
+  logQueryResult('shop-id', shop_id);
 
-  // fetch sales report data
-  const { data: querySalesReportData } = useQuery({
-    queryFn: () => fetchSalesReports(),
-    queryKey: ['sales-reports'],
-    enabled: true,
+  // fetch sales report
+  const salesReportQueryResults = useQueries({
+    queries: salesReportFrames.map((frame) => ({
+      queryKey: ['sales-report', frame],
+      queryFn: () => fetchSalesReports(frame),
+      staleTime: Infinity,
+    })),
   });
-  // logQueryResult('Query Sales Report', querySalesReportData);
+  logQueryResult('sales-report', salesReportQueryResults);
 
-  // fetch store traffic data
-  const {
-    data: query12MonthStoreTrafficData,
-    isFetched,
-    isFetching,
-  } = useQuery({
-    queryFn: () => fetch12MonthStoreTraffic(shop_id),
-    queryKey: ['store-traffic-12m'],
-    enabled: true,
+  // fetch sales report
+  const storeTrafficQueryResults = useQueries({
+    queries: storeTrafficFrames.map((frame) => ({
+      queryKey: ['store-traffic', frame],
+      queryFn: () => fetchStoreTraffic(shop_id, frame),
+      staleTime: Infinity,
+    })),
   });
-  // logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
+  logQueryResult('store-traffic', storeTrafficQueryResults);
 
-  const { data: query3MonthStoreTrafficData } = useQuery({
-    queryFn: () => fetch3MonthStoreTraffic(shop_id),
-    queryKey: ['store-traffic-3m'],
-    enabled: true,
-  });
-  // logQueryResult('Query Store Traffic 3m', query3MonthStoreTrafficData);
+  const query12MonthStoreTrafficData = storeTrafficQueryResults[0];
+  const query3MonthStoreTrafficData = storeTrafficQueryResults[1];
+  const query30DayStoreTrafficData = storeTrafficQueryResults[2];
+  const query7DayStoreTrafficData = storeTrafficQueryResults[3];
+  const query24HourStoreTrafficData = storeTrafficQueryResults[4];
 
-  const { data: query30DayStoreTrafficData } = useQuery({
-    queryFn: () => fetch30DayStoreTraffic(shop_id),
-    queryKey: ['store-traffic-30d'],
-    enabled: true,
-  });
-  // logQueryResult('Query Store Traffic 30d', query30DayStoreTrafficData);
-
-  const { data: query7DayStoreTrafficData } = useQuery({
-    queryFn: () => fetch7DayStoreTraffic(shop_id),
-    queryKey: ['store-traffic-7d'],
-    enabled: true,
-  });
-  // logQueryResult('Query Store Traffic 7d', query7DayStoreTrafficData);
-
-  const { data: query24HourStoreTrafficData } = useQuery({
-    queryFn: () => fetch24HourStoreTraffic(shop_id),
-    queryKey: ['store-traffic-24h'],
-    enabled: true,
-  });
-  // logQueryResult('Query Store Traffic 24h', query24HourStoreTrafficData);
+  const query12MonthSalesReportData = salesReportQueryResults[0];
+  const query3MonthSalesReportData = salesReportQueryResults[1];
+  const query30DaySalesReportData = salesReportQueryResults[2];
+  const query7DaySalesReportData = salesReportQueryResults[3];
+  const query24HourSalesReportData = salesReportQueryResults[4];
 
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
-  const [trafficChartData, setTrafficChartData] = useState(query12MonthStoreTrafficData);
-  const [salesChartData, setSalesChartData] = useState(querySalesReportData[0]);
+  const [trafficChartData, setTrafficChartData] = useState<UseQueryResult<any, unknown>>(query12MonthStoreTrafficData);
+  const [salesChartData, setSalesChartData] = useState<UseQueryResult<any, unknown>>(query12MonthSalesReportData);
 
-  // Initialize data with the default value
   let data = isBarChart ? trafficChartData : salesChartData;
 
   // logQueryResult('trafficChartData', trafficChartData);
@@ -104,22 +83,22 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     } else {
       switch (index) {
         case 0:
-          setSalesChartData(querySalesReportData[0]);
+          setSalesChartData(query12MonthSalesReportData);
           break;
         case 1:
-          setSalesChartData(querySalesReportData[1]);
+          setSalesChartData(query3MonthSalesReportData);
           break;
         case 2:
-          setSalesChartData(querySalesReportData[2]);
+          setSalesChartData(query30DaySalesReportData);
           break;
         case 3:
-          setSalesChartData(querySalesReportData[3]);
+          setSalesChartData(query7DaySalesReportData);
           break;
         case 4:
-          setSalesChartData(querySalesReportData[4]);
+          setSalesChartData(query24HourSalesReportData);
           break;
         default:
-          setSalesChartData(querySalesReportData[0]);
+          setSalesChartData(query12MonthSalesReportData);
           break;
       }
     }
@@ -131,9 +110,9 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     if (isBarChart) {
       setTrafficChartData(query12MonthStoreTrafficData);
     } else {
-      setSalesChartData(querySalesReportData[0]);
+      setSalesChartData(query12MonthSalesReportData);
     }
-  }, [isBarChart, query12MonthStoreTrafficData, querySalesReportData]);
+  }, [isBarChart, query12MonthStoreTrafficData, query12MonthSalesReportData]);
 
   return (
     <div className="shadow rounded-md px-5 py-5 space-y-1.5 md:space-y-3">

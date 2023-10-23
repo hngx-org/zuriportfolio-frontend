@@ -809,7 +809,7 @@ export interface UserInfo {
 
 interface ChartProps {
   isBarChart: boolean;
-  data: any[];
+  data: UseQueryResult<any, unknown>;
   isFetching: boolean;
   isFetched: boolean;
 }
