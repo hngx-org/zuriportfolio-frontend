@@ -45,7 +45,7 @@ const Guestsignupform: React.FC = () => {
       notify({
         message: res.message,
         type: 'error',
-        theme: 'light'
+        theme: 'light',
       });
     },
   });
@@ -223,7 +223,15 @@ const Guestsignupform: React.FC = () => {
                 />
               </span>
               <span className="text-gray-200 text-sm mt-1 font-manropeL">
-                I agree with Zuri <Link href="/">Terms of Service</Link> & <Link href="/">Privacy Policy</Link>.
+                I agree with Zuri{' '}
+                <Link href="/" className="text-brand-green-primary hover:text-brand-green-hover">
+                  Terms of Service
+                </Link>{' '}
+                &{' '}
+                <Link href="/" className="text-brand-green-primary hover:text-brand-green-hover">
+                  Privacy Policy
+                </Link>
+                .
               </span>
             </label>
             <style jsx>{`

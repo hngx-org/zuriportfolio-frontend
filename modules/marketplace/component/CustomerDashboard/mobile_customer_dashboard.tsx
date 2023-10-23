@@ -125,7 +125,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
             isOpen={isModalOpen}
             onClose={closeModal}
             product={selectedOrder?.product_id || ''}
-            customerID={selectedOrder?.customer_id || ''}
+            user={selectedOrder?.customer_id || ''}
           />
         </div>
       </div>

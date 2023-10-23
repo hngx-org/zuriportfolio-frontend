@@ -388,7 +388,7 @@ const MyPage: React.FC = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           product={selectedOrder?.product_id || ''}
-          customerID={selectedOrder?.customer_id || ''}
+          user={selectedOrder?.customer_id || ''}
         />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
