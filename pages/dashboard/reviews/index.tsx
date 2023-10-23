@@ -63,7 +63,7 @@ export default function ReviewDashboard() {
                 <div className="absolute z-50 inset-0 min-h-[300px] bg-white-100">
                   <Loader />
                 </div>
-              ) : // Conditional rendering based on the products array
+              ) : 
               products.length === 0 ? (
                 <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[100px] flex-col items-center justify-center">
                   <Image src="/assets/images/review.png" alt="discount" width={100} height={100} />
