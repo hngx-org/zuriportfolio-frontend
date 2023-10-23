@@ -47,7 +47,7 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -71,7 +71,7 @@ const DeleteModal = (props: any) => {
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
-    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${productId}`, {
+    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${productId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -158,7 +158,10 @@ const initialProductState = {
   price: '',
   image: [],
 };
-
+const formatNum = (num: number) => {
+  const formatter = new Intl.NumberFormat();
+  return formatter.format(num);
+};
 const EditModal = (props: {
   closeEditModal: () => void;
   isOpen: boolean;
@@ -229,7 +232,7 @@ const EditModal = (props: {
     try {
       setUpdatingAssets(true);
       const { data } = await axios.get(
-        `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -257,7 +260,7 @@ const EditModal = (props: {
   };
   useEffect(() => {
     // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -302,7 +305,7 @@ const EditModal = (props: {
     try {
       setUpdating(true);
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -357,14 +360,14 @@ const EditModal = (props: {
         formData.append(key, value);
       });
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
         data: formData,
       });
-      console.log(res);
+      toast.success(res.data.data.message, { autoClose: 5000 });
     } catch (error) {
       console.log(error);
     } finally {
@@ -381,7 +384,7 @@ const EditModal = (props: {
         const formdata = new FormData();
         formdata.append('image', file);
         const res = await axios({
-          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}/image/${props.product?.image[0].id}`,
+          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}/image/${props.product?.image[0].id}`,
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -611,7 +614,7 @@ const EditModal = (props: {
 };
 
 const ProductCard = (props: {
-  product: Product[];
+  product: Product;
   selectedProduct: Product | null;
   fetchProducts: () => void;
   insertProduct: (prod: Product[]) => void;
@@ -639,88 +642,90 @@ const ProductCard = (props: {
 
   return (
     <>
-      {props.product.map((product, index) => (
-        <div
-          key={index}
-          className="relative lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
-        >
-          {product?.promo !== null && (
-            <div className="absolute top-[10px] right-[1em]">
-              <div className="w-auto px-2 py-1 scale-[.95] rounded-[30px] flex items-center justify-center gap-1 bg-red-305">
-                <span className="text-white-100 text-[12px] font-manropeR">{product.promo.inPercentage}</span>
-                <BiSolidDiscount className="text-white-100" />
-              </div>
+      {/* {props.product.map((product, index) => ( */}
+      <div className="relative lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center">
+        {props.product?.promo !== null && (
+          <div className="absolute top-[10px] right-[1em]">
+            <div className="w-auto px-2 py-1 scale-[.95] rounded-[30px] flex items-center justify-center gap-1 bg-red-305">
+              <span className="text-white-100 text-[12px] font-manropeR">{props.product.promo.inPercentage}</span>
+              <BiSolidDiscount className="text-white-100" />
             </div>
-          )}
-          <figure className="md:mb-8 mb-3">
-            <Image
-              src={product.image[0]?.url ?? imageNotFound}
-              alt="Product"
-              width={240}
-              height={143}
-              className="rounded-[5px] h-[143px] object-cover"
-            />
-          </figure>
-          <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
-            {product?.name}
+          </div>
+        )}
+        <figure className="md:mb-8 mb-3">
+          <Image
+            src={props.product.image[0]?.url ?? imageNotFound}
+            alt="Product"
+            width={240}
+            height={143}
+            className="rounded-[5px] h-[143px] object-cover"
+          />
+        </figure>
+        <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
+          {props.product?.name}
+        </p>
+        <div className="w-full flex items-center justify-start gap-2">
+          <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
+            ₦
+            {props.product.promo !== null
+              ? formatNum(calculateDiscount(props.product.promo?.amount, props.product.price))
+              : formatNum(props.product.price)}
           </p>
-          <div className="w-full flex items-center justify-start gap-2">
-            <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
-              ₦{product.promo !== null ? calculateDiscount(product.promo.amount, product.price) : product.price}
+          {props.product?.promo !== null && (
+            <p
+              className={twMerge(
+                'font-manropeB leading-[150%] tracking-[0.08px] text-white-400 text-[14px] line-through md:mb-7 mb-3',
+              )}
+            >
+              ₦{formatNum(props.product.price)}
             </p>
-            {product?.promo !== null && (
-              <p
-                className={twMerge(
-                  'font-manropeB leading-[150%] tracking-[0.08px] text-white-400 text-[14px] line-through md:mb-7 mb-3',
-                )}
-              >
-                ₦{product.price}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
-            <button
-              className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2 basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-white-650 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
-              onClick={() => {
-                props.insertSelectedProduct(product);
-                setEditModal(true);
-              }}
-            >
-              <Image src={editImg} alt="edit" />
-              <span>Edit</span>
-            </button>
-            <button
-              className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2  basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-custom-color34 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
-              onClick={() => {
-                props.insertSelectedProduct(product);
-                setDeleteModal(true);
-              }}
-            >
-              <Image src={trashImg} alt="delete" />
-              <span>Delete</span>
-            </button>
-          </div>
+          )}
         </div>
-      ))}
-
-      {props.selectedProduct && (
+        <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
+          <button
+            className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2 basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-white-650 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
+            onClick={() => {
+              props.insertSelectedProduct(props.product);
+              setEditModal(true);
+            }}
+          >
+            <Image src={editImg} alt="edit" />
+            <span>Edit</span>
+          </button>
+          <button
+            className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2  basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-custom-color34 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
+            onClick={() => {
+              props.insertSelectedProduct(props.product);
+              setDeleteModal(true);
+            }}
+          >
+            <Image src={trashImg} alt="delete" />
+            <span>Delete</span>
+          </button>
+        </div>
         <DeleteModal
           isOpen={deleteModal}
           closeModal={closeDeleteModal}
-          product={props.selectedProduct}
+          product={props.product}
           fetchProducts={props.fetchProducts}
           insertProduct={props.insertProduct}
         />
-      )}
-      {props.selectedProduct && (
         <EditModal
           isOpen={editModal}
           closeEditModal={closeEditModal}
-          product={props.selectedProduct}
+          product={props.product}
           fetchProducts={props.fetchProducts}
           insertProduct={props.insertProduct}
         />
-      )}
+      </div>
+      {/* ))} */}
+      {/* 
+      {props.selectedProduct && (
+       
+      )} */}
+      {/* {props.selectedProduct && (
+       
+      )} */}
     </>
   );
 };

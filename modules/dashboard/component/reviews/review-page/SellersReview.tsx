@@ -53,7 +53,7 @@ export default function SellerReview(props: reviewProps) {
       <div className=" w-full  mb-6 ">
         <div className="flex flex-col w-full mb-7">
           <div className="flex flex-row my-3 mx-0">{getStars(props.noOfStars)}</div>
-          <div className="flex text-xs text-dark-600">
+          <div className="flex font-medium text-sm text-dark-600">
             <Link href="/portfolio" className="username" style={{ textDecoration: 'underline' }}>
               {props.buyerName}
             </Link>
@@ -66,11 +66,11 @@ export default function SellerReview(props: reviewProps) {
             />
             <div className="date">{props.mainDate}</div>
           </div>
-          <div className="my-3 mx-0 flex text-sm text-black">{props.review}</div>
+          <div className="my-3 mx-0 flex font-medium text-sm text-black">{props.review}</div>
           {props.shopReply ? (
-            <p className="flex text-xs m-0 mb-2 max-w-max text-dark-600">1 reply</p>
+            <p className="flex font-medium text-sm m-0 mb-2 max-w-max text-dark-600">1 reply</p>
           ) : (
-            <p className="flex text-xs m-0 mb-2 cursor-pointer max-w-max text-dark-600" onClick={(e) => setRes(!res)}>
+            <p className="flex m-0 mb-2 cursor-pointer max-w-max text-dark-600" onClick={(e) => setRes(!res)}>
               Reply customer
             </p>
           )}

@@ -95,13 +95,16 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     e.preventDefault();
     try {
       const updatedEducation = {
-        degree,
         fieldOfStudy,
+        degree_id: +selectedDegreeId,
         school,
         description,
         from,
         to,
+        user_id: userId,
+        section_id: 2,
       };
+
       const response = await fetch(`${API_BASE_URL}api/v1/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
@@ -109,6 +112,31 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         },
         body: JSON.stringify(updatedEducation),
       });
+
+      const numberFields: string[] = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numbersOnlyRegex.test(fieldOfStudy)) {
+        numberFields.push('Field Of Study');
+      }
+      if (numbersOnlyRegex.test(school)) {
+        numberFields.push('School');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
       if (response.ok) {
         notify({
           message: 'Education detail updated successfully',
@@ -168,9 +196,12 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
       if (response.ok) {
         const data = await response.json();
-        const { education } = data;
+        const { education } = data.data;
         setEducations(education);
-        // Extract the education IDs
+        if (education.length === 0) {
+          setIsForm(true);
+        }
+        console.log(education);
         const educationIds = educations.map((education) => education.id);
       }
     } catch (error) {
@@ -179,14 +210,25 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, slug]);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
     try {
       const missingFields = [];
+      const numberFields: string[] = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
 
+      if (numbersOnlyRegex.test(fieldOfStudy)) {
+        numberFields.push('Field Of Study');
+      }
+      if (numbersOnlyRegex.test(school)) {
+        numberFields.push('School');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
       if (fieldOfStudy === '') {
         missingFields.push('fieldOfStudy');
       }
@@ -206,9 +248,9 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         missingFields.push('End date');
       }
 
-      if (from === to) {
+      if (to < from) {
         notify({
-          message: `Start date and end date cant be the same`,
+          message: `To cant be less than that from`,
           position: 'top-center',
           theme: 'light',
           type: 'error',
@@ -229,8 +271,28 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         return;
       }
 
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (description.length < 13) {
+        notify({
+          message: `Description cant be less than 13 characters`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
       const year = new Date().getFullYear();
-      const currYear = String(year);
 
       const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
         method: 'POST',
@@ -261,14 +323,26 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setIsForm(false);
         setIsData(true);
       } else {
+        const responseJson = await response.json();
+        console.log(responseJson);
+        if (responseJson.message.includes('school should not contain sepecial characters')) {
+          notify({
+            message: `School should not contain special characters`,
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          return;
+        } else {
+          notify({
+            message: 'We had some issues adding ur Education detail',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         // Request failed, handle the error
         console.error('Request failed with status:', response.status);
-        notify({
-          message: 'We had some issues adding ur Education detail',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
       }
     } catch (error) {
       console.error('Error:', error);
@@ -285,6 +359,13 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   }, [getAllEducation]);
   useEffect(() => {
     console.log(educations);
+  }, [educations]);
+
+  useEffect(() => {
+    console.log('educations', educations);
+    if (educations.length === 0) {
+      setIsForm(true);
+    }
   }, [educations]);
 
   return (

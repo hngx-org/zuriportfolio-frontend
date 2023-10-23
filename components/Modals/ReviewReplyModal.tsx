@@ -49,7 +49,7 @@ function ReviewReplyModal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`relative w-full ${sizes[size]} bg-white p-4 font-nunito font-light transform overflow-hidden text-sm rounded-[12px] text-center shadow-xl transition-all`}
+                className={`relative w-full ${sizes[size]} bg-white-100 p-4 font-nunito font-light transform overflow-hidden text-sm rounded-[12px] text-center shadow-xl transition-all`}
               >
                 <div className="mb-4 ">
                   <IoPaperPlaneOutline size={96} className="w-20 mx-auto flex justify-center align-center" />

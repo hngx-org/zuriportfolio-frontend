@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../components/Loader/loader2';
+import ComplaintModal from '../../components/Modals/ComplaintModal';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +15,33 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+{
+  /*
+const App = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  return (
+    <div>
+      <button onClick={openModal}>Open Complaint Modal</button>
+
+      <ComplaintModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product="your-product-id"
+        customerID="your-customer-id"
+      />
+    </div>
+  );
+};
+
+export default App;
+*/
+}
 
 // For API fetch Call response
 

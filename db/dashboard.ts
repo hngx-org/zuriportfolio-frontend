@@ -82,6 +82,21 @@ export const twentyFourHours = Array.from({ length: 24 }, (_, i) => {
   }
 });
 
+export const nullSalesData = [
+  { timeframe: 'Nov', revenue: 0 },
+  { timeframe: 'Dec', revenue: 0 },
+  { timeframe: 'Jan', revenue: 0 },
+  { timeframe: 'Feb', revenue: 0 },
+  { timeframe: 'Mar', revenue: 0 },
+  { timeframe: 'Apr', revenue: 0 },
+  { timeframe: 'May', revenue: 0 },
+  { timeframe: 'Jun', revenue: 0 },
+  { timeframe: 'Jul', revenue: 0 },
+  { timeframe: 'Aug', revenue: 0 },
+  { timeframe: 'Sep', revenue: 0 },
+  { timeframe: 'Oct', revenue: 0 },
+];
+
 export const activityData = [
   {
     name: 'Dami Wikinson',

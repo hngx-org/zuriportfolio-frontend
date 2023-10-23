@@ -18,6 +18,7 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
   const searchTerm = useRouter();
+  const [errorMsg, setErrorMsg] = useState<Error | any>({});
 
   const handleClearFilters = () => {
     setFilters({});
@@ -59,14 +60,21 @@ const HomePage = () => {
     if (Object.keys(filters).length > 0) {
       url = filterUrl;
     }
-    const { data } = await axios.get(url, {
-      params: {
-        PageNumber: pageNumber,
-        PageSize: 9,
-        ...filters,
-      },
-    });
-    return data;
+
+    try {
+      const { data } = await axios.get(url, {
+        params: {
+          PageNumber: pageNumber,
+          PageSize: 9,
+          ...filters,
+        },
+      });
+      setErrorMsg({});
+      return data;
+    } catch (error: Error | any) {
+      console.log(error, 'error');
+      setErrorMsg(error);
+    }
   }
 
   // Data fetching
@@ -89,12 +97,12 @@ const HomePage = () => {
 
       <section>
         {isLoading && (
-          <div className="grid place-items-center min-h-[300px]">
+          <div className="grid place-items-center min-h-[400px]">
             <Loader />
           </div>
         )}
         {data?.data?.length === 0 && (
-          <div className="grid place-items-center min-h-[300px]">
+          <div className="grid place-items-center min-h-[400px]">
             <p>No Results</p>
           </div>
         )}
@@ -107,7 +115,7 @@ const HomePage = () => {
             </div>
           </div>
         )}
-        {data?.data?.length === 0 || isLoading ? null : (
+        {data?.data?.length === 0 || isLoading || data?.totalPages === 1 || Object.keys(errorMsg).length > 0 ? null : (
           <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
             <Pagination
               visiblePaginatedBtn={3}
@@ -118,6 +126,15 @@ const HomePage = () => {
             />
           </a>
         )}
+        {Object.keys(errorMsg).length > 0 && (
+          <div className="grid place-items-center min-h-[400px]">
+            <div className="text-center ">
+              <h3 className="text-2xl">{errorMsg.message}</h3>
+              <p>⚒️ We are currently working on this ⚒️</p>
+            </div>
+          </div>
+        )}
+        {/* Say Hello */}
       </section>
     </main>
   );

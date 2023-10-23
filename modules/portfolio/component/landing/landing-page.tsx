@@ -6,20 +6,18 @@ import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
 import Home from '../modals/add-section';
 import Portfolio from '../../../../context/PortfolioLandingContext';
-import Profile, { CoverDiv } from './avatars';
-import Loader from './Loader';
+import { CoverDiv } from './avatars';
 import EditProfile from '../modals/edit-profile';
-import ViewTemplate from '../modals/view-template';
 import { Edit2 } from 'iconsax-react';
 import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
+import SkeletonLoader from './SkeletonLoader';
 
 const Landing = () => {
   const {
     profileUpdate,
     showProfileUpdate,
     showBuildPortfolio,
-    showViewtemplates,
     userData,
     getUserSections,
     userSections,
@@ -55,13 +53,9 @@ const Landing = () => {
       </div>
       <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
         {getUserSections.isLoading ? (
-          <Loader />
+          <SkeletonLoader pulse={true} error={false} message={''} />
         ) : !getUserSections.isSuccess ? (
-          <div className="flex justify-center items-center min-h-[50vh]">
-            <p className="text-red-200 text-2xl font-semibold text-center">
-              Something went wrong, please try again later
-            </p>
-          </div>
+          <SkeletonLoader pulse={false} error={true} message={'Something went wrong, please try again later'} />
         ) : (
           <>
             <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5">
@@ -78,7 +72,7 @@ const Landing = () => {
                       {lastName === 'undefined' || !lastName ? '' : lastName}
                     </h1>
                     <div className="flex items-center space-x-2">
-                      {<p className="text-gray-500 font-semibold text-[15px] md:text-[18px]">{tracks?.track}</p>}
+                      {<p className="flex flex-col text-gray-500 font-semibold text-[15px]">{tracks?.track}</p>}
                     </div>
                     <p className="text-gray-500 text-[14px] md:text-base font-semibold">
                       {city ? city : ``}

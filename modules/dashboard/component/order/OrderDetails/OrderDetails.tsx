@@ -148,7 +148,7 @@ const OrderDetails = () => {
 
   const fetchOrders = async () => {
     try {
-      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
+      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
       // const url = `http://localhost:8080/api/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
       setLoadingOrders(true);
       const req = await axios({

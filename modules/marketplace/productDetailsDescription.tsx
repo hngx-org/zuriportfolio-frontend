@@ -22,6 +22,7 @@ import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import Loader from '@ui/Loader';
+import { API_URI } from './http';
 
 export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
@@ -34,9 +35,10 @@ export default function ProductDetailsDescription({ productId }: { productId: st
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
+  console.log(token);
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/none/?guest=true`;
+    ? `${API_URI}/get-product/${productId}/${token?.id}/?guest=false`
+    : `${API_URI}/get-product/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -63,7 +65,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
       try {
         const response = await axios.post(
           apiUrl,
-          { product_ids: [`${id}`] },
+          { product_ids: [`${productId}`] },
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
@@ -103,7 +105,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
     };
 
     try {
-      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+      const response = await axios.post(`${API_URI}/user-wishlist/`, data);
 
       console.log(response);
       if (response.status === 201) {

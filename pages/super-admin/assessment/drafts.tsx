@@ -1,21 +1,20 @@
 import React from 'react';
 import DraftPage from '../../../modules/assessment/draftPage';
 import Header from '@modules/assessment/component/Header';
-import MainLayout from '../../../components/Layout/MainLayout';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { withAdminAuth } from '../../../helpers/withAuth';
 
 const Draft = () => {
   return (
     <div>
-      <MainLayout activePage="dashboard" showTopbar showFooter showDashboardSidebar={false}>
-        <AssessmentBanner
-          title="Draft"
-          subtitle="All incomplete assessments, saved, to be worked on later."
-          bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
-        />
-        <DraftPage />
-      </MainLayout>
+      <SuperAdminNavbar />
+      <AssessmentBanner
+        title="Draft"
+        subtitle="All incomplete assessments, saved, to be worked on later."
+        bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
+      />
+      <DraftPage />
     </div>
   );
 };

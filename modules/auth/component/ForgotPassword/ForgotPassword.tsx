@@ -10,6 +10,7 @@ import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
 import { forgetPassword } from '../../../../http/auth';
 import { useAuth } from '../../../../context/AuthContext';
+import { error } from 'console';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
@@ -25,8 +26,6 @@ const ForgotPassword = () => {
       router.push(`/auth/forgot-password-link-sent?email=${email}`);
       return;
     }
-
-    notifyError(data.message);
   };
 
   // Form validation
@@ -41,12 +40,38 @@ const ForgotPassword = () => {
     },
   });
 
+  // const { mutate, isLoading } = useAuthMutation(forgetPassword, {
+  //   onSuccess: (data) => {
+  //     forgotPasswordSuccess(data);
+  //   },
+  //   onError: (error: any) => console.log(error),
+  // });
+
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
     onSuccess: (data) => {
+      console.log('Success', data);
       forgotPasswordSuccess(data);
     },
-    onError: (error: any) => console.log(error),
+    onError: (e: any) => {
+      console.log('Error', e);
+      // status code for user whose email is not verified
+      if (e.status === 403) {
+        notify({
+          message: 'Account not verified, redirecting to verification page.',
+          type: 'error',
+          theme: 'light',
+        });
+        router.push('/auth/verification-complete');
+        return;
+      }
+
+      notify({
+        message: e.message,
+        type: 'error',
+        theme: 'light',
+      });
+    },
   });
 
   // Handling email input
@@ -80,7 +105,7 @@ const ForgotPassword = () => {
                 <Input
                   id="email"
                   {...form.getInputProps('email')}
-                  type="email"
+                  type="text"
                   placeholder="Enter email"
                   className={`w-full text-black  h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'

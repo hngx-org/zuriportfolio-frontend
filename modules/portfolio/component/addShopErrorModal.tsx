@@ -139,7 +139,7 @@ export function AddShopModal({ isOpen, onCloseModal, onSaveModal }: any) {
           onSaveModal();
         }}
         isCloseIconPresent={false}
-        size="xl"
+        size="lg"
         title="Create shop"
       >
         <CloseSquare

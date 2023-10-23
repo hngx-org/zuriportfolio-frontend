@@ -64,7 +64,7 @@ const PromotionHistoryRow = (props: any) => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`https://zuriportfolio-shop-internal-api.onrender.com/api/discount/${props.promo.id}`, {
+      await axios.delete(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount/${props.promo.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },

@@ -97,7 +97,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/nopromo', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products/nopromo', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -144,11 +144,15 @@ function Discounts() {
     };
 
     try {
-      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      const response = await axios.post(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount',
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
         },
-      });
+      );
 
       toast.success('Discount created successfully', {
         autoClose: 5000,

@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/assets/404/logo-zuri-auth.svg';
+import useUserSession from '../../../../hooks/Auth/useUserSession';
 import {
   Book,
   Chart,
   I24Support,
   I3Dcube,
+  LogoutCurve,
   Notification,
   Personalcard,
   SearchNormal1,
@@ -50,6 +52,7 @@ export const menu = [
 
 const SuperAdminNavbar = () => {
   const router = useRouter();
+  const { logout } = useUserSession();
   const getPageTitle = (route: string) => {
     switch (true) {
       case route.includes('/super-admin/analytics-and-reporting'):
@@ -94,9 +97,18 @@ const SuperAdminNavbar = () => {
             />
           </div>
           <p className="font-manropeB block md:hidden">{getPageTitle(router.pathname)}</p>
-          <div className="flex items-center gap-4">
-            <Notification size="24" color="#5b5f5e" className="cursor-pointer" />
-            <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-4">
+              <Notification size="24" color="#5b5f5e" className="cursor-pointer" />
+              <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
+            </div>
+            <button
+              className="hidden lg:flex items-center gap-3 bg-pink-120 py-1 px-2 rounded-[8px] text-brand-red-primary text-xs md:text-sm"
+              onClick={() => logout()}
+            >
+              <LogoutCurve size="20" color="#ff2e2e" />
+              Log out
+            </button>
           </div>
         </div>
       </div>
