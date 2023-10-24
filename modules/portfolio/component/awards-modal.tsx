@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -8,42 +9,41 @@ import { Award, AwardItemProps, AwardListProps } from '../../../@types';
 import Loader from '@ui/Loader';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { Edit2, Trash } from 'iconsax-react';
-
 import { notify } from '@ui/Toast';
 
+// Defining a context to share state across components
 interface Context {
   refreshPage: boolean;
   setRefreshPage: React.Dispatch<React.SetStateAction<boolean>>;
   isModalOpen?: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setRender: React.Dispatch<React.SetStateAction<boolean>>;
   urlError: boolean | string;
   setUrlError: React.Dispatch<React.SetStateAction<string>>;
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  render: boolean;
   baseURL: string; // Add baseURL
   setBaseURL: React.Dispatch<React.SetStateAction<string>>; // Add setter for baseURL
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
 }
+
+// Initial context values
 const initialContextValue: Context = {
   refreshPage: false,
   setRefreshPage: () => {},
   setError: () => {},
   isModalOpen: false,
   setIsModalOpen: () => {},
-  setRender: () => {},
   urlError: false,
   setUrlError: () => {},
   error: '',
-  render: false,
   setIsLoading: () => {},
   isLoading: false,
   baseURL: 'https://hng6-r5y3.onrender.com', // Add baseURL with a default value
   setBaseURL: () => {}, // Add setter for baseURL
 };
 
+// Props for the Awards component
 type awardsModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
@@ -52,7 +52,6 @@ type awardsModalProps = {
 };
 
 const myContext = createContext(initialContextValue);
-// Interfaces
 
 const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
   const { userId } = useContext(Portfolio);
@@ -67,14 +66,12 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [urlError, setUrlError] = useState('');
   const [error, setError] = useState('');
-  const [render, setRender] = useState(false);
   const [refreshPage, setRefreshPage] = useState(false);
-  const [createAward, setCreateAward] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Function to open the modal when adding new certifications
   const openModal = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent the default form submission
-
     const newAward = {
       year: formData.year,
       title: formData.title,
@@ -94,11 +91,9 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
       });
       setIsLoading(false);
       const status = response.status;
-      console.log(response);
 
+      // Handle different response statuses
       if (response.ok) {
-        // Handle success (status 200)
-
         notify({
           message: 'Award created successfully',
           position: 'top-center',
@@ -158,10 +153,12 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
     }
   };
 
+  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
+  // Function to handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
@@ -188,8 +185,6 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
         setIsModalOpen,
         setUrlError,
         urlError,
-        setRender,
-        render,
         error,
         setIsLoading,
         isLoading,
@@ -308,8 +303,7 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
                   required
                 />
               </div>
-              <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                <div>{isLoading && <Loader />}</div>
+              <div className="flex sm:justify-end sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
                 <div className="flex gap-4  items-center">
                   <Button
                     onClick={() => {
@@ -321,14 +315,7 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
                   >
                     Cancel
                   </Button>{' '}
-                  <Button
-                    type="submit"
-                    // disabled={!isValid}
-
-                    className="w-full rounded-md sm:w-[6rem]"
-                    size={'md'}
-                    disabled={isLoading}
-                  >
+                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'md'} disabled={isLoading}>
                     {isLoading ? <Loader /> : 'Save'}
                   </Button>
                 </div>
@@ -430,7 +417,6 @@ const AwardList: React.FC<AwardListProps> = () => {
   useEffect(() => {
     fetchAwards();
   }, [refreshPage]);
-  useEffect(() => {}, [isModalOpen]);
 
   return (
     <div>
@@ -616,13 +602,13 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Edit2 size="20" color="#37d67a" variant="Outline" />
+            <Edit2 size="24" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Trash size="20" color="#f47373" variant="Outline" />
+            <Trash size="24" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>
@@ -639,6 +625,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   );
 };
 
+//Edit form for updating the data
 const EditForm: React.FC<{
   handleSave: () => void;
   isOpen: boolean;
@@ -646,8 +633,6 @@ const EditForm: React.FC<{
   setAward: React.Dispatch<React.SetStateAction<Award>>;
   onClose: () => void;
 }> = ({ isOpen, award, setAward, onClose, handleSave }) => {
-  const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     // Update the award state
@@ -668,8 +653,6 @@ const EditForm: React.FC<{
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    setRender(true);
 
     // If description character count is within the desired range, trigger handleSave and onClose
     handleSave();
