@@ -90,9 +90,8 @@ const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
         },
         body: JSON.stringify(newCertification),
       });
-      const status = response.status;
-
       setIsLoading(false);
+      const status = response.status;
 
       // Handle different response statuses
       if (response.ok) {
@@ -151,7 +150,7 @@ const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
       }
     } catch (error) {
       notify({
-        message: `${error} `,
+        message: `thai `,
         position: 'top-center',
         theme: 'light',
         type: 'error',
@@ -311,7 +310,7 @@ const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
                 />
               </div>
               <div className="flex sm:justify-end sm:text-left gap-2 sm:gap-0 justify-end text-center  items-center sm:flex-row flex-col">
-                {/* <div>{isLoading && <Loader />}</div> */}
+                <div>{isLoading && <Loader />}</div>
 
                 <div className="flex gap-4  items-center">
                   <Button
@@ -324,14 +323,7 @@ const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
                   >
                     Cancel
                   </Button>{' '}
-                  <Button
-                    type="submit"
-                    // disabled={!isValid}
-
-                    className="w-full rounded-md sm:w-[6rem]"
-                    size={'md'}
-                    disabled={isLoading}
-                  >
+                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'md'} disabled={isLoading}>
                     {isLoading ? <Loader /> : 'Save'}
                   </Button>
                 </div>
@@ -388,7 +380,7 @@ const CertificationList: React.FC<CertificationListProps> = () => {
         setIsLoading(false);
         const res = await response.json();
         setCertifications(res.data);
-        res.awards.length > 0 ? setIsModalOpen(false) : setIsModalOpen(true);
+        res.data.length > 0 ? setIsModalOpen(false) : setIsModalOpen(true);
       }
       // Handle a 400 Bad Request error
       else if (status === 400) {
@@ -434,12 +426,8 @@ const CertificationList: React.FC<CertificationListProps> = () => {
     }
   };
   useEffect(() => {
-    if (!isModalOpen) {
-      // Fetch data when the CertificationRead modal is opened
-      fetchCertifications();
-    }
-  }, [isModalOpen, refreshPage]);
-  useEffect(() => {}, [!isModalOpen]);
+    fetchCertifications();
+  }, [refreshPage]);
 
   return (
     <div>
@@ -646,13 +634,13 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Edit2 size="20" color="#37d67a" variant="Outline" />
+            <Edit2 size="24" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Trash size="20" color="#f47373" variant="Outline" />
+            <Trash size="24" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>
