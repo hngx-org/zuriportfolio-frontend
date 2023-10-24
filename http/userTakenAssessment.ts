@@ -73,13 +73,13 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
 
 export const fetchUserAssessmentSession = async (token: string) => {
   try {
-    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/`, {
+    const res = await axios.get(`${assessmentBaseUrl}/assessments/session`, {
       headers: {
         'Content-Type': 'application/json',
         token: token,
       },
     });
-    return res.data.data;
+    return res.data;
   } catch (error) {
     console.error('Error fetching user taken assessment:', error);
     throw new Error('Failed to fetch user taken assessment');
