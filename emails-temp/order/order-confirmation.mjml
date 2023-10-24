@@ -136,7 +136,7 @@
         </mj-column>
     </mj-group>
      </mj-section>
-     <mj-section padding-bottom="200px">
+     <mj-section >
         <mj-column>
             <mj-text font-weight="700" font-family="Verdana" font-size="16px" padding-top="24px" padding-bottom="14px">
           Customer Details
@@ -149,19 +149,59 @@
         </mj-column>
      </mj-section>
      
-       <mj-section background-color="#009254">
-        <mj-column width="90%">
-             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="" width="100px" align="center" />
-           <mj-social font-size="24px" align="center">
-          <mj-social-element name="instagram" href="https://www.instagram.com/hnginternship/" background-color="red" />
-          <mj-social-element name="facebook" href="https://facebook.com/Hnginternship/" />
-          <mj-social-element name="twitter" href="https://twitter.com/hnginternship" />
-          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/hng-internship/" />
+       <mj-section>
+      <mj-column>
+        <mj-spacer mj-class="sp-xl" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section mj-class="bg-green"background-color="#009254" >
+      <mj-column width="100%">
+        <mj-image
+          width="124px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.png"
+        />
+      </mj-column>
+      <mj-column width="100%">
+        <mj-social inner-padding="12px">
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/instagram.png"
+            name="instagram"
+            href="https://www.instagram.com/hnginternship"
+          />
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/facebook.png"
+            name="facebook"
+            href="https://www.facebook.com/HNG.INC"
+          />
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/twitter.png"
+            name="twitter"
+            href="https://twitter.com/hnginternship"
+          />
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/linkedin.png"
+            name="linkedin"
+            href="https://ng.linkedin.com/company/hng-internship"
+          />
         </mj-social>
-        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px" font-family="Verdana">Beaverto, Oregon, Washington County, USA</mj-text>
-        <mj-text color="#fff" align="center" font-size="14px" font-family="Verdana">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
-        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px" font-family="Verdana">Unsubscribe</mj-text>     
-        </mj-column>
-       </mj-section>
+      </mj-column>
+      <mj-column width="100%">
+        <mj-text align="center" mj-class="p-2" color="#fff"> Beaverto, Oregon,Washington County, USA </mj-text>
+        <mj-text align="center" mj-class="p-2" color="#fff" padding="8px 0 12px">
+          Copyright &copy;2023 Zuriportfolio, All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section></mj-section>
   </mj-body>
 </mjml>

@@ -85,40 +85,56 @@
         </mj-text>
       </mj-column>
     </mj-section>
-    <mj-section border="1px solid #E1E3E2" background-color="#009254">
-      <mj-column>
-        <mj-image
-          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo2.png"
-          alt="zuriportfolio logo"
-          width="125px"
-        />
-        <mj-social align="center" mode="horizontal">
-          <mj-social-element
-            name="Instagram"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/instagram.png"
-          ></mj-social-element>
-          <mj-social-element
-            name="Facebook"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/facebook.png"
-          ></mj-social-element>
-          <mj-social-element
-            name="Twitter"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/twitter.png"
-          ></mj-social-element>
-          <mj-social-element
-            name="Linkedin"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/linkedin.png"
-          ></mj-social-element>
-        </mj-social>
-        <mj-text color="#fff" font-family="Verdana" font-size="12px" letter-spacing="0.048px" align="center">
-          Beaverton, Oregon, Washington County, USA
-        </mj-text>
-        <mj-text font-family="Verdana" color="#fff" font-size="12px" align="center" letter-spacing="0.048px">
-          Copyright © 2023 Zuriportfolio, All rights reserved.
-        </mj-text>
 
-        <mj-text font-family="Verdana" color="#96D4AB" font-size="12px" align="center" font-weight="600">
-          Unsubscribe
+    <mj-section>
+      <mj-column>
+        <mj-spacer mj-class="sp-xl" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section mj-class="bg-green" background-color="#009254">
+      <mj-column width="100%">
+        <mj-image
+          width="124px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.png"
+        />
+      </mj-column>
+      <mj-column width="100%">
+        <mj-social inner-padding="12px">
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/instagram.png"
+            name="instagram"
+            href="https://www.instagram.com/hnginternship"
+          />
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/facebook.png"
+            name="facebook"
+            href="https://www.facebook.com/HNG.INC"
+          />
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/twitter.png"
+            name="twitter"
+            href="https://twitter.com/hnginternship"
+          />
+          <mj-social-element
+            icon-size="24px"
+            background-color="transparent"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/linkedin.png"
+            name="linkedin"
+            href="https://ng.linkedin.com/company/hng-internship"
+          />
+        </mj-social>
+      </mj-column>
+      <mj-column width="100%">
+        <mj-text align="center" mj-class="p-2" color="#fff"> Beaverto, Oregon,Washington County, USA </mj-text>
+        <mj-text align="center" mj-class="p-2" color="#fff" padding="8px 0 12px">
+          Copyright &copy;2023 Zuriportfolio, All rights reserved.
         </mj-text>
       </mj-column>
     </mj-section>

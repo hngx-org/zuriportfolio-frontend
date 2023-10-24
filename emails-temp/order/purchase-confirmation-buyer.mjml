@@ -5,8 +5,8 @@
     <mj-attributes>
       /* background colors */
       <mj-class name="bg-grey" background-color="#F0F1F0" />
-      <mj-class name="bg-white" background-color="#fff" border-radius="10.08px" padding="24px 0" />
-      <mj-class name="bg-green" background-color="#009254" border-radius="10.08px" padding="24px 0" />
+      <mj-class name="bg-white" background-color="#fff" padding="24px 0" />
+      <mj-class name="bg-green" background-color="#009254" padding="24px 0" />
 
       /* Font styles */
       <mj-class name="h-1" font-size="20px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
@@ -232,11 +232,11 @@
 
       <mj-section>
         <mj-column>
-          <mj-spacer mj-class="sp-lg" />
+          <mj-spacer mj-class="sp-xl" />
         </mj-column>
       </mj-section>
 
-      <mj-section mj-class="bg-green">
+      <mj-section mj-class="bg-green" background-color="#009254">
         <mj-column width="100%">
           <mj-image
             width="124px"
@@ -280,9 +280,6 @@
           <mj-text align="center" mj-class="p-2" color="#fff" padding="8px 0 12px">
             Copyright &copy;2023 Zuriportfolio, All rights reserved.
           </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-text align="center" mj-class="p-3"> unsubscribe </mj-text>
         </mj-column>
       </mj-section>
     </mj-wrapper>
