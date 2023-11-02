@@ -27,7 +27,7 @@ const PaymentInformationModal = ({
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod, token);
-        
+
         localStorage.setItem('trans_token', token);
         localStorage.setItem('gateway', selectedPaymentMethod);
         window.location.href = response.data.transaction_url;

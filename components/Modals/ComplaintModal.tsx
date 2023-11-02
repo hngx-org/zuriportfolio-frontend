@@ -22,12 +22,13 @@ interface ModalProps {
 }
 interface ComplaintModalProps extends ModalProps {
   product: string;
-  user: string;
+  user?: string; //you did not passing the user in your mobile_customer_dashboard component
+  customerID?: string; //you have not added this and yet you were passing it in the component
 }
 //  const token = getAuthTokenFromCookies('UTM_tracker');
 const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/register-complaints/`;
 
-const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, user }) => {
+const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, user, customerID }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
