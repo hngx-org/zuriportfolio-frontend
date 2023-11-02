@@ -21,16 +21,15 @@ const CountryCityDropdown: React.FC<Props> = ({
   const [cities, setCities] = useState<string[]>([]);
   const [cityError, setCityError] = useState<string | null>(null);
   useEffect(() => {
-    // Fetch the list of countries from the API
     fetch('https://countriesnow.space/api/v0.1/countries')
       .then((response) => response.json())
       .then((data) => {
         if (!data.error && data.data && data.data.length > 0) {
-          // Extract the list of countries from the API response
+
           const countryNames = data.data.map((country: { country: string; cities: string[] }) => ({
             label: country.country,
             value: country.country,
-            cities: country.cities, // Include the list of cities for each country
+            cities: country.cities,
           }));
           setCountries(countryNames);
         }
@@ -42,11 +41,10 @@ const CountryCityDropdown: React.FC<Props> = ({
   useEffect(() => {
     if (!selectedCountry) {
       setCityError('Pick a country first');
-      setCities([]); // Clear the cities
+      setCities([]);
     } else {
       setCityError(null);
       if (selectedCountry) {
-        // Find the selected country and its cities
         const selectedCountryData = countries.find((country) => country.value === selectedCountry);
         if (selectedCountryData) {
           setCities(selectedCountryData.cities);

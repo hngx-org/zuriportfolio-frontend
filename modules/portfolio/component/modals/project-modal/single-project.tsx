@@ -42,7 +42,7 @@ const SingleProject: React.FC<SingleProjectProps> = ({ dataToEdit, handleSetRout
       {loading ? (
         <>
           <Loader />
-          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse"></p>
         </>
       ) : (
         <section className="space-y-4 p-3">
