@@ -37,7 +37,7 @@ export default function Cart() {
       let carts;
       let summary;
       const token = localStorage.getItem('zpt');
-      localStorage.setItem('trans_token',"")
+      localStorage.setItem('trans_token', '');
 
       if (token) {
         carts = await getUserCart(token);

@@ -18,7 +18,6 @@ import Portfolio from '../../../../context/PortfolioLandingContext';
 import { Education, Shop } from './Skeleton';
 
 import { SectionDeleteModal } from '../warningModals';
-import Wrapper from './placeholders/Wrapper';
 import PworkExperience from './placeholders/PworkExperience';
 import Pabout from './placeholders/Pabout';
 import Pskils from './placeholders/Pskills';
