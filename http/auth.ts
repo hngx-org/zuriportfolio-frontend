@@ -5,7 +5,6 @@ const AUTH_HTTP_URL_2 = 'https://staging.zuri.team/api/auth/api';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
-  timeout: 30000,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',
   },
