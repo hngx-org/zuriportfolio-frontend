@@ -172,3 +172,6 @@ export const authorizeToken = async (props: { token: string }) => {
     throw e?.response?.data || { message: e.message };
   }
 };
+export const Google = () => {
+  return $http.get('/');
+};
