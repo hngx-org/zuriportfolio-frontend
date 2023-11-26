@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import SignUpWithSocialsButton from './SignUpWithSocialsButton';
 import googleLogo from '../../../../public/assets/Google.png';
+import LogoCarousel from '@modules/home/carousel/logos/logosCarousel';
 
 const SignUpWithGoogle = () => {
   return (
