@@ -176,7 +176,7 @@ function Signup() {
                     First name
                   </label>
                   <Input
-                    placeHolder="Enter firstname"
+                    placeHolder="Enter first name"
                     id="firstName"
                     {...form.getInputProps('firstName')}
                     className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
@@ -193,7 +193,7 @@ function Signup() {
                     Last name
                   </label>
                   <Input
-                    placeHolder="Enter lastname"
+                    placeHolder="Enter last name"
                     id="lastName"
                     {...form.getInputProps('lastName')}
                     className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
