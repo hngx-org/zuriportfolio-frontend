@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
+const AUTH_HTTP_URL = 'https://zuri-auth.up.railway.app/api/auth/api/auth';
 const AUTH_HTTP_URL_2 = 'https://staging.zuri.team/api/auth/api';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
-  timeout: 30000,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',
   },
@@ -172,4 +171,8 @@ export const authorizeToken = async (props: { token: string }) => {
   } catch (e: any) {
     throw e?.response?.data || { message: e.message };
   }
+};
+
+export const Google = () => {
+  return $http.get('/google');
 };
