@@ -39,9 +39,12 @@ const ZuriLandingPage = () => {
       setShowLoader(true);
       if (shop_id) {
         try {
-          const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
+          const response = await axios.get(
+            `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shop/${shop_id}`,
+          );
 
           setShop(response.data);
+          console.log('Shop Data:', response.data);
 
           setTimeout(() => {
             setShowLoader(false);
@@ -66,20 +69,23 @@ const ZuriLandingPage = () => {
   }, [router.query.shop_id, shop_id]);
 
   if (shop && shop.data) {
-    const shopName = shop.data?.name;
+    const shopName = shop.data?.shop.name;
+    console.log('Shop Name:', shopName);
   }
 
   if (shop && shop.data) {
-    const shopP = shop.data?.products;
+    const shopP = shop.data?.shop.products;
   }
 
   useEffect(() => {
     if (shop) {
-      const shopProducts = shop.data?.products || [];
+      const shopProducts = shop.data?.shop.products || [];
       setProducts(shopProducts);
     }
   }, [shop]);
-  const totalPageCount = Math.ceil(products.length / productsPerPage);
+
+  const paginationData = shop?.data?.pagination;
+  const totalPageCount = paginationData ? Math.ceil(paginationData.totalItems / paginationData.pageSize) : 0;
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -89,16 +95,16 @@ const ZuriLandingPage = () => {
     <div className="flex flex-col h-screen">
       <Head>
         <link rel="icon" href="/assets/zuriLogo.svg" />
-        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
+        <title>{shop ? `${shop.data?.shop.name} Shop - Discover, Buy, and Sell` : ''}</title>
         <meta
           name="description"
           content="Discover a versatile online marketplace where sellers can showcase their products, and buyers can find a wide range of goods. Shop for unique handcrafted items, everyday essentials, and more."
         />
-        <meta property="og:title" content={shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''} />
+        <meta property="og:title" content={shop ? `${shop.data.shop.name} Shop - Discover, Buy, and Sell` : ''} />
         <meta
           property="og:description"
           content={`Experience the magic of ${
-            shop ? shop.data?.name : 'Shop'
+            shop ? shop.data?.shop.name : 'Shop'
           } Shop, a place where you can discover, shop, and thrive. Our exceptional products cater to all your needs. Join us today!`}
         />
 
@@ -118,7 +124,7 @@ const ZuriLandingPage = () => {
       <div className=" flex-grow px-4 sm:px-6 md:px-6 lg:px-10 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
-            <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
+            <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.shop.name}.</h1>
           </div>
         ) : loading ? (
           <div className="flex items-center justify-center h-screen py-10">
@@ -144,15 +150,15 @@ const ZuriLandingPage = () => {
           {totalPageCount > 1 && (
             <Pagination
               visiblePaginatedBtn={5}
-              activePage={currentPage}
-              pages={totalPageCount}
-              page={currentPage}
+              activePage={paginationData?.currentPage || 0}
+              pages={paginationData?.totalPages || 1}
+              page={paginationData?.currentPage || 0}
               setPage={handlePageChange}
             />
           )}
         </a>
       </div>
-      <Footer shopName={shop ? shop.data?.name : ''} />
+      <Footer shopName={shop ? shop.data?.shop.name : ''} />
     </div>
   );
 };
