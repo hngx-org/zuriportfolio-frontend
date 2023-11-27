@@ -24,12 +24,12 @@ const Chart: React.FC<ChartProps> = ({ isBarChart, data, isFetching, isFetched }
           ) : (
             <LineChart width={800} height={250} data={data} margin={chartMargins}>
               <CartesianGrid vertical={false} strokeDasharray="1 0" />
-              <XAxis dataKey="timeframe" />
+              <XAxis dataKey="frame" />
               <Tooltip cursor={false} content={<SalesTooltip />} />
               <Line
                 dot={true}
                 type="monotone"
-                dataKey="revenue"
+                dataKey="sales"
                 stroke="#E1BD90"
                 strokeWidth={2.5}
                 className="cursor-pointer"

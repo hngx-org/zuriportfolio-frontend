@@ -1,3 +1,6 @@
+export const storeTrafficFrames = ['12months', '3months', '30days', '7days', '24hrs'];
+export const salesReportFrames = ['12m', '3m', '30d', '7d', '24h'];
+
 export const metricsCardData = [
   {
     title: "Today's revenue",
@@ -50,6 +53,12 @@ export const metricsChartTimeline = [
   },
 ];
 
+function generateNullData(timeframe: any[]) {
+  const nullData = timeframe.map((frame) => ({ frame, sales: 0 }));
+  const nullTraffic = timeframe.map((timeframe) => ({ timeframe, traffic: 0 }));
+  return { nullSalesData: nullData, nullTrafficData: nullTraffic };
+}
+
 export const twelveMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const threeMonths = ['Jan', 'Feb', 'Mar'];
 export const thirtyDays = Array.from({ length: 30 }, (_, i) => {
@@ -82,20 +91,15 @@ export const twentyFourHours = Array.from({ length: 24 }, (_, i) => {
   }
 });
 
-export const nullSalesData = [
-  { timeframe: 'Nov', revenue: 0 },
-  { timeframe: 'Dec', revenue: 0 },
-  { timeframe: 'Jan', revenue: 0 },
-  { timeframe: 'Feb', revenue: 0 },
-  { timeframe: 'Mar', revenue: 0 },
-  { timeframe: 'Apr', revenue: 0 },
-  { timeframe: 'May', revenue: 0 },
-  { timeframe: 'Jun', revenue: 0 },
-  { timeframe: 'Jul', revenue: 0 },
-  { timeframe: 'Aug', revenue: 0 },
-  { timeframe: 'Sep', revenue: 0 },
-  { timeframe: 'Oct', revenue: 0 },
-];
+export const { nullSalesData: nullSalesDataTwelveMonths, nullTrafficData: nullTrafficDataTwelveMonths } =
+  generateNullData(twelveMonths);
+export const { nullSalesData: nullSalesDataThreeMonths, nullTrafficData: nullTrafficDataThreeMonths } =
+  generateNullData(threeMonths);
+export const { nullSalesData: nullSalesData30Days, nullTrafficData: nullTrafficData30Days } =
+  generateNullData(thirtyDays);
+export const { nullSalesData: nullSalesData7Days, nullTrafficData: nullTrafficData7Days } = generateNullData(sevenDays);
+export const { nullSalesData: nullSalesData24Hours, nullTrafficData: nullTrafficData24Hours } =
+  generateNullData(twentyFourHours);
 
 export const activityData = [
   {
