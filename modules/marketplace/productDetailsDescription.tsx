@@ -23,24 +23,23 @@ import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import Loader from '@ui/Loader';
 import { API_URI } from './http';
+import { decryptId } from '../../utils/encrypt';
 
 export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const [cartLoading, setCartLoading] = useState<boolean>(true);
   const [image, setImage] = useState(product?.images[0]?.url);
-  const router = useRouter();
-  const { id } = router.query;
+  const decryptedId: string | undefined = decryptId(productId ? productId : '');
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
-  console.log(token);
-  const apiUrl: string = token
-    ? `${API_URI}/get-product/${productId}/${token?.id}/?guest=false`
-    : `${API_URI}/get-product/${productId}/none/?guest=true`;
-
   useEffect(() => {
+    const apiUrl: string = token
+      ? `${API_URI}/get-product/${decryptedId}/${token?.id}/?guest=false`
+      : `${API_URI}/get-product/${decryptedId}/none/?guest=true`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
@@ -53,8 +52,10 @@ export default function ProductDetailsDescription({ productId }: { productId: st
         setProduct(response.data.data);
         setIsLoading(false);
       })
-      .catch((error) => {});
-  }, [apiUrl, id]);
+      .catch((error) => {
+        setError(true);
+      });
+  }, [decryptedId, token]);
 
   const addToCart = async () => {
     const apiUrl = `${CART_ENDPOINT}/carts`;
@@ -65,7 +66,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
       try {
         const response = await axios.post(
           apiUrl,
-          { product_ids: [`${productId}`] },
+          { product_ids: [`${decryptedId}`] },
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
@@ -153,10 +154,22 @@ export default function ProductDetailsDescription({ productId }: { productId: st
 
   const breadcrumbs: any = product?.name ? `/marketplace/${product?.name}` : '/marketplace/';
 
+  if (error && !product) {
+    return (
+      <CategoryLayout
+        isBreadcrumb={true}
+        pathName={breadcrumbs}
+        className="animate-pulse h-[50vh] w-full flex justify-center items-center text-2xl flex-col  text-gray-400"
+      >
+        <p>Error Loading Product</p>
+        <Loader />
+      </CategoryLayout>
+    );
+  }
   return (
     <CategoryLayout isBreadcrumb={true} pathName={breadcrumbs}>
-      {!product ? (
-        <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
+      {!error || !product ? (
+        <div className="animate-pulse h-[50vh]">
           <Loader />
         </div>
       ) : (
@@ -470,7 +483,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
           {/* favorite products  */}
           <div></div>
           <div>
-            <ProductWeThoughtMightInterestYou id={id} />
+            <ProductWeThoughtMightInterestYou id={decryptedId} />
           </div>
         </main>
       )}
@@ -480,6 +493,3 @@ export default function ProductDetailsDescription({ productId }: { productId: st
     </CategoryLayout>
   );
 }
-
-// 656525652ad33a@beaconmessenger.com656525652ad33a@beaconmessenger.com
-// TeaBread1234
