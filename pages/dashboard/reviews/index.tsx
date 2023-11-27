@@ -17,39 +17,38 @@ export default function ReviewDashboard() {
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchProducts = async () => {
-    // Fetch the product data from the server
-    setIsLoading(true);
-    try {
-      setIsLoading(true);
-      const res = await fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/products?page=${currentPage}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-        },
-      });
-      const data = await res.json();
-
-      const transformedProduct = data.data.products.map((product: any) => ({
-        id: product.id,
-        title: product.name,
-        ratingNo: 5,
-        imageSrc: product.image[0].url,
-        price: product.price,
-        avgRating: 2,
-        author: '',
-      }));
-
-      setProducts(transformedProduct);
-      setTotalPage(data.data.totalPages);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProducts();
+    const fetchProducts = async () => {
+      // Fetch the product data from the server
+      setIsLoading(true);
+      try {
+        setIsLoading(true);
+        const res = await fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/products?page=${currentPage}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        });
+        const data = await res.json();
+  
+        const transformedProduct = data.data.products.map((product: any) => ({
+          id: product.id,
+          title: product.name,
+          ratingNo: 5,
+          imageSrc: product.image[0].url,
+          price: product.price,
+          avgRating: 2,
+          author: '',
+        }));
+  
+        setProducts(transformedProduct);
+        setTotalPage(data.data.totalPages);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts()
   }, [currentPage]);
 
   return (
