@@ -98,10 +98,10 @@ const Questions: React.FC = () => {
   function sortQuestionsByQuestionNo(input: QuestionArrays | undefined): Question[] {
     if (!input) return [];
     // Concatenate the 'answered_questions' and 'unanswered_questions' arrays
-    const allQuestions = input.answered_questions.concat(input.unanswered_questions);
+    const allQuestions = input.answered_questions?.concat(input.unanswered_questions);
 
     // Sort the combined array based on 'question_no'
-    return allQuestions.sort((a, b) => a.question_no - b.question_no);
+    return allQuestions?.sort((a, b) => a.question_no - b.question_no);
   }
   const handleUserAnswerClick = async (question_id: number, user_answer_id: number, answer_text: string) => {
     const token = tokenRef.current;
@@ -123,8 +123,16 @@ const Questions: React.FC = () => {
   useEffect(() => {
     if (!sessionLoading && !sessionIsErrorr && session?.length !== 0 && !sessionError) {
       const assessmentData = sortQuestionsByQuestionNo(session);
-      setStoredAssessment(assessmentData);
-      setIsLoading(false);
+      if (
+        session.data?.questions?.length === 0 ||        
+        session?.data?.length <= 1 ||
+        session?.data?.questions === undefined
+      ) {
+        setStoredAssessment(newQuestions?.data?.questions);
+      } else {
+        setStoredAssessment(assessmentData);
+      }
+      setIsLoading(sessionLoading);
       setIsError(false);
     } else if (!newIsLoading && !newIsError && newQuestions?.data?.questions?.length !== 0 && !newError) {
       setStoredAssessment(newQuestions?.data?.questions);
@@ -133,11 +141,12 @@ const Questions: React.FC = () => {
     } else {
       setIsError(true);
     }
-    setAssessmentData(assessment);
+    setAssessmentData(assessment?.data);
     setDuration(assessmentData?.duration_minutes as number);
     console.log(newIsLoading, newIsError, newQuestions?.data?.questions, newError);
     console.log(sessionLoading, sessionIsErrorr, session, sessionError);
     console.log(assessmentData);
+    console.log('stored', storedAssessment);
   }, [
     newQuestions?.data,
     newIsLoading,
@@ -150,13 +159,14 @@ const Questions: React.FC = () => {
     newError,
     assessmentData?.duration_minutes,
     assessmentData,
+    storedAssessment,
   ]);
   useEffect(() => {
     const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
         const minuteString = localStorage.getItem('minute');
         const secondString = localStorage.getItem('second');
-        const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : 30;
+        const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : duration as number;
         const secondInt = secondString !== null ? parseInt(secondString, 10) : 0;
         setMinute(minuteInt);
         setSecond(secondInt);
@@ -200,7 +210,7 @@ const Questions: React.FC = () => {
     getItemWithExpiry('duration');
   }, [duration, minute, second]);
 
-  if (isError) {
+  if (newIsError) {
     return (
       <>
         <Head>
@@ -274,7 +284,7 @@ const Questions: React.FC = () => {
           <meta name="description" content={metaDescription} />
         </Head>
         <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
-          {isLoading ? (
+          {newIsLoading ? (
             <div className="flex justify-center items-center h-screen">
               <Loader />
             </div>
@@ -300,7 +310,7 @@ const Questions: React.FC = () => {
                 </div>
                 <form action="#">
                   <ul className="overscroll md:max-w-xl max-w-xs flex flex-col  w-full gap-y-4 overflow-y-scroll max-h-screen h-full mb-4">
-                    {storedAssessment.map((question: any, index: number) => (
+                    {storedAssessment?.map((question: any, index: number) => (
                       <li key={index} className="w-full md:max-w-lg py-8 px-4 border border-slate-100 rounded-lg">
                         <h1 className="text-xl text-brand-green-primary text-center font-bold mb-4">
                           Question {storedAssessment.indexOf(question) + 1} of {storedAssessment?.length}

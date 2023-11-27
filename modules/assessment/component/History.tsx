@@ -39,7 +39,7 @@ const History: React.FC = () => {
   } = useQuery(['assessmentsHistory'], () => fetchAssessmentHistory(tokenRef.current as string));
   console.log('history', assessmentsHistory);
 
-  const assessments = assessmentsHistory;
+  
 
   React.useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
@@ -71,8 +71,7 @@ const History: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const filteredAssessments = assessments
-    ?.filter(
+  const filteredAssessments = assessmentsHistory?.filter(
       (assessment: Assessment) =>
         assessment.assessment_name?.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedLevel === 'All' ? true : assessment.badge_name?.toLowerCase() === selectedLevel),
