@@ -15,6 +15,7 @@ import { TimerStart } from 'iconsax-react';
 import { withUserAuth } from '../../../helpers/withAuth';
 import Head from 'next/head';
 import Loader from '@ui/Loader';
+import { useQuery } from '@tanstack/react-query';
 
 export interface Question {
   answer_id: number;
@@ -56,7 +57,6 @@ function AssessmentOverview() {
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
-    handleGetSession();
   }, []);
 
   useEffect(() => {
@@ -84,21 +84,6 @@ function AssessmentOverview() {
     };
     setTimeFunction();
   }, [duration, minute, second]);
-
-  const handleGetSession = async () => {
-    const token = tokenRef.current;
-    try {
-      const res = await fetchUserAssessmentSession(token as string);
-      setResult(res);
-      if (!res) {
-        setIsLoading(false);
-        throw new Error('Network response was not ok');
-      } else {
-        setResult(res);
-        setIsLoading(false);
-      }
-    } catch (error) {}
-  };
 
   function sortQuestionsByQuestionNo(input: QuestionArrays | undefined): Question[] {
     if (!input) return [];
@@ -130,13 +115,57 @@ function AssessmentOverview() {
       console.error('Error submitting assessment:', error);
     }
   };
-
-  return (
+  const {data:sessionData,isLoading:sessionIsLoading,isError} = useQuery(['assessment'], () => fetchUserAssessmentSession(tokenRef.current as string), {
+    notifyOnChangeProps: ['data',"isError","isLoading"],
+  })
+  console.log("data",sessionData)
+  console.log("isLoading",sessionIsLoading)
+  console.log("isError",isError)
+  if (isError) {
+    return (
+      <>
+        <Head>
+          <style>
+            {`
+          
+          .overscroll::-webkit-scrollbar{
+            width: 7px;
+            height: 10px;
+            background: #eee;
+        }
+        .overscroll::-webkit-scrollbar-thumb{
+            background: #009254;
+            border-radius: 5px;
+        }
+          `}
+          </style>
+          <title>Assessment | Overview</title>
+          <meta name="description" content="Zuri Portfolio Assessment Question Page" />
+          <link rel="icon" href="/assets/zuriLogo.svg" />
+        </Head>
+        <MainLayout activePage={'Overview'} showTopbar showFooter showDashboardSidebar={false}>
+          <AssessmentBanner
+            title="Assessment test"
+            subtitle="Something went wrong while trying to get your assessment"
+            bannerImageSrc="/assets/images/banner/assm_1.svg"
+          />
+          <div className="flex justify-center items-center h-screen">
+            <div className="flex flex-col items-center gap-5">
+              <h1 className="text-7xl font-extrabold text-brand-green-primary text-center">OOPS!</h1>
+              <h1 className="text-2xl text-brand-green-primary text-center font-bold mb-4">something went wrong</h1>
+            </div>
+          </div>
+        </MainLayout>
+      </>
+    );
+  }
+  else
+  {return (
     <>
       <Head>
-        <title>Assessment | Overview</title>
+        <title>Overview</title>
         <meta name="description" content="Zuri Portfolio Assessment Overview" />
-        <link rel="icon" href="./public/assets/zuriLogo.svg" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
       </Head>
       {isTimeOut && (
         <OutOfTime
@@ -151,7 +180,7 @@ function AssessmentOverview() {
 
         <ConfirmSubmitModal showModal={showConfirm} setShowModal={setShowConfirm} onConfirmFn={handleOnSubmit} />
         <SuccessFeedbackModal showModal={showSuccessConfirm} setShowModal={setShowSuccessConfirm} badgeID={badgeEarn} />
-        {isLoading ? (
+        {sessionIsLoading ? (
           <div className="flex justify-center items-center h-screen">
             <Loader />
           </div>
@@ -165,13 +194,13 @@ function AssessmentOverview() {
             />
             <div className="w-full md:max-w-full px-4 max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
               <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary mt-5">
-                <p className="text-white-100 text-2xl font-bold">
+                <div className="text-white-100 text-2xl font-bold">
                   {(minute !== null || undefined) && (second !== null || undefined) ? (
                     <CountdownTimer action={() => setTimeUp(true)} minutes={minute} seconds={second} />
                   ) : (
                     <span>- - : - -</span>
                   )}
-                </p>
+                </div>
                 <span>
                   <TimerStart color="#fff" />
                 </span>
@@ -179,7 +208,7 @@ function AssessmentOverview() {
             </div>
             <div className="w-full max-w-[1240px] mx-auto flex flex-col px-4">
               <div className="w-full py-6 md:py-9 lg:py-12 flex flex-col gap-6 md:gap-8 lg:gap-10">
-                {sortQuestionsByQuestionNo(result)?.map((item) => (
+                {sessionData?.data?.length>1 && sortQuestionsByQuestionNo(sessionData)?.map((item) => (
                   <OverviewItem
                     key={item?.question_id}
                     data={item}
@@ -200,7 +229,7 @@ function AssessmentOverview() {
         )}
       </MainLayout>
     </>
-  );
+  );}
 }
 
 export default withUserAuth(AssessmentOverview);

@@ -29,6 +29,5 @@ function dashboard() {
     </MainLayout>
   );
 }
-
 // uncomment after auth is implemented
 export default withUserAuth(dashboard);
