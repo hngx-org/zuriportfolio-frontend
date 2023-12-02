@@ -30,3 +30,6 @@ health_check.md
 # /helpers/withAuth.tsx
 # /helpers/withoutAuth.tsx
 
+
+package-lock.json
+
