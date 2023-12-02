@@ -5,6 +5,9 @@ import githubLogo from '../../../../public/assets/images/logo/github-logo.svg';
 const SignUpWithGithub = () => {
   return (
     <SignUpWithSocialsButton
+      onClick={function (): void {
+        throw new Error('Function not implemented.');
+      }}
       href="https://staging.zuri.team/api/auth/api/auth/github"
       leftIcon={<Image src={githubLogo} alt="GitHub logo" className="w-5 h-5" />}
     >

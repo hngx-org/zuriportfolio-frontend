@@ -6,6 +6,9 @@ import facebookLogo from '../../../../public/assets/images/logo/facebook-logo.sv
 const SignUpWithFacebook = () => {
   return (
     <SignUpWithSocialsButton
+      onClick={function (): void {
+        throw new Error('Function not implemented.');
+      }}
       href="https://staging.zuri.team/api/auth/api/auth/facebook"
       leftIcon={<Image src={facebookLogo} alt="Facebook Logo" className="w-5 h-5" />}
     >
