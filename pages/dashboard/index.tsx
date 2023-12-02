@@ -4,7 +4,6 @@ import ShopOwnerDashboard from '@modules/dashboard/component/dashboard';
 import Container from '@modules/auth/component/Container/Container';
 import { withUserAuth } from '../../helpers/withAuth';
 import Head from 'next/head';
-// import withAuth from '../../helpers/withAuth';
 
 function dashboard() {
   return (
@@ -30,6 +29,5 @@ function dashboard() {
     </MainLayout>
   );
 }
-
 // uncomment after auth is implemented
 export default withUserAuth(dashboard);
