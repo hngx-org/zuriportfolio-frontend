@@ -498,7 +498,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         )}
 
         {notificationMenu && (
-          <div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4 right-0 " ref={notificationsRef}>
+          <div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4  md:right-[50px] " ref={notificationsRef}>
             <Notifications notificationsRef={notificationsRef} unreadNotifications={setUnreadNotifications} />
           </div>
         )}
