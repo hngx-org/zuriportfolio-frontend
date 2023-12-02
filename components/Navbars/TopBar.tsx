@@ -46,12 +46,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     async function cartFetch() {
       let carts;
       let token = localStorage.getItem('zpt') as string;
-
+            
       if (token) {
         carts = await getUserCart(token as string);
       } else {
         carts = localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products') as string) : [];
       }
+    
       setCartCountNav(carts.length);
     }
     cartFetch();
@@ -758,11 +759,11 @@ function Cart({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative">
-        {items > 0 && (
+        {/* {items > 0 && ( */}
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>
-        )}
+        {/* )} */}
 
         <Image src={cartIcon} draggable={false} width={24} height={24} alt="Cart Icon" />
       </div>

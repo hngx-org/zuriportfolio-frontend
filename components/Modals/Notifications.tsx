@@ -159,15 +159,15 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
           {filteredNotifications.map((notification) => (
             <li
               key={notification.id}
-              className={`h-fit py-4 flex px-4 flex-col border-b overflow-hidden last-of-type:border-0 last-of-type:rounded-b-lg  ${notification.read ? '' : 'bg-green-400 opacity-75'}`}
+              className={`h-fit py-4 flex px-4 flex-col border-b overflow-hidden last-of-type:border-0 last-of-type:rounded-b-lg  ${notification.read ? '' : 'bg-[#F4FBF6]'}`}
             >
               <div className="flex w-full gap-4 m-auto items-center justify-center align-middle">
                 <div className="m-auto bg-brand-green-primary w-fit p-2 rounded-full">
                   <Image src="/boxnotify.svg" alt="icon" width={30} height={40} />
                 </div>
                 <div className="flex m-auto items-center gap-2 justify-center w-full flex-col">
-                  <p className={`font-[400]  text-sm  ${notification.read ? 'text-[#5B5F5E]' : 'text-[#fff]'} `}>{notification.text}</p>
-                  <p className={`  ${notification.read ? 'text-gray-600' : 'text-[#fff]'} w-full float-left text-sm text-left justify-start items-start align-baseline1`}>
+                  <p className={`font-[400]  text-sm text-[#5B5F5E] `}>{notification.text}</p>
+                  <p className={` text-gray-600 w-full float-left text-sm text-left justify-start items-start align-baseline1`}>
                     {timeAgo(notification.date)}
                   </p>
                 </div>
