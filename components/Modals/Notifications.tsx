@@ -3,7 +3,7 @@ import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Image from 'next/image';
 interface Notification {
   id: number;
-  text: 'Good news!, Your order has been shipped and is on its way';
+  text: string;
   read: boolean;
   date: string;
 }
@@ -47,13 +47,13 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
-      text: 'Good news!, Your order has been shipped and is on its way',
+      text: 'Good news!, Your order has been shipped and is on its way unread',
       read: false,
       date: '2023-10-20T12:34:56Z',
     },
     {
       id: 2,
-      text: 'Good news!, Your order has been shipped and is on its way',
+      text: 'Good news!, Your order has been shipped and is on its way unread',
       read: false,
       date: '2023-10-19T10:30:45Z',
     },
@@ -146,7 +146,7 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
 
   return (
     <div
-      className={`bg-[#fff] font-manropeEL w-fit h-[60vh] z-[20000] border-[#d8d8d8] overflow-y-scroll scrollbar-none rounded-lg shadow-xl ${
+      className={`bg-[#fff] flex flex-col font-manropeEL w-fit h-[60vh] z-[20000] border-[#d8d8d8] rounded-lg shadow-xl ${
         loading ? '' : ''
       }`}
       ref={notificationsRef}
@@ -154,26 +154,28 @@ const Notifications: React.FC<NotificationsProps> = ({ notificationsRef, unreadN
       <div className="py-2 bg-white-100 px-4 sticky top-0 flex flex-col justify-between">
         <h1 className="font-[600]">Notifications</h1>
       </div>
-      <ul className="flex flex-col w-full flex-wrap">
-        {filteredNotifications.map((notification) => (
-          <li
-            key={notification.id}
-            className={`h-fit py-4 flex px-4 flex-col border-b ${notification.read ? '' : 'text-white'}`}
-          >
-            <div className="flex w-full gap-4 m-auto items-center justify-center align-middle">
-              <div className="m-auto bg-brand-green-primary w-fit p-2 rounded-full">
-                <Image src="/boxnotify.svg" alt="icon" width={30} height={40} />
+      <div className="overflow-y-scroll grow">
+        <ul className="flex flex-col w-full flex-wrap">
+          {filteredNotifications.map((notification) => (
+            <li
+              key={notification.id}
+              className={`h-fit py-4 flex px-4 flex-col border-b overflow-hidden last-of-type:border-0 last-of-type:rounded-b-lg  ${notification.read ? '' : 'bg-[#F4FBF6]'}`}
+            >
+              <div className="flex w-full gap-4 m-auto items-center justify-center align-middle">
+                <div className="m-auto bg-brand-green-primary w-fit p-2 rounded-full">
+                  <Image src="/boxnotify.svg" alt="icon" width={30} height={40} />
+                </div>
+                <div className="flex m-auto items-center gap-2 justify-center w-full flex-col">
+                  <p className={`font-[400]  text-sm text-[#5B5F5E] `}>{notification.text}</p>
+                  <p className={` text-gray-600 w-full float-left text-sm text-left justify-start items-start align-baseline1`}>
+                    {timeAgo(notification.date)}
+                  </p>
+                </div>
               </div>
-              <div className="flex m-auto items-center gap-2 justify-center w-full flex-col">
-                <p className="font-[400] text-[#5B5F5E] text-sm ">{notification.text}</p>
-                <p className="text-gray-600  w-full float-left text-sm text-left justify-start items-start align-baseline">
-                  {timeAgo(notification.date)}
-                </p>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
