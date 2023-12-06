@@ -52,6 +52,7 @@ const HomePage = () => {
     allUsers = `${baseUrl}/explore/GetAllPortfolio`;
 
   const pa = `?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`;
+
   async function fetchUsers(query?: string) {
     let url = allUsers;
     if (query) {
@@ -81,8 +82,9 @@ const HomePage = () => {
   const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters, pageNumber],
     queryFn: () => fetchUsers(searchQuery),
+    staleTime: 60000,
   });
-  console.log(data);
+  
   return (
     <main>
       <Banner />
