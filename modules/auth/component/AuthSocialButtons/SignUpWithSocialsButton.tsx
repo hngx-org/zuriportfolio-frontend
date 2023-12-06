@@ -27,10 +27,9 @@ const SignUpWithSocialsButton: FC<ButtonProps> = ({ children, leftIcon, ...props
       onClick={setCurrentPathForOAuth}
       {...props}
     >
-      <div className=" w-[90%]  sm:w-[70%] md:w-[60%] lg:w-[80%] xl:w-[70%] items-center flex gap-1 justify-center">
-        {/* <div className='flex justify-center'> */}
-        <div className=" w-[10%]">{leftIcon}</div>
-        <p className=" w-[80%] sm:w-[70%] md:w-[70%] lg:w-[80%] xl:w-[70%] 2xl:w-[60%] text-center">{children}</p>
+      <div className="items-center flex gap-5 justify-between">
+        <div className="">{leftIcon}</div>
+        <p className="text-center">{children}</p>
       </div>
     </Button>
   );
