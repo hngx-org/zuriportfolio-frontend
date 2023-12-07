@@ -15,6 +15,7 @@ import { useAuth } from '../context/AuthContext';
 import Handling2FA from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import UpdatingProfilePic from '@modules/portfolio/component/portfolioSettingsComponents/UpdatingProfilePic';
 import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
+import SEO from '../components/SEO';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -145,6 +146,9 @@ const SettingPage = () => {
   };
 
   return (
+  <>
+     {/* <SEO title='zuriportfolio user profile settings' description='Page to set and update user profile details' image='' url='' /> */}
+
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
         {/*  Laptop View*/}
@@ -395,6 +399,7 @@ const SettingPage = () => {
         </Button>
       </div>
     </MainLayout>
+    </>
   );
 };
 export default withAuth(SettingPage);
