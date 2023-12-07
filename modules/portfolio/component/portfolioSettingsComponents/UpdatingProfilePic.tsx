@@ -13,21 +13,21 @@ import { notify } from '@ui/Toast';
 
 const UpdatingProfilePic = () => {
   const queryClient = useQueryClient();
-  const userData = {}
+  
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
   const { auth } = useAuth();
   const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
-  // const {
-  //   data: userData,
-  //   isLoading: isUserDataLoading,
-  //   isError: isUserDataError,
-  // } = useQuery(['userData', auth?.user.id], async () => {
-  //   const response = await $http.get(`${baseUrl}users/${auth?.user.id}`);
-  //   if (response.status === 200) {
-  //     return response.data;
-  //   }
-  // });
+  const {
+    data: userData,
+    isLoading: isUserDataLoading,
+    isError: isUserDataError,
+  } = useQuery(['userData', auth?.user.id], async () => {
+    const response = await $http.get(`${baseUrl}users/${auth?.user.id}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+  });
 
   const profilePicMutation = useMutation(async (coverImage: string | Blob) => {
     try {
