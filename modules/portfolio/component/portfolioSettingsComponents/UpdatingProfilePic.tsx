@@ -13,7 +13,7 @@ import { notify } from '@ui/Toast';
 
 const UpdatingProfilePic = () => {
   const queryClient = useQueryClient();
-
+  
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
   const { auth } = useAuth();
