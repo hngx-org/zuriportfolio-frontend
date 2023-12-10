@@ -82,7 +82,7 @@ const HomePage = () => {
   const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters, pageNumber],
     queryFn: () => fetchUsers(searchQuery),
-    staleTime: 60000,
+    // staleTime: 60000,
   });
   
   return (

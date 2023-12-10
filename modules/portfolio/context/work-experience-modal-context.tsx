@@ -64,7 +64,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const { userId, portfolioUrl, slug } = useContext(Portfolio);
-  const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
+  const API_BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {

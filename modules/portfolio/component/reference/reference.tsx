@@ -55,7 +55,7 @@ interface EditFormData {
   position?: string;
 }
 
-const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
+const API_BASE_URL = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   // console.log(countryData)

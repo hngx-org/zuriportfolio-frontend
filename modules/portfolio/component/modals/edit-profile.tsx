@@ -38,7 +38,7 @@ const EditProfile = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`);
         const userData = await response.json();
 
     
@@ -61,7 +61,7 @@ const EditProfile = () => {
 
   const getTracks = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/tracks`);
       const data = await response.json();
       return data.data;
     } catch (error: any) {
@@ -96,7 +96,7 @@ const EditProfile = () => {
         matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
         if (matchingTrack) {
           setIsLoading(true);
-          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ const EditProfile = () => {
       const formData = new FormData();
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/image/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/profile/image/upload`, {
         method: 'POST',
         body: formData,
       });

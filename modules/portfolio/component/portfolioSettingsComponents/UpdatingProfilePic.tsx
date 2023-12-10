@@ -17,7 +17,7 @@ const UpdatingProfilePic = () => {
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
   const { auth } = useAuth();
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
+  const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
   const {
     data: userData,
     isLoading: isUserDataLoading,

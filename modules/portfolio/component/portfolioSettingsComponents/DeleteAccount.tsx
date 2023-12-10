@@ -16,7 +16,7 @@ function DeleteAccount() {
   };
   const userId: string | undefined = auth?.user.id;
   const deleteAccountMutation = useMutation(
-    () => axios.delete(`https://hng6-r5y3.onrender.com/api/delete-user-account/${userId}`),
+    () => axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/delete-user-account/${userId}`),
     {
       onSuccess: () => {
         // If the delete operation is successful, you can perform any necessary actions here.

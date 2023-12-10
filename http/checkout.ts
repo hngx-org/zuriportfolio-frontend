@@ -188,7 +188,7 @@ export const getRecentlyViewedProducts = async (token: string) => {
 };
 
 export const getRecommendedProducts = async () => {
-  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
+  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/recommendations';
   try {
     const response = await axios.get(apiUrl);
     return response.data.data;

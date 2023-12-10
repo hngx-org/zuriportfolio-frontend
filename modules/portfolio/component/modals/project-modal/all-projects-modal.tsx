@@ -8,7 +8,7 @@ import { notify } from '@ui/Toast';
 import { Edit2, Trash } from 'iconsax-react';
 import { Data, allRouteOptions } from './project-section-modal';
 
-const endpoint = 'https://hng6-r5y3.onrender.com';
+const endpoint = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
 const AllProjectsModal = ({
   onEdit,
   projects,

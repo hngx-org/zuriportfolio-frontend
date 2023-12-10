@@ -16,6 +16,7 @@ import { getAllPurchases, getSearchedData } from '../../../http/customerPurchase
 import { withUserAuth } from '../../../helpers/withAuth';
 import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 import Loader from '../../../components/Loader/loader2';
+import SEO from '../../../components/SEO';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -229,6 +230,8 @@ const MyPage: React.FC = () => {
   };
 
   return (
+    <>
+    <SEO title='Purchase Dashboard' description='' url='' image='' />
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
       <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-1 md:mb-12">
@@ -402,6 +405,7 @@ const MyPage: React.FC = () => {
         />
       </div>
     </MainLayout>
+    </>
   );
 };
 

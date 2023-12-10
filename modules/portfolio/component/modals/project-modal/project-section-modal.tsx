@@ -51,7 +51,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     setLoading(data);
   };
 
-  const endpoint = 'https://hng6-r5y3.onrender.com';
+  const endpoint = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
   const getAllProjects = () => {
     setLoading(true);
     axios

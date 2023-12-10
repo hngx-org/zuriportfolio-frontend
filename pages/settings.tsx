@@ -80,7 +80,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
+  const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
   const handleNotificationUpdate = async () => {
     // const anyCheckboxChecked = Object.values(checkboxState).some(value => value === true);
     setLoading(true);
