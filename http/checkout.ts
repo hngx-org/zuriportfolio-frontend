@@ -1,5 +1,4 @@
 import { CartItemProps } from '../@types';
-import { useAuth } from '../context/AuthContext';
 import $http from './axios';
 import axios from 'axios';
 
