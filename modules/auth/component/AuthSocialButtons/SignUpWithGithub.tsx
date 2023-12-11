@@ -8,7 +8,7 @@ const SignUpWithGithub = () => {
       onClick={function (): void {
         throw new Error('Function not implemented.');
       }}
-      href="https://staging.zuri.team/api/auth/api/auth/github"
+      href="https://zuri-auth.up.railway.app/api/auth/api/auth/github"
       leftIcon={<Image src={githubLogo} alt="GitHub logo" className="w-5 h-5" />}
     >
       Continue with Github
