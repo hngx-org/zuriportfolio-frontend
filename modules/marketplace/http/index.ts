@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const MARKETPLACE_API_URL = process.env.NEXT_PUBLIC_MARKETPLACE_API_URL || "https://zuri-marketplace-backend.onrender.com/api/marketplace/v1/"
+export const MARKETPLACE_API_URL = process.env.NEXT_PUBLIC_MARKETPLACE_API_URL || "https://zuri-marketplace-backend.onrender.com/api/marketplace/v1"
 
 
 const http = axios.create({
