@@ -7,6 +7,7 @@ import $http from '../../../../http/axios';
 import { useAuth } from '../../../../context/AuthContext';
 import { date } from 'zod';
 import { useQuery } from '@tanstack/react-query';
+import { API_BASE_URL } from '../../../../http/checkout';
 //import { default } from '../../../../http/axios';
 type Props = {
   checkboxState: NotificationCheckboxType;
@@ -14,7 +15,7 @@ type Props = {
 };
 
 const getUserNotifications = async (userId: string) => {
-  const response = await $http.get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/get-notification-settings/${userId}`);
+  const response = await $http.get(`${API_BASE_URL}/portfolio/get-notification-settings/${userId}`);
   if (response.status === 200) {
     return response.data;
   }

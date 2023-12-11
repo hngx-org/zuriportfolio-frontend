@@ -7,8 +7,9 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { Edit2, Trash } from 'iconsax-react';
 import { Data, allRouteOptions } from './project-section-modal';
+import { API_BASE_URL } from '../../../../../http/checkout';
 
-const endpoint = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
+const endpoint = (`${API_BASE_URL}/portfolio`) as string;
 const AllProjectsModal = ({
   onEdit,
   projects,

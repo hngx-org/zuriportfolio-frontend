@@ -5,6 +5,7 @@ import axios from 'axios';
 import Loader from '@ui/Loader';
 import AllProjectsModal from './all-projects-modal';
 import SingleProject from './single-project';
+import { API_BASE_URL } from '../../../../../http/checkout';
 
 export type allRouteOptions = 'add-project' | 'view-projects' | 'single-project';
 
@@ -51,7 +52,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     setLoading(data);
   };
 
-  const endpoint = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
+  const endpoint = (`${API_BASE_URL}/portfolio`) as string;
   const getAllProjects = () => {
     setLoading(true);
     axios

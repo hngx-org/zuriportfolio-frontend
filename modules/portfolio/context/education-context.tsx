@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 import { DegreeOption, Education } from '../../../@types';
 import { notify } from '@ui/Toast';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { API_BASE_URL } from '../../../http/checkout';
 
 interface EducationModalContextType {
   educations: Education[];
@@ -62,7 +63,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
   const { userId, slug, portfolioUrl } = useContext(Portfolio);
   const setnewdegree = useCallback(async () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/degree`)
+    fetch(`${API_URL}/portfolio/degree`)
       .then((res) => {
         return res.json();
       })
@@ -87,7 +88,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     }
   };
 
-  const API_BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
+  const API_URL = `${API_BASE_URL}/portfolio/`;
   const [educations, setEducations] = useState<Education[] | []>([]);
 
   const handleEditEducation = async (e: React.FormEvent<HTMLFormElement>, educationId: number) => {
@@ -105,7 +106,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         section_id: 2,
       };
 
-      const response = await fetch(`${API_BASE_URL}api/v1/updateEducationDetail/${educationId}`, {
+      const response = await fetch(`${API_URL}api/v1/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +164,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const handleDeleteEducation = async (educationId: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
+      const response = await fetch(`${API_URL}api/v1/education/${educationId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -294,7 +295,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
       const year = new Date().getFullYear();
 
-      const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
+      const response = await fetch(`${API_URL}api/v1/education/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON

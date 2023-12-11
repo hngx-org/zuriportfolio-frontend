@@ -16,6 +16,7 @@ import Handling2FA from '@modules/portfolio/component/portfolioSettingsComponent
 import UpdatingProfilePic from '@modules/portfolio/component/portfolioSettingsComponents/UpdatingProfilePic';
 import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
 import SEO from '../components/SEO';
+import { API_BASE_URL } from '../http/checkout';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -81,7 +82,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
+  const baseUrl = `${API_BASE_URL}/portfolio/`;
   const handleNotificationUpdate = async () => {
     // const anyCheckboxChecked = Object.values(checkboxState).some(value => value === true);
     setLoading(true);

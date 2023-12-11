@@ -6,10 +6,12 @@ import axios from 'axios';
 
 
 // export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
-export const CART_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL + "/checkout";
+
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
+export const API_BASE_URL =  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'https://zuriportfolio-backend.onrender.com/api/v1'
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 export const AUTH_API_ENDPOINT = "https://zuri-auth.up.railway.app/api/auth/api"
+export const CART_ENDPOINT = API_BASE_URL + "/checkout";
 
 
 export const addToCart = async (cartItems: string[], token: string) => {

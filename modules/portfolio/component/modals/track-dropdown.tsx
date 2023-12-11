@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../../../../http/checkout';
 
 interface Track {
   id: number;
@@ -12,7 +13,7 @@ const TrackDropdown = ({ onSelectTrack }: { onSelectTrack: (selectedTrack: strin
   useEffect(() => {
     const fetchTracks = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/tracks`, {
+        const response = await fetch(`${API_BASE_URL}/portfolio/tracks`, {
           headers: {
             Accept: 'application/json',
           },
