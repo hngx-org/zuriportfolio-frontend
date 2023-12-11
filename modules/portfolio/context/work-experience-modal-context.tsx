@@ -4,6 +4,7 @@ import { notify } from '@ui/Toast';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import axios from 'axios';
 import { months } from '../data';
+import { API_BASE_URL } from '../../../http/checkout';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -64,7 +65,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const { userId, portfolioUrl, slug } = useContext(Portfolio);
-  const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
+  const API_URL = `${API_BASE_URL}/portfolio/`;
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
@@ -142,7 +143,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}api/v1/updateexperience/${id}`, {
+      const response = await fetch(`${API_URL}api/v1/updateexperience/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +181,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/experience/${id}`, {
+      const response = await fetch(`${API_URL}api/v1/experience/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -289,7 +290,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
 
       const endYearValue = isChecked ? 'Present' : endYear;
 
-      const response = await fetch(`${API_BASE_URL}api/v1/createexperience/${userId}`, {
+      const response = await fetch(`${API_URL}api/v1/createexperience/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON

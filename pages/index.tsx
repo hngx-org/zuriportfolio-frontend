@@ -8,10 +8,12 @@ import SectionFour from '@modules/home/sections/fourth/sectionFour';
 import SectionTwo from '@modules/home/sections/second/sectionTwo';
 import SectionThree from '@modules/home/sections/third/sectionThree';
 import withoutAuth from '../helpers/withoutAuth';
+import SEO from '../components/SEO';
 
 function Home() {
   return (
     <>
+    <SEO title='Zuri Portfolio' description='' image='' url=''/>
       <MainLayout activePage="home" showDashboardSidebar={false} showTopbar includeMarginTop={false}>
         <Banner />
         <SectionOne />

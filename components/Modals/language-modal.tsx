@@ -10,6 +10,7 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import Loader from '@ui/Loader';
 import { AiOutlineClose, AiOutlineCloseCircle } from 'react-icons/ai';
+import { API_BASE_URL } from '../../http/checkout';
 
 type languageModalProps = {
   onCloseModal: () => void;
@@ -18,7 +19,7 @@ type languageModalProps = {
   userId: string;
 };
 
-const endpoint = 'https://hng6-r5y3.onrender.com';
+const endpoint = (`${API_BASE_URL}/portfolio`) as string;
 const programmingLanguages = [
   'JavaScript',
   'TypeScript',
@@ -101,7 +102,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   };
 
   const handleDelete = async (params: any) => {
-    const data = await fetch(`https://hng6-r5y3.onrender.com/api/v1/languages`, {
+    const data = await fetch(`${API_BASE_URL}/portfolio/languages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
         sectionId: 5,
       };
       axios
-        .post(`${endpoint}/api/v1/languages`, data)
+        .post(`${endpoint}/languages`, data)
         .then(async (res) => {
           setLoading(false);
           notify({
@@ -151,7 +152,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
             type: 'success',
           });
           setValues([]);
-          await fetch(`${endpoint}/api/v1/getPorfolio/${userId}`);
+          await fetch(`${endpoint}/getPorfolio/${userId}`);
           onSaveModal();
         })
         .catch((err) => {
@@ -169,7 +170,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   const getAllLanguages = () => {
     setInitialLoading(true);
     axios
-      .get(`${endpoint}/api/v1/languages/${userId}`)
+      .get(`${endpoint}/languages/${userId}`)
       .then((res) => {
         if (res.data.data !== null) {
           setInitialLoading(false);

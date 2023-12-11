@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
 import SkeletonLoader from '@modules/portfolio/component/landing/SkeletonLoader';
+import { API_BASE_URL } from '../../../http/checkout';
 
 const View = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const View = () => {
       const getUser = async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
+          const response = await fetch(`${API_BASE_URL}/portfolio/portfolio/${urlSlug}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.error);
           setUserData({
@@ -76,7 +77,7 @@ const View = () => {
       const getUser = async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
+          const response = await fetch(`${API_BASE_URL}/portfolio/portfolio/${urlSlug}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.error);
           setUserData({

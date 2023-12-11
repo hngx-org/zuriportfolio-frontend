@@ -10,8 +10,9 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import Loader from '@ui/Loader';
 import { AiOutlineClose, AiOutlineCloseCircle, AiOutlinePlus } from 'react-icons/ai';
+import { API_BASE_URL } from '../../http/checkout';
 
-const endpoint = 'https://hng6-r5y3.onrender.com';
+const endpoint = `${API_BASE_URL}/portfolio`;
 
 type interestModalProps = {
   onCloseModal: () => void;
@@ -94,7 +95,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         userId: userId,
       };
       axios
-        .post(`${endpoint}/api/v1/interests`, data)
+        .post(`${endpoint}/interests`, data)
         .then((res) => {
           setLoading(false);
           notify({
@@ -154,7 +155,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
   const getAllInterests = () => {
     setInitialLoading(true);
     axios
-      .get(`${endpoint}/api/v1/interests/${userId}`)
+      .get(`${endpoint}/interests/${userId}`)
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;

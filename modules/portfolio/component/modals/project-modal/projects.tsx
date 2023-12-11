@@ -10,6 +10,7 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import { Data, allRouteOptions } from './project-section-modal';
 import Loader from '@ui/Loader';
+import { API_BASE_URL } from '../../../../../http/checkout';
 
 type ProjectSectionProps = {
   onCloseModal: () => void;
@@ -20,7 +21,7 @@ type ProjectSectionProps = {
   handleSetRoute: (data: allRouteOptions) => void;
 };
 
-const endpoint = 'https://hng6-r5y3.onrender.com';
+const endpoint = (`${API_BASE_URL}/portfolio`) as string;
 const ProjectSection: React.FC<ProjectSectionProps> = ({
   dataToEdit,
   onCloseModal,

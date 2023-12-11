@@ -15,6 +15,8 @@ import { useAuth } from '../context/AuthContext';
 import Handling2FA from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import UpdatingProfilePic from '@modules/portfolio/component/portfolioSettingsComponents/UpdatingProfilePic';
 import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
+import SEO from '../components/SEO';
+import { API_BASE_URL } from '../http/checkout';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -25,6 +27,7 @@ const SettingPage = () => {
   });
 
   const { auth } = useAuth();
+  const userId = auth?.user.id as string;
   const router = useRouter();
 
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
@@ -79,7 +82,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
+  const baseUrl = `${API_BASE_URL}/portfolio/`;
   const handleNotificationUpdate = async () => {
     // const anyCheckboxChecked = Object.values(checkboxState).some(value => value === true);
     setLoading(true);
@@ -145,6 +148,9 @@ const SettingPage = () => {
   };
 
   return (
+  <>
+     <SEO title='zuriportfolio user profile settings' description='Page to set and update user profile details' image='' url='' />
+
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
         {/*  Laptop View*/}
@@ -248,7 +254,7 @@ const SettingPage = () => {
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && (
                     <div>
-                      <UpdatingProfilePic />
+                      <UpdatingProfilePic userId={userId} />
                       <UpdatePassword />
                       <Handling2FA closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
                     </div>
@@ -361,7 +367,7 @@ const SettingPage = () => {
                     <div>
                       {closeAcc && (
                         <>
-                          <UpdatingProfilePic />
+                          <UpdatingProfilePic userId={userId} />
                           <UpdatePassword />
                         </>
                       )}
@@ -395,6 +401,7 @@ const SettingPage = () => {
         </Button>
       </div>
     </MainLayout>
+    </>
   );
 };
 export default withAuth(SettingPage);
