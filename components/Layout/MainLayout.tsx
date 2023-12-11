@@ -8,6 +8,8 @@ import Footer from '../Footer';
 import SideBar from '../Navbars/Sidebar';
 import TopBar from '../Navbars/TopBar';
 import useAuthRevalidate from '../../hooks/Auth/useAuthRevalidate';
+import SEO from '../SEO';
+import Head from 'next/head';
 
 function MainLayout({
   children,
@@ -28,6 +30,11 @@ function MainLayout({
   }, []);
 
   return (
+    <>
+    <Head>
+      <link rel="icon" href="/assets/zuriLogo.svg" />
+    </Head>
+    
     <div className={twMerge('w-full flex flex-col relative h-screen overflow-y-auto overflow-x-hidden', className)}>
       {showTopbar && <TopBar activePage={activePage} showDashBorad={showDashboardSidebar} />}
 
@@ -36,6 +43,7 @@ function MainLayout({
 
       {showFooter && <Footer />}
     </div>
+    </>
   );
 }
 

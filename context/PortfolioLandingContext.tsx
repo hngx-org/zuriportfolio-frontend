@@ -18,6 +18,7 @@ import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-quer
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 import { useRouter } from 'next/router';
+import { API_BASE_URL } from '../http/checkout';
 
 type PortfolioContext = {
   portfolioUrl: string;
@@ -116,7 +117,7 @@ const Portfolio = createContext<PortfolioContext>({
 export function PortfolioCtxProvider(props: { children: any }) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
+  const portfolioUrl = `${API_BASE_URL}/portfolio/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
   const [slug, setSlug] = useState('');
@@ -272,7 +273,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
 
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/cover/upload', {
+      const response = await fetch(`${API_BASE_URL}/portfolio/profile/cover/upload`, {
         method: 'POST',
         body: formData,
       });

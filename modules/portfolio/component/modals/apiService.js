@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://hng6-r5y3.onrender.com/api/v1';
+const BASE_URL = `${API_BASE_URL}/portfolio/`;
 
 export const updateProfileDetails = async (userId, newProfileDetails) => {
   try {

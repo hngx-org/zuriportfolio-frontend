@@ -19,7 +19,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { setCartCountNav, cartCount } = useCart();
   const [cartLoading, setCartLoading] = useState<boolean>(true);
 
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/similar_products/${id}/`;
+  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/similar_products/${id}/`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -30,7 +30,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   }, [url]);
 
   const addToCart = async (ids: string) => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     if (auth?.token) {
       try {
         const response = await axios.post(

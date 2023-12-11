@@ -5,6 +5,7 @@ import axios from 'axios';
 import Loader from '@ui/Loader';
 import AllProjectsModal from './all-projects-modal';
 import SingleProject from './single-project';
+import { API_BASE_URL } from '../../../../../http/checkout';
 
 export type allRouteOptions = 'add-project' | 'view-projects' | 'single-project';
 
@@ -51,11 +52,11 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     setLoading(data);
   };
 
-  const endpoint = 'https://hng6-r5y3.onrender.com';
+  const endpoint = (`${API_BASE_URL}/portfolio`) as string;
   const getAllProjects = () => {
     setLoading(true);
     axios
-      .get(`${endpoint}/api/v1/users/${userId}/projects`)
+      .get(`${endpoint}/users/${userId}/projects`)
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
