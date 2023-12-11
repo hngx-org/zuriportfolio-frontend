@@ -1,3 +1,4 @@
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 import { CartItemProps } from '../@types';
 import $http from './axios';
 import axios from 'axios';
@@ -11,6 +12,7 @@ export const API_BASE_URL =  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'ht
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 export const AUTH_API_ENDPOINT = "https://zuri-auth.up.railway.app/api/auth/api"
 export const CART_ENDPOINT = API_BASE_URL + "/checkout";
+
 
 
 export const addToCart = async (cartItems: string[], token: string) => {
@@ -191,9 +193,8 @@ export const getRecentlyViewedProducts = async (token: string) => {
 };
 
 export const getRecommendedProducts = async () => {
-  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/recommendations';
   try {
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(`${MARKETPLACE_API_URL}/recommendations`);
     return response.data.data;
   } catch {
     return { error: 'Failed to fetch' };

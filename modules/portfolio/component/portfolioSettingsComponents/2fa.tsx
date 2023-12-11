@@ -437,7 +437,7 @@ const Handling2FA = (props: close) => {
                 <CloseCircle size="20" color="#009254" />
               </button>
               <h3 className="w-full text-center mb-[8px] text-[#252525] font-manropeB">Turn on 2FA </h3>
-              <p>Enhance your security by enabling a verification code to verify your identity Other</p>
+              <p>Enhance your security by enabling a verification code to verify your identity</p>
 
               <label htmlFor="" className="flex my-[24px] relative flex-col gap-[6px] text-[ #344054]">
                 Email

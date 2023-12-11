@@ -6,7 +6,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import dummyImage from '../../../public/assets/AllCategorySlider/dummyImage.webp';
 import http from '../http';
-import { API_URI } from '../http';
+import { MARKETPLACE_API_URL } from '../http';
 //I tried including my types in the index.d.ts but it resulted to merge conflict. I had to do it this way
 interface CategoryTypes {
   name: string;
@@ -17,12 +17,11 @@ interface CategoryTypes {
 function AllCategorySlider() {
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [secondApiData, setSecondApiData] = useState<CategoryTypes[]>([]);
-  // const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
 
   useEffect(() => {
     // API request to fetch categories
     http
-      .get(`${API_URI}/category-name/`)
+      .get(`${MARKETPLACE_API_URL}/category-name/`)
       .then((response) => {
         if (Array.isArray(response.data.data)) {
           const categoryData = response.data.data;
@@ -30,7 +29,7 @@ function AllCategorySlider() {
           ////////////////////////////////////////////////////////////////////////////////////
           // API request to fetch images based of number of items returned from the categroy API
           http
-            .get(`${API_URI}/images/`)
+            .get(`${MARKETPLACE_API_URL}/images/`)
             .then((imageResponse) => {
               const numCategories = categoryData.length;
               const slicedSecondApiData = imageResponse.data.slice(0, numCategories);
