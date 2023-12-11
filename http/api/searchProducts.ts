@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { API_URI } from '@modules/marketplace/http';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 import { ProductResult } from '../../@types';
 
-const MARKETPLACE_URL = `${API_URI}/product-retrieval/`;
+const MARKETPLACE_URL = `${MARKETPLACE_API_URL}/product-retrieval/`;
 const axiosSearchInstance = axios.create({
   baseURL: MARKETPLACE_URL,
   headers: {
