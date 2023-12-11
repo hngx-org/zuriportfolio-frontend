@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 // export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
-export const CART_ENDPOINT = "http://localhost:8000/api/v1/checkout_cart"
+export const CART_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL + "/checkout";
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 
@@ -188,7 +188,7 @@ export const getRecentlyViewedProducts = async (token: string) => {
 };
 
 export const getRecommendedProducts = async () => {
-  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
+  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/recommendations';
   try {
     const response = await axios.get(apiUrl);
     return response.data.data;

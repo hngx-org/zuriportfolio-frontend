@@ -39,7 +39,7 @@ const initialContextValue: Context = {
   error: '',
   setIsLoading: () => {},
   isLoading: false,
-  baseURL: 'https://hng6-r5y3.onrender.com', // Add baseURL with a default value
+  baseURL: (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string, // Add baseURL with a default value
   setBaseURL: () => {}, // Add setter for baseURL
 };
 
@@ -62,7 +62,7 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
     url: '',
     description: '',
   });
-  const [baseURL, setBaseURL] = useState('https://hng6-r5y3.onrender.com');
+  const [baseURL, setBaseURL] = useState(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [urlError, setUrlError] = useState('');
   const [error, setError] = useState('');
@@ -82,7 +82,7 @@ const Awards = ({ isOpen, onCloseModal }: awardsModalProps) => {
 
     try {
       setIsLoading(true);
-      const response = await fetch(`${baseURL}/api/v1/awards/${userId}`, {
+      const response = await fetch(`${baseURL}/awards/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -365,7 +365,7 @@ const AwardList: React.FC<AwardListProps> = () => {
   const fetchAwards = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${baseURL}/api/v1/awards`);
+      const response = await fetch(`${baseURL}/awards`);
       setIsLoading(false);
       const status = response.status;
 
@@ -446,7 +446,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
     // Send a PUT request to update the award
     try {
       setEditLoading(true);
-      const response = await fetch(`${baseURL}/api/v1/awards/${id}`, {
+      const response = await fetch(`${baseURL}/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -513,7 +513,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
 
     try {
       setDeleteLoading(true);
-      const response = await fetch(`${baseURL}/api/v1/awards/${id}`, {
+      const response = await fetch(`${baseURL}/awards/${id}`, {
         method: 'DELETE',
       });
       const status = response.status;

@@ -39,7 +39,7 @@ const initialContextValue: Context = {
   error: '',
   setIsLoading: () => {},
   isLoading: false,
-  baseURL: 'https://hng6-r5y3.onrender.com', // Add baseURL with a default value
+  baseURL: (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string, // Add baseURL with a default value
   setBaseURL: () => {}, // Add setter for baseURL
 };
 
@@ -62,7 +62,7 @@ const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
     url: '',
     description: '',
   });
-  const [baseURL, setBaseURL] = useState('https://hng6-r5y3.onrender.com');
+  const [baseURL, setBaseURL] = useState(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [urlError, setUrlError] = useState('');
   const [error, setError] = useState('');

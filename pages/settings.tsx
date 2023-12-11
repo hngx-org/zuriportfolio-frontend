@@ -26,6 +26,7 @@ const SettingPage = () => {
   });
 
   const { auth } = useAuth();
+  const userId = auth?.user.id as string;
   const router = useRouter();
 
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
@@ -80,7 +81,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
+  const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
   const handleNotificationUpdate = async () => {
     // const anyCheckboxChecked = Object.values(checkboxState).some(value => value === true);
     setLoading(true);
@@ -147,7 +148,7 @@ const SettingPage = () => {
 
   return (
   <>
-     {/* <SEO title='zuriportfolio user profile settings' description='Page to set and update user profile details' image='' url='' /> */}
+     <SEO title='zuriportfolio user profile settings' description='Page to set and update user profile details' image='' url='' />
 
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
@@ -252,7 +253,7 @@ const SettingPage = () => {
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && (
                     <div>
-                      <UpdatingProfilePic />
+                      <UpdatingProfilePic userId={userId} />
                       <UpdatePassword />
                       <Handling2FA closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
                     </div>
@@ -365,7 +366,7 @@ const SettingPage = () => {
                     <div>
                       {closeAcc && (
                         <>
-                          <UpdatingProfilePic />
+                          <UpdatingProfilePic userId={userId} />
                           <UpdatePassword />
                         </>
                       )}

@@ -40,9 +40,7 @@ const ZuriLandingPage = () => {
       if (shop_id) {
         try {
           const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
-
           setShop(response.data);
-
           setTimeout(() => {
             setShowLoader(false);
             setLoading(false);

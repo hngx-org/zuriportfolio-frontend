@@ -26,12 +26,12 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
   const [create, setCreate] = useState(false);
 
   // POST ABOUT VALUE TO DATABASE
-  const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
+  const API_BASE_URL = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
   const createResponse = async () => {
     try {
       const axiosConfig = {
         method: 'post',
-        url: `${API_BASE_URL}/api/v1/about/${userId}`,
+        url: `${API_BASE_URL}/about/${userId}`,
         data: bio,
       };
 
@@ -79,7 +79,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'get',
-        url: `${API_BASE_URL}/api/v1/about/${userId}`,
+        url: `${API_BASE_URL}/about/${userId}`,
       };
 
       const response = await axios(axiosConfig);
@@ -115,7 +115,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'put',
-        url: `${API_BASE_URL}/api/v1/about/${id}`,
+        url: `${API_BASE_URL}/about/${id}`,
         data: bio,
       };
 
@@ -179,7 +179,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         try {
           const axiosConfig = {
             method: 'delete',
-            url: `${API_BASE_URL}/api/v1/about/${id}`,
+            url: `${API_BASE_URL}/about/${id}`,
           };
 
           const response = await axios(axiosConfig);

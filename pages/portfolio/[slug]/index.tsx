@@ -18,7 +18,7 @@ const View = () => {
       const getUser = async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/portfolio/${urlSlug}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.error);
           setUserData({
@@ -76,7 +76,7 @@ const View = () => {
       const getUser = async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/portfolio/${urlSlug}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.error);
           setUserData({

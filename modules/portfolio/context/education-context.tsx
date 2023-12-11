@@ -62,7 +62,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
   const { userId, slug, portfolioUrl } = useContext(Portfolio);
   const setnewdegree = useCallback(async () => {
-    fetch('https://hng6-r5y3.onrender.com/api/v1/degree')
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/degree`)
       .then((res) => {
         return res.json();
       })
@@ -87,7 +87,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     }
   };
 
-  const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
+  const API_BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
   const [educations, setEducations] = useState<Education[] | []>([]);
 
   const handleEditEducation = async (e: React.FormEvent<HTMLFormElement>, educationId: number) => {

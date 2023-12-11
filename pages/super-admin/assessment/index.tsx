@@ -108,7 +108,7 @@ function Index() {
   }, [filterParam, assessments]);
 
   useEffect(() => {
-    const apiUrl = 'https://hng6-r5y3.onrender.com/api/v1/tracks';
+    const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/tracks`;
 
     fetch(apiUrl)
       .then((response) => {

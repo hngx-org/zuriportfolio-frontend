@@ -128,7 +128,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
   };
 
   const createNewCustomSectionOption = useMutation(async () => {
-    const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/`, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/custom/`, {
       sectionId: 55,
       title: form?.values?.addList[0]?.title,
       userId: userId,
@@ -174,7 +174,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     );
 
     if (fields.length < 1) {
-      const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/field`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/custom/field`, {
         customUserSectionId: sectionForm?.values?.section[0]?.id,
         fields: fields,
       });

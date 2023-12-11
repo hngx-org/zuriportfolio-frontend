@@ -20,7 +20,7 @@ type ProjectSectionProps = {
   handleSetRoute: (data: allRouteOptions) => void;
 };
 
-const endpoint = 'https://hng6-r5y3.onrender.com';
+const endpoint = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
 const ProjectSection: React.FC<ProjectSectionProps> = ({
   dataToEdit,
   onCloseModal,

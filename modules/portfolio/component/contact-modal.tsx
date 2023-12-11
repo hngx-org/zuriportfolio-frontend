@@ -92,7 +92,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       user_id: userId, // Ensure you have the userId available
     }));
 
-    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
+    sendArrayOfObjects(data, `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/contacts`)
       .then((response: any) => {
         setLoading(false);
         notify({
@@ -128,7 +128,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     console.log('delete clicked');
     const id = 5;
     try {
-      const res = await fetch(`https://hng6-r5y3.onrender.com/api/v1/contacts/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getSocialsAvailable = async () => {
     try {
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/socials`);
       const data = await response.data;
       console.log('getSocialsAvailable', data);
       setAvailableSocials(data?.data);
@@ -164,7 +164,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getAllSocials = async () => {
     try {
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/contacts/${userId}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/contacts/${userId}`);
       const data = await response.data;
       console.log('responseData', data);
     } catch (error) {
