@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const AUTH_HTTP_URL = 'https://zuri-auth.up.railway.app/api/auth/api/auth';
 const AUTH_HTTP_URL_2 = 'https://staging.zuri.team/api/auth/api';
+const _AUTH_HTTP_URL = 'https://zuri-auth.up.railway.app/api/auth/api';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
@@ -11,7 +12,7 @@ const $http = axios.create({
 });
 
 const $http_2 = axios.create({
-  baseURL: AUTH_HTTP_URL_2,
+  baseURL: _AUTH_HTTP_URL,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',

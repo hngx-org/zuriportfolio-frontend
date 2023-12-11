@@ -49,7 +49,7 @@ const AllProjectsModal = ({
   const getAllProjects = () => {
     handleLoading(true);
     axios
-      .get(`${endpoint}/api/users/${userId}/projects`)
+      .get(`${endpoint}/users/${userId}/projects`)
       .then((res) => {
         handleLoading(false);
         handleSetProjects(res.data.data);

@@ -34,11 +34,14 @@ const EditProfile = () => {
 
   useEffect(() => {
 
-    
+    console.log("Logging before fetch")
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        console.log('Logging this one');
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`);
+        console.log('after logging');
+        
         const userData = await response.json();
 
     
@@ -96,7 +99,9 @@ const EditProfile = () => {
         matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
         if (matchingTrack) {
           setIsLoading(true);
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`, {
+          console.log("Logging second one");
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`,
+           {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -253,14 +258,14 @@ const EditProfile = () => {
               </label>
               {/* <Badges name={badgeData.name} badgeImage={badgeData.badgeImage} /> */}
             </div>
-            ​ ​
+          
             <CountryCityDropdown
               setSelectedCountry={setSelectedCountry}
               setSelectedCity={setSelectedCity}
               selectedCountry={selectedCountry}
               selectedCity={selectedCity}
             />
-            ​
+          
             <div className="w-full flex  md:flex-row gap-4 justify-between mt-6">
               <div className="w-full md:w-[47%]">
                 <Button

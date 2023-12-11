@@ -30,7 +30,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   }, [url]);
 
   const addToCart = async (ids: string) => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     if (auth?.token) {
       try {
         const response = await axios.post(

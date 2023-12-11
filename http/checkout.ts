@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 // export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
-export const CART_ENDPOINT = "http://localhost:8000/api/v1/checkout_cart"
+export const CART_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL + "/checkout";
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 
