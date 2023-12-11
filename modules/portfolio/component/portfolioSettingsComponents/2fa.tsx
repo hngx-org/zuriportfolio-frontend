@@ -76,6 +76,72 @@ const Handling2FA = (props: close) => {
     }
   };
 
+  const handleEnable2FA = async () => {
+    setLoading(true);
+    const unFilled = digits.filter((o) => o === '').map((o) => o);
+    setFill(true);
+    try {
+          const token = auth?.token as string;
+          const enableResponse = await enabled2FA({ token });
+          if (enableResponse.status === 200) {
+            handleAuth(enableResponse.data);
+            console.log(enableResponse);
+            setLoading(false);
+            setOpen2Fa(false);
+            notify({
+              message: '2FA Enabled',
+              type: 'success',
+            });
+          } else {
+            setLoading(false);
+            notify({
+              message: 'Invalid Code',
+              type: 'error',
+            });
+          }
+    } catch (error) {
+      setLoading(false);
+      notify({
+        message: 'error occurred',
+        type: 'error',
+      });
+    }
+  };
+
+
+  const handleDisable2FA = async () => {
+    setLoading(true);
+    const unFilled = digits.filter((o) => o === '').map((o) => o);
+    setFill(true);
+    try {
+          const token = auth?.token as string;
+          const enableResponse = await disable2FA({ token });
+          if (enableResponse.status === 200) {
+            handleAuth(enableResponse.data);
+            console.log(enableResponse);
+            setLoading(false);
+            setOpen2Fa(false);
+            notify({
+              message: '2FA Disabled',
+              type: 'success',
+            });
+          } else {
+            setLoading(false);
+            notify({
+              message: 'Invalid Code',
+              type: 'error',
+            });
+          }
+    } catch (error) {
+      setLoading(false);
+      notify({
+        message: 'error occurred',
+        type: 'error',
+      });
+    }
+  };
+
+
   const handleVerifyAndEnable2FA = async () => {
     setLoading(true);
     const unFilled = digits.filter((o) => o === '').map((o) => o);
@@ -221,9 +287,13 @@ const Handling2FA = (props: close) => {
 
             <label
               onClick={() => {
-                setOpen2Fa((prv) => !prv);
-                !lgModal && props.setCloseAcc(false);
-              }}
+                if(!auth?.user?.twoFactorAuth) {
+                  setOpen2Fa((prv) => !prv);
+                  !lgModal && props.setCloseAcc(false);
+                } else {
+                    handleDisable2FA()
+                  }
+              }} 
               className="relative inline-flex items-center cursor-pointer mx-end"
             >
               <input
@@ -233,8 +303,8 @@ const Handling2FA = (props: close) => {
                 disabled
                 checked={auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth}
                 onChange={() => {
-                  setOpen2Fa((prv) => !prv);
-                  !lgModal && props.setCloseAcc(false);
+                  // setOpen2Fa((prv) => !prv);
+                  // !lgModal && props.setCloseAcc(false);
                 }}
                 className="sr-only peer"
               />
@@ -259,7 +329,7 @@ const Handling2FA = (props: close) => {
       {!props.closeAcc && !countinue2Fa && (
         <div className=" relative md:hidden font-manropeL   max-w-[440px] text-[14px] py-[40px]">
           <h3 className="w-full text-start mb-[8px] text-[24px] text-[#252525] font-manropeB">Turn on 2FA </h3>
-          <p>Enhance your security by enabling a verification code to verify your identity</p>
+          <p>Enhance your security by enabling a verification code to verify your identity Setting</p>
 
           <label htmlFor="" className="flex my-[24px] relative flex-col gap-[6px] text-[ #344054]">
             Email
@@ -367,7 +437,7 @@ const Handling2FA = (props: close) => {
                 <CloseCircle size="20" color="#009254" />
               </button>
               <h3 className="w-full text-center mb-[8px] text-[#252525] font-manropeB">Turn on 2FA </h3>
-              <p>Enhance your security by enabling a verification code to verify your identity</p>
+              <p>Enhance your security by enabling a verification code to verify your identity Other</p>
 
               <label htmlFor="" className="flex my-[24px] relative flex-col gap-[6px] text-[ #344054]">
                 Email
@@ -404,7 +474,8 @@ const Handling2FA = (props: close) => {
                 size={'sm'}
                 isLoading={loading}
                 spinnerColor="#39D98A"
-                onClick={handleResend2FACode}
+                // onClick={handleResend2FACode}
+                onClick={handleEnable2FA}
                 className="w-full bg-brand-green-primary border-[0px]  hover:bg-brand-green-hover text-white-100 text-center
                              font-manropeB text-[16px] py-[14px] rounded-lg "
               >

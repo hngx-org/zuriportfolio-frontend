@@ -42,7 +42,7 @@ function UpdatePassword() {
     (formData: any) => {
       // This function will be called when you call the mutate function
       // https://zuri-auth.up.railway.app/api/auth/api/authorize
-      return axios.post('https://zuri-auth.up.railway.app/api/auth/api/auth/reset-password/change', formData);
+      return axios.put('https://zuri-auth.up.railway.app/api/auth/api/auth/reset-password/change', formData);
     },
     {
       // onSuccess callback is triggered when the mutation is successful
