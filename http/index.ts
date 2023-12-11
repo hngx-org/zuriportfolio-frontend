@@ -13,13 +13,13 @@ export const getUserByName = async (props: { name: string }) => {
   }
 };
 
-import { API_URI } from '@modules/marketplace/http';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 // remove from wishlist
 
 export const removeFromWishlist = async (userId: any, productId: any, token: any): Promise<AxiosResponse> => {
   try {
-    const apiUrl = `${API_URI}/user-wishlist/${userId}/${productId}`;
+    const apiUrl = `${MARKETPLACE_API_URL}/user-wishlist/${userId}/${productId}`;
     const response = await axios.delete(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,

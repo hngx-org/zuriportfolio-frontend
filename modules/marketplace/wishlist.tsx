@@ -14,7 +14,7 @@ import { CART_ENDPOINT } from '../../http/checkout';
 import { removeFromWishlist } from '../../http';
 import Button from '@ui/Button';
 
-import { API_URI } from './http';
+import { MARKETPLACE_API_URL } from './http';
 
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
@@ -30,7 +30,7 @@ function Wishlist() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API_URI}/user-wishlist/${token?.id}`);
+      const response = await axios.get(`${MARKETPLACE_API_URL}/user-wishlist/${token?.id}`);
       const { message, status_code, data: result } = response.data;
 
       if (Array.isArray(result) && result.length === 0) {
