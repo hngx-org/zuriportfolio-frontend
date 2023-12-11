@@ -7,8 +7,9 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { Edit2, Trash } from 'iconsax-react';
 import { Data, allRouteOptions } from './project-section-modal';
+import { API_BASE_URL } from '../../../../../http/checkout';
 
-const endpoint = 'https://hng6-r5y3.onrender.com';
+const endpoint = (`${API_BASE_URL}/portfolio`) as string;
 const AllProjectsModal = ({
   onEdit,
   projects,
@@ -49,7 +50,7 @@ const AllProjectsModal = ({
   const getAllProjects = () => {
     handleLoading(true);
     axios
-      .get(`${endpoint}/api/users/${userId}/projects`)
+      .get(`${endpoint}/users/${userId}/projects`)
       .then((res) => {
         handleLoading(false);
         handleSetProjects(res.data.data);

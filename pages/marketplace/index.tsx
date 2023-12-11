@@ -1,7 +1,10 @@
+import { useAuth } from '../../context/AuthContext';
 import LandingPage from '../../modules/marketplace/component/landingpage/landing-page';
 import Head from 'next/head';
 
 function Home() {
+  const {auth} =useAuth()
+  console.log(auth)
   return (
     <div>
       <Head>

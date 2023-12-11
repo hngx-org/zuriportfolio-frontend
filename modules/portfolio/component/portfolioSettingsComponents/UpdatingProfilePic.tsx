@@ -10,20 +10,22 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import addPics from '../../../../public/assets/inviteAssets/add-circle.svg';
 import { notify } from '@ui/Toast';
+import { API_BASE_URL } from '../../../../http/checkout';
 
-const UpdatingProfilePic = () => {
+const UpdatingProfilePic = ({userId}:{userId: string}) => {
   const queryClient = useQueryClient();
-
+  
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
-  const { auth } = useAuth();
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
+  
+  const baseUrl = `${API_BASE_URL}/portfolio/` as string;
+  
   const {
     data: userData,
     isLoading: isUserDataLoading,
     isError: isUserDataError,
-  } = useQuery(['userData', auth?.user.id], async () => {
-    const response = await $http.get(`${baseUrl}users/${auth?.user.id}`);
+  } = useQuery(['userData', userId], async () => {
+    const response = await $http.get(`${baseUrl}users/${userId}`);
     if (response.status === 200) {
       return response.data;
     }
@@ -33,7 +35,7 @@ const UpdatingProfilePic = () => {
     try {
       const formData = new FormData();
       formData.append('images', coverImage as string | Blob);
-      formData.append('userId', auth?.user?.id as string);
+      formData.append('userId', userId);
 
       const response = await axios.post(`${baseUrl}profile/image/upload`, formData);
 
@@ -53,7 +55,7 @@ const UpdatingProfilePic = () => {
   });
 
   if (profilePicMutation.isSuccess) {
-    queryClient.invalidateQueries(['userData', auth?.user.id]);
+    queryClient.invalidateQueries(['userData', userId]);
   }
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;

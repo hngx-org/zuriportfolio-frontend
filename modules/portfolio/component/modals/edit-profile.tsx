@@ -11,6 +11,7 @@ import CountryCityDropdown from './CountryCityDropdown';
 
 import { useAuth } from '../../../../context/AuthContext';
 import { AuthResponse } from '../../../../@types/index';
+import { API_BASE_URL } from '../../../../http/checkout';
 
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
@@ -34,11 +35,14 @@ const EditProfile = () => {
 
   useEffect(() => {
 
-    
+    console.log("Logging before fetch")
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+        console.log('Logging this one');
+        const response = await fetch(`${API_BASE_URL}/portfolio/users/${userId}`);
+        console.log('after logging');
+        
         const userData = await response.json();
 
     
@@ -61,7 +65,7 @@ const EditProfile = () => {
 
   const getTracks = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
+      const response = await fetch(`${API_BASE_URL}/portfolio/tracks`);
       const data = await response.json();
       return data.data;
     } catch (error: any) {
@@ -96,7 +100,9 @@ const EditProfile = () => {
         matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
         if (matchingTrack) {
           setIsLoading(true);
-          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`, {
+          console.log("Logging second one");
+          const response = await fetch(`${API_BASE_URL}/portfolio/users/${userId}`,
+           {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -131,7 +137,7 @@ const EditProfile = () => {
       const formData = new FormData();
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/image/upload', {
+      const response = await fetch(`${API_BASE_URL}/portfolio/profile/image/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -253,14 +259,14 @@ const EditProfile = () => {
               </label>
               {/* <Badges name={badgeData.name} badgeImage={badgeData.badgeImage} /> */}
             </div>
-            ​ ​
+          
             <CountryCityDropdown
               setSelectedCountry={setSelectedCountry}
               setSelectedCity={setSelectedCity}
               selectedCountry={selectedCountry}
               selectedCity={selectedCity}
             />
-            ​
+          
             <div className="w-full flex  md:flex-row gap-4 justify-between mt-6">
               <div className="w-full md:w-[47%]">
                 <Button

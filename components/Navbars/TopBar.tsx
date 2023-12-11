@@ -106,7 +106,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         setToggle(false);
       }
       if (notificationsRef.current && !notificationsRef.current.contains(targetNode)) {
-        console.log(notificationsRef.current);
         setNotificationMenu(false);
       }
     }

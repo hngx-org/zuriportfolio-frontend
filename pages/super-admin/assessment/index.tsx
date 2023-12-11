@@ -16,6 +16,7 @@ import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperA
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { withAdminAuth } from '../../../helpers/withAuth';
+import { API_BASE_URL } from '../../../http/checkout';
 export const ListContext = React.createContext([{}]);
 
 function Index() {
@@ -108,7 +109,7 @@ function Index() {
   }, [filterParam, assessments]);
 
   useEffect(() => {
-    const apiUrl = 'https://hng6-r5y3.onrender.com/api/v1/tracks';
+    const apiUrl = `${API_BASE_URL}/portfolio/tracks`;
 
     fetch(apiUrl)
       .then((response) => {

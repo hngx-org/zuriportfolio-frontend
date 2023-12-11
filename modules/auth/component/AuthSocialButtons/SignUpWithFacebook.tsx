@@ -9,7 +9,7 @@ const SignUpWithFacebook = () => {
       onClick={function (): void {
         throw new Error('Function not implemented.');
       }}
-      href="https://staging.zuri.team/api/auth/api/auth/facebook"
+      href="https://zuri-auth.up.railway.app/api/auth/api/auth/facebook"
       leftIcon={<Image src={facebookLogo} alt="Facebook Logo" className="w-5 h-5" />}
     >
       Continue with Facebook

@@ -6,9 +6,13 @@ import axios from 'axios';
 
 
 // export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
-export const CART_ENDPOINT = "http://localhost:8000/api/v1/checkout_cart"
+
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
+export const API_BASE_URL =  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'https://zuriportfolio-backend.onrender.com/api/v1'
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
+export const AUTH_API_ENDPOINT = "https://zuri-auth.up.railway.app/api/auth/api"
+export const CART_ENDPOINT = API_BASE_URL + "/checkout";
+
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
@@ -59,10 +63,10 @@ export const removeFromCart = async (productId: string, token: string) => {
     throw error;
   }
 };
-
+// https://zuri-auth.up.railway.app/api/auth/api/
 export const createTempUser = async (datas: { email: string; firstName: string; lastName: string }) => {
   try {
-    const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
+    const apiUrl = 'https://zuri-auth.up.railway.app/api/auth/api/auth/signup-guest';
     const response = await $http.post(apiUrl, datas);
     return response.data;
   } catch (error) {
@@ -138,7 +142,7 @@ export const makePayment = async (selectedPaymentMethod: string, token: string) 
 
 const getTokenDetails = async (token: string) => {
   try {
-    const response = await $http.post('https://staging.zuri.team/api/auth/api/authorize', { token });
+    const response = await $http.post(`${AUTH_API_ENDPOINT}/authorize`, { token });
     return response.data;
   } catch (error) {
     return error;
@@ -188,7 +192,7 @@ export const getRecentlyViewedProducts = async (token: string) => {
 };
 
 export const getRecommendedProducts = async () => {
-  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
+  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/recommendations';
   try {
     const response = await axios.get(apiUrl);
     return response.data.data;
