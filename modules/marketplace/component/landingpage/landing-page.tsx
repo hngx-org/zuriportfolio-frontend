@@ -10,12 +10,11 @@ import useCategory from '../filter/hooks/useCategory';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useQuery } from '@tanstack/react-query';
 import Head from 'next/head';
-import { API_URI } from '@modules/marketplace/http';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 function LandingPage() {
-  // const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
-  const fetchRecommendation = () => fetch(`${API_URI}/recommendations`).then((res) => res.json());
-  const fetchLimitedOffers = () => fetch(`${API_URI}/products/limited-offers/`).then((res) => res.json());
+  const fetchRecommendation = () => fetch(`${MARKETPLACE_API_URL}/recommendations`).then((res) => res.json());
+  const fetchLimitedOffers = () => fetch(`${MARKETPLACE_API_URL}/products/limited-offers/`).then((res) => res.json());
   const { isLoading, data } = useQuery(['recommendations'], fetchRecommendation);
   const { isLoading: isLimitedOfferLoading, data: limitedOffersData } = useQuery(
     ['products/limited_offers'],

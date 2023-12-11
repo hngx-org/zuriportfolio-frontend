@@ -15,7 +15,8 @@ function DeleteAccount() {
   const handleToggleModal = () => {
     setOpenModal((prev: boolean) => !prev);
   };
-  const userId: string | undefined = auth?.user.id;
+  const userId: string = auth?.user.id as string;
+  console.log(userId)
   const deleteAccountMutation = useMutation(
     () => axios.delete(`${API_BASE_URL}/portfolio/delete-user-account/${userId}`),
     {

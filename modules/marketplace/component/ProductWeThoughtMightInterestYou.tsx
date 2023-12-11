@@ -10,6 +10,7 @@ import { isUserAuthenticated } from '../hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
+import { MARKETPLACE_API_URL } from '../http';
 
 export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { auth } = useAuth();
@@ -19,7 +20,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { setCartCountNav, cartCount } = useCart();
   const [cartLoading, setCartLoading] = useState<boolean>(true);
 
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/similar_products/${id}/`;
+  const url = `${MARKETPLACE_API_URL}/similar_products/${id}/`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())

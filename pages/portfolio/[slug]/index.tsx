@@ -16,6 +16,7 @@ const View = () => {
 
   useEffect(() => {
     if (urlSlug) {
+      console.log(urlSlug)
       const getUser = async () => {
         try {
           setIsLoading(true);

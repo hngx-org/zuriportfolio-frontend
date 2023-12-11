@@ -7,6 +7,7 @@ import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
 import { CategoryType } from '../filter/hooks/useCategory';
+import http from '@modules/marketplace/http';
 
 // import axios from 'axios';
 type categories = {
@@ -29,9 +30,8 @@ const CategoriesNav = (props: CategoriesNavProps) => {
   // useEffect(() => {
   //   const fetchCategories = async () => {
   //     try {
-  //       const data = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
-  //       console.log(data);
-
+  //       const data = await http.get('/category-name/');
+  //       console.log(data)
   //       setCategories(data.categories);
   //     } catch (err) {
   //       console.error(err);

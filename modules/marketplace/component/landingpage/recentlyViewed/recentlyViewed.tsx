@@ -5,7 +5,7 @@ import ProductCard from '../../ProductCard';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
 import CategoryLoading from '../../categories/CategoryLoading';
 import http from '@modules/marketplace/http';
-import { API_URI } from '@modules/marketplace/http';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 function RecentlyViewed() {
   const [isLoading, setLoading] = useState(true);
@@ -13,13 +13,12 @@ function RecentlyViewed() {
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const token: any = isUserAuthenticated();
 
-  // const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed/${token?.id}`;
 
   useEffect(() => {
     setReady(true);
     const fetchRecentlyViewed = async () => {
       try {
-        const response = await fetch(`${API_URI}/recently-viewed/${token?.id}`);
+        const response = await fetch(`${MARKETPLACE_API_URL}/recently-viewed/${token?.id}`);
         if (response.ok) {
           const data = await response.json();
           const limitedRecentlyViewed = data.data.slice(0, 8);
