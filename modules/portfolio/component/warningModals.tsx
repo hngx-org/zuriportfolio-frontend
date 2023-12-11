@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import { useRouter } from 'next/navigation';
 import router from 'next/router';
 import { useQueryClient } from '@tanstack/react-query';
+import { API_BASE_URL } from '../../../http/checkout';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -111,7 +112,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
     const notify = () => (toastId.current = toast.success('Section deleted successfully'));
 
     //fetch the endpoint for deleting
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/profile/details/${userId}`, requestOptions)
+    await fetch(`${API_BASE_URL}/portfolio/profile/details/${userId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         //Show popup when section is deleted successfully

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { countryData } from './countrycode';
 import Loader from '@ui/Loader';
+import { API_BASE_URL } from '../../../../http/checkout';
 
 interface formData {
   referer: string;
@@ -55,7 +56,7 @@ interface EditFormData {
   position?: string;
 }
 
-const API_BASE_URL = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
+const API_URL = (`${API_BASE_URL}/portfolio`) as string;
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   // console.log(countryData)
@@ -195,7 +196,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       const response = async () => {
         const axiosConfig = {
           method: 'get',
-          url: `${API_BASE_URL}/api/v1/references/${userId}`,
+          url: `${API_URL}/api/v1/references/${userId}`,
         };
 
         const response = await axios(axiosConfig);
@@ -225,7 +226,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     try {
       const axiosConfig = {
         method: 'post',
-        url: `${API_BASE_URL}/api/v1/references/${userId}`,
+        url: `${API_URL}/api/v1/references/${userId}`,
         data: correctData,
       };
 
@@ -273,7 +274,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       try {
         const axiosConfig = {
           method: 'get',
-          url: `${API_BASE_URL}/api/v1/references/${userId}`,
+          url: `${API_URL}/api/v1/references/${userId}`,
         };
 
         const response = await axios(axiosConfig);
@@ -309,7 +310,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       try {
         const axiosConfig = {
           method: 'delete',
-          url: `${API_BASE_URL}/api/v1/references/${id}`,
+          url: `${API_URL}/api/v1/references/${id}`,
         };
 
         const response = await axios(axiosConfig);
@@ -360,7 +361,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       try {
         const axiosConfig = {
           method: 'put',
-          url: `${API_BASE_URL}/api/v1/references/${id}`,
+          url: `${API_URL}/api/v1/references/${id}`,
           data: editObjData,
         };
 

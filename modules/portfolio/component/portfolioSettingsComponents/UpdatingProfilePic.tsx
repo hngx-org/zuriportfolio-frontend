@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import addPics from '../../../../public/assets/inviteAssets/add-circle.svg';
 import { notify } from '@ui/Toast';
+import { API_BASE_URL } from '../../../../http/checkout';
 
 const UpdatingProfilePic = ({userId}:{userId: string}) => {
   const queryClient = useQueryClient();
@@ -17,7 +18,7 @@ const UpdatingProfilePic = ({userId}:{userId: string}) => {
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
   
-  const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/` as string;
+  const baseUrl = `${API_BASE_URL}/portfolio/` as string;
   
   const {
     data: userData,

@@ -10,6 +10,7 @@ import { Certification, CertificationListProps, CertificationItemProps } from '.
 import Loader from '@ui/Loader';
 import { notify } from '@ui/Toast';
 import { Edit2, Trash } from 'iconsax-react';
+import { API_BASE_URL } from '../../../http/checkout';
 
 // Defining a context to share state across components
 interface Context {
@@ -39,7 +40,7 @@ const initialContextValue: Context = {
   error: '',
   setIsLoading: () => {},
   isLoading: false,
-  baseURL: (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string, // Add baseURL with a default value
+  baseURL: (`${API_BASE_URL}/portfolio`) as string, // Add baseURL with a default value
   setBaseURL: () => {}, // Add setter for baseURL
 };
 
@@ -62,7 +63,7 @@ const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
     url: '',
     description: '',
   });
-  const [baseURL, setBaseURL] = useState(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`);
+  const [baseURL, setBaseURL] = useState(`${API_BASE_URL}/portfolio`);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [urlError, setUrlError] = useState('');
   const [error, setError] = useState('');

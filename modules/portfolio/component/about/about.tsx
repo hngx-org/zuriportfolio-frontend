@@ -5,6 +5,7 @@ import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../../http/checkout';
 
 type aboutModalProps = {
   onCloseModal: () => void;
@@ -26,12 +27,12 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
   const [create, setCreate] = useState(false);
 
   // POST ABOUT VALUE TO DATABASE
-  const API_BASE_URL = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
+  const API_URL = (`${API_BASE_URL}/portfolio`) as string;
   const createResponse = async () => {
     try {
       const axiosConfig = {
         method: 'post',
-        url: `${API_BASE_URL}/about/${userId}`,
+        url: `${API_URL}/about/${userId}`,
         data: bio,
       };
 
@@ -79,7 +80,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'get',
-        url: `${API_BASE_URL}/about/${userId}`,
+        url: `${API_URL}/about/${userId}`,
       };
 
       const response = await axios(axiosConfig);
@@ -115,7 +116,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'put',
-        url: `${API_BASE_URL}/about/${id}`,
+        url: `${API_URL}/about/${id}`,
         data: bio,
       };
 
@@ -179,7 +180,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         try {
           const axiosConfig = {
             method: 'delete',
-            url: `${API_BASE_URL}/about/${id}`,
+            url: `${API_URL}/about/${id}`,
           };
 
           const response = await axios(axiosConfig);

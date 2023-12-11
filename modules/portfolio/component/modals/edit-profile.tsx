@@ -11,6 +11,7 @@ import CountryCityDropdown from './CountryCityDropdown';
 
 import { useAuth } from '../../../../context/AuthContext';
 import { AuthResponse } from '../../../../@types/index';
+import { API_BASE_URL } from '../../../../http/checkout';
 
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
@@ -39,7 +40,7 @@ const EditProfile = () => {
       try {
         setIsLoading(true);
         console.log('Logging this one');
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/portfolio/users/${userId}`);
         console.log('after logging');
         
         const userData = await response.json();
@@ -64,7 +65,7 @@ const EditProfile = () => {
 
   const getTracks = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/tracks`);
+      const response = await fetch(`${API_BASE_URL}/portfolio/tracks`);
       const data = await response.json();
       return data.data;
     } catch (error: any) {
@@ -100,7 +101,7 @@ const EditProfile = () => {
         if (matchingTrack) {
           setIsLoading(true);
           console.log("Logging second one");
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/users/${userId}`,
+          const response = await fetch(`${API_BASE_URL}/portfolio/users/${userId}`,
            {
             method: 'PUT',
             headers: {
@@ -136,7 +137,7 @@ const EditProfile = () => {
       const formData = new FormData();
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/profile/image/upload`, {
+      const response = await fetch(`${API_BASE_URL}/portfolio/profile/image/upload`, {
         method: 'POST',
         body: formData,
       });

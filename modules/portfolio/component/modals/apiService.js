@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/`;
+const BASE_URL = `${API_BASE_URL}/portfolio/`;
 
 export const updateProfileDetails = async (userId, newProfileDetails) => {
   try {

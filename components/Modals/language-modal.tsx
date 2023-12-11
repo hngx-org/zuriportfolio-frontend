@@ -10,6 +10,7 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import Loader from '@ui/Loader';
 import { AiOutlineClose, AiOutlineCloseCircle } from 'react-icons/ai';
+import { API_BASE_URL } from '../../http/checkout';
 
 type languageModalProps = {
   onCloseModal: () => void;
@@ -18,7 +19,7 @@ type languageModalProps = {
   userId: string;
 };
 
-const endpoint = (`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio`) as string;
+const endpoint = (`${API_BASE_URL}/portfolio`) as string;
 const programmingLanguages = [
   'JavaScript',
   'TypeScript',
@@ -101,7 +102,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   };
 
   const handleDelete = async (params: any) => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL}/portfolio/languages`, {
+    const data = await fetch(`${API_BASE_URL}/portfolio/languages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
