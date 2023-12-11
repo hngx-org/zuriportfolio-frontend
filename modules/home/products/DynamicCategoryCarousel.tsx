@@ -7,6 +7,7 @@ import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
 import shopOne from '../../../public/assets/home/shopOne.webp';
 import shopTwo from '../../../public/assets/home/shopTwo.webp';
 import { useQuery } from '@tanstack/react-query';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 interface Slide {
   src?: string;
@@ -76,7 +77,7 @@ const DynamicCategoryCarousel = () => {
   } = useQuery(
     ['categoryNames'],
     async () => {
-      const response = await axios.get('https://staging.zuri.team/api/marketplace/v1/category-name/');
+      const response = await axios.get(`${MARKETPLACE_API_URL}/category-name/`);
       return response?.data?.data?.slice(0, 12);
     },
     {

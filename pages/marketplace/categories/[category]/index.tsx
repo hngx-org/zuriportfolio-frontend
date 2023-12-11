@@ -19,7 +19,7 @@ export const getServerSideProps = async (context: any) => {
   }
 
   try {
-    const res = await http.get('category-name/');
+    const res = await http.get('/category-name/');
     const isCategoryAvailable = res.data?.data.filter((el: any) => el.name === category);
 
     if (isCategoryAvailable.length === 0) {
