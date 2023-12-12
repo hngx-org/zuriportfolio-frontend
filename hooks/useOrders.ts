@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { OrderHistory } from '../@types';
 import { clearTimeout } from 'timers';
 import axios from 'axios';
+import { SHOP_API_URL } from '../http/checkout';
 
 const dummyOrders: OrderHistory[] = [
   {
@@ -109,7 +110,7 @@ const useOrders = () => {
     try {
       setLoadingOrders(true);
       const data = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
+        url: `${SHOP_API_URL}/orders/all`,
         method: 'GET',
       });
 
@@ -153,7 +154,7 @@ const useOrders = () => {
         return;
       }
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        url: `${SHOP_API_URL}/order/search/${query}`,
         method: 'GET',
       });
       const { data } = res;

@@ -10,6 +10,7 @@ import Button from '@ui/Button';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
+import { SHOP_API_URL } from '../../../http/checkout';
 
 export default function ReviewDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +24,7 @@ export default function ReviewDashboard() {
       setIsLoading(true);
       try {
         setIsLoading(true);
-        const res = await fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/products?page=${currentPage}`, {
+        const res = await fetch(`${SHOP_API_URL}/products?page=${currentPage}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('zpt')}`,
           },

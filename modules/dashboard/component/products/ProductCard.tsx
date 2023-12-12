@@ -19,6 +19,7 @@ import { type } from 'os';
 import { MdDiscount } from 'react-icons/md';
 import { BiSolidDiscount } from 'react-icons/bi';
 import { twMerge } from 'tailwind-merge';
+import { SHOP_API_URL } from '../../../../http/checkout';
 
 type Product = {
   product_id: any;
@@ -47,7 +48,7 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
+    fetch(`${SHOP_API_URL}/products`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -71,7 +72,7 @@ const DeleteModal = (props: any) => {
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
-    fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${productId}`, {
+    fetch(`${SHOP_API_URL}/product/${productId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -232,7 +233,7 @@ const EditModal = (props: {
     try {
       setUpdatingAssets(true);
       const { data } = await axios.get(
-        `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
+        `${SHOP_API_URL}/product/assets/${props.product?.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -260,7 +261,7 @@ const EditModal = (props: {
   };
   useEffect(() => {
     // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories', {
+    fetch(`${SHOP_API_URL}/product/categories`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -305,7 +306,7 @@ const EditModal = (props: {
     try {
       setUpdating(true);
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}`,
+        url: `${SHOP_API_URL}/product/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -360,7 +361,7 @@ const EditModal = (props: {
         formData.append(key, value);
       });
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/assets/${props.product?.id}`,
+        url: `${SHOP_API_URL}/product/assets/${props.product?.id}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -384,7 +385,7 @@ const EditModal = (props: {
         const formdata = new FormData();
         formdata.append('image', file);
         const res = await axios({
-          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${props.product?.id}/image/${props.product?.image[0].id}`,
+          url: `${SHOP_API_URL}/product/${props.product?.id}/image/${props.product?.image[0].id}`,
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('zpt')}`,

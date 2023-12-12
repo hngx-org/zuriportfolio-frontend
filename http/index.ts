@@ -15,7 +15,6 @@ export const getUserByName = async (props: { name: string }) => {
 
 import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
-// remove from wishlist
 
 export const removeFromWishlist = async (userId: any, productId: any, token: any): Promise<AxiosResponse> => {
   try {

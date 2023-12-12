@@ -11,6 +11,7 @@ import { z } from 'zod';
 import withAuth from '../../../../helpers/withAuth';
 import Link from 'next/link';
 import Head from 'next/head';
+import { SHOP_API_URL } from '../../../../http/checkout';
 
 type Product = {
   product_id: string;
@@ -97,7 +98,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products/nopromo', {
+    fetch(`${SHOP_API_URL}/products/nopromo`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -145,7 +146,7 @@ function Discounts() {
 
     try {
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount',
+        `${SHOP_API_URL}/discount',
         userData,
         {
           headers: {

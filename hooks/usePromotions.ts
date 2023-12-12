@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PromotionHistory } from '../@types';
 import axios from 'axios';
+import { SHOP_API_URL } from '../http/checkout';
 
 // const dummyPromotions: PromotionHistory[] = [
 //   {
@@ -98,7 +99,7 @@ const usePromotions = () => {
   };
   const getPromo = async () => {
     const { data } = await axios.get(
-      'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount/promotions',
+      `${SHOP_API_URL}/discount/promotions`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,

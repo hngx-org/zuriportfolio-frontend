@@ -18,11 +18,12 @@ import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
 import useUserSession from '../../hooks/Auth/useUserSession';
-import { getUserCart } from '../../http/checkout';
+import { API_BASE_URL, getUserCart } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
 import Notifications from '../Modals/Notifications';
 import axios from 'axios';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -60,7 +61,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   }, []);
   const getShopId = async () => {
     try {
-      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shops/merchant', {
+      const { data } = await axios.get(`${API_BASE_URL}/shop/shops/merchant`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,

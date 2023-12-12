@@ -9,6 +9,7 @@ import { Input } from '@ui/Input';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SHOP_API_URL } from '../../../http/checkout';
 
 function AddShopErrorModal({ isOpen, onCloseModal, onSaveModal }: any) {
   // const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
@@ -85,7 +86,7 @@ export function AddShopModal({ isOpen, onCloseModal, onSaveModal }: any) {
 
     //make loader visible
     setLoading(true);
-    const url = 'https://zuriportfolio-shop-internal-api.onrender.com/api/shop';
+    const url = `${SHOP_API_URL}/shop`;
 
     //get bearer token
     const BearerToken = localStorage.getItem('zpt');

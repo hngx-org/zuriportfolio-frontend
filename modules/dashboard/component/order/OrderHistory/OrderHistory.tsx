@@ -12,6 +12,7 @@ import { OrderHistory } from '../../../../../@types';
 import Loader from '@ui/Loader';
 import axios from 'axios';
 import { twMerge } from 'tailwind-merge';
+import { SHOP_API_URL } from '../../../../../http/checkout';
 
 const orderNavs: {
   id: string;
@@ -172,8 +173,8 @@ const OrderHistory: React.FC = () => {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
-      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/orders/all?page=${currentPage}`;
-      // const url = `http://localhost:8080/api/orders/all?page=${currentPage}&itemsPerPage=${itemsPerPage}`;
+      const url = `${SHOP_API_URL}/orders/all?page=${currentPage}`;
+      
       const { data } = await axios({
         url,
         method: 'GET',

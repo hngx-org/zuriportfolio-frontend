@@ -11,6 +11,7 @@ import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Error from '../shop/component/error/Error';
+import { SHOP_API_URL } from '../../http/checkout';
 
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
@@ -39,7 +40,7 @@ const ZuriLandingPage = () => {
       setShowLoader(true);
       if (shop_id) {
         try {
-          const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
+          const response = await axios.get(`${SHOP_API_URL}/shop/${shop_id}`);
           setShop(response.data);
           setTimeout(() => {
             setShowLoader(false);
