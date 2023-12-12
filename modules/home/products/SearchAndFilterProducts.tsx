@@ -21,6 +21,7 @@ import axios from 'axios';
 import SectionData from './sectionData';
 import SectionProductCard from './sectionProductCard';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 type Section = {
   key?: string | number;
@@ -90,7 +91,7 @@ const SearchAndFilterProducts = (prop: {
 
   const fetchCategoryNames = async (): Promise<Section[]> => {
     try {
-      const categoriesResponse = await axios.get('https://staging.zuri.team/api/marketplace/v1/category-name/');
+      const categoriesResponse = await axios.get(`${MARKETPLACE_API_URL}/category-name/`);
       const categories = categoriesResponse.data.data.slice(0, 9);
 
       const icons = [
@@ -134,7 +135,7 @@ const SearchAndFilterProducts = (prop: {
   };
   const fetchProducts = async (category: string) => {
     try {
-      const response = await axios.get(`https://staging.zuri.team/api/marketplace/v1/products/${category}`);
+      const response = await axios.get(`${MARKETPLACE_API_URL}/products/${category}`);
       console.log(response);
       const approvedProducts = response?.data?.data
         ?.filter((product: { is_published: boolean }) => product.is_published === true)
