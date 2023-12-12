@@ -95,7 +95,7 @@ const DynamicCategoryCarousel = () => {
       try {
         for (const categoryObj of categoryNamesQuery) {
           const category = categoryObj.name;
-          const response = await axios.get(`https://staging.zuri.team/api/marketplace/v1/products/${category}`);
+          const response = await axios.get(`${MARKETPLACE_API_URL}/products/${category}`);
           const products = response.data;
 
           fetchedSlides.push({
