@@ -146,7 +146,7 @@ function Discounts() {
 
     try {
       const response = await axios.post(
-        `${SHOP_API_URL}/discount',
+        `${SHOP_API_URL}/discount`,
         userData,
         {
           headers: {
