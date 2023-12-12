@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@ui/Button';
 import Loader from '@ui/Loader';
+import { SHOP_API_URL } from '../../../../../http/checkout';
 
 const manropeMD = Manrope({
   weight: ['500'],
@@ -64,7 +65,7 @@ const PromotionHistoryRow = (props: any) => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount/${props.promo.id}`, {
+      await axios.delete(`${SHOP_API_URL}/discount/${props.promo.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },

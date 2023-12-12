@@ -19,6 +19,7 @@ import Footer from './component/productPage/Footer';
 import Loader from '@ui/Loader';
 import Head from 'next/head';
 import Error from './component/error/Error';
+import { SHOP_API_URL } from '../../http/checkout';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function ProductDetails() {
     const { id } = router.query;
     if (id) {
       setLoading(true);
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
+      fetch(`${SHOP_API_URL}/product/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
@@ -66,7 +67,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (shopID) {
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shopID}`)
+      fetch(`${SHOP_API_URL}/shop/${shopID}`)
         .then((response) => response.json())
         .then((response) => {
           setOtherProducts(response.data.products);

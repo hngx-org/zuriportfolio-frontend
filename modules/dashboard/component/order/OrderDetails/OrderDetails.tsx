@@ -14,6 +14,7 @@ import Loader from '@ui/Loader';
 import axios from 'axios';
 import usePageLoaded from '../../../../../hooks/usePageLoaded';
 import { twMerge } from 'tailwind-merge';
+import { SHOP_API_URL } from '../../../../../http/checkout';
 const filters: {
   id: keyof OrderHistory;
   title: string;
@@ -148,8 +149,7 @@ const OrderDetails = () => {
 
   const fetchOrders = async () => {
     try {
-      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/v1/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
-      // const url = `http://localhost:8080/api/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
+      const url = `${SHOP_API_URL}/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
       setLoadingOrders(true);
       const req = await axios({
         url,
@@ -212,7 +212,7 @@ const OrderDetails = () => {
         return;
       }
       const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        url: `${SHOP_API_URL}/order/search/${query}`,
         method: 'GET',
       });
       const { data } = res;

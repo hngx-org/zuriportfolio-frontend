@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { logQueryResult } from '../helpers/dashboard';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 
 // const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
 
-const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api/v1';
+const baseURL = `${MARKETPLACE_API_URL}/shop`;
 
 const axiosDashboardInstance = axios.create({
   baseURL,

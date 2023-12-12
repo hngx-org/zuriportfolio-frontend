@@ -17,6 +17,8 @@ import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
 import Head from 'next/head';
+import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
+import { SHOP_API_URL } from '../../../http/checkout';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const mainRef = useRef<HTMLFormElement>(null);
@@ -104,7 +106,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/category',
+        `${SHOP_API_URL}/product/category`,
         { name: newCategoryName },
         {
           headers: {
@@ -153,7 +155,7 @@ const AddProduct = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories',
+        `${SHOP_API_URL}/product/categories`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -175,7 +177,7 @@ const AddProduct = () => {
   };
   const getShopId = async () => {
     try {
-      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shops/merchant', {
+      const { data } = await axios.get(`${MARKETPLACE_API_URL}/shop/shops/merchant`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -215,7 +217,7 @@ const AddProduct = () => {
     try {
       // Make a POST request to your API endpoint with Axios
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add',
+        `${SHOP_API_URL}/product/add`,
         formData,
         {
           headers: {
@@ -286,7 +288,7 @@ const AddProduct = () => {
       if (mainRef) {
         mainRef.current?.scrollIntoView();
       }
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add', {
+      const res = await fetch(`${SHOP_API_URL}/product/add`, {
         method: 'POST',
         body: formData,
         headers: {

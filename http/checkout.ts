@@ -12,6 +12,7 @@ export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://s
 export const API_BASE_URL =  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'https://zuriportfolio-backend.onrender.com/api/v1'
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
 export const CART_ENDPOINT = API_BASE_URL + "/checkout";
+export const SHOP_API_URL = `${API_BASE_URL}/shop`
 
 
 

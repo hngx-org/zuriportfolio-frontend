@@ -13,7 +13,7 @@ function Explore() {
         title="Zuri Portfolio - Explore"
         description="Find the best Talent for your next Project! On Zuriportfolio, you can find the best Talent who matches your needs and exceeds your expectations."
         image="/assets/explore/seo-image.png"
-        url="https://staging.zuri.team/explore/"
+        url="/explore/"
       />
       <ParamsProvider>
         <ExploreQuery>

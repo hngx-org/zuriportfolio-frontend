@@ -10,6 +10,7 @@ import verifyIcon from '../../../public/assets/icons/verify.svg';
 import Link from 'next/link';
 import { Products } from '../../../@types';
 import router from 'next/router';
+import { SHOP_API_URL } from '../../../http/checkout';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -50,7 +51,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
   const [product, setProduct] = useState<Products | null>(null);
   useEffect(() => {
     if (id) {
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
+      fetch(`${SHOP_API_URL}/product/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
