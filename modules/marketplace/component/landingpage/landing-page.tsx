@@ -11,6 +11,7 @@ import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useQuery } from '@tanstack/react-query';
 import Head from 'next/head';
 import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
+import SEO from '../../../../components/SEO';
 
 function LandingPage() {
   const fetchRecommendation = () => fetch(`${MARKETPLACE_API_URL}/recommendations`).then((res) => res.json());
@@ -20,13 +21,14 @@ function LandingPage() {
     ['products/limited_offers'],
     fetchLimitedOffers,
   );
+
+  console.log(limitedOffersData);
+  
   const { categories, loading } = useCategoryNav();
+
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <Head>
-        <title>Marketplace Landing Page</title>
-        <meta name="description" content="Zuri marketplace - Browse varieties of products based on choice." />
-      </Head>
+      <SEO title='Marketplace Landing Page' description='Zuri marketplace - Browse varieties of products based on choice.' />
       <CategoriesNav navItems={categories} isLoading={loading} />
 
       <div className="py-6 px-4 overflow-hidden w-full lg:max-w-[1350px] mx-auto">
@@ -40,7 +42,7 @@ function LandingPage() {
 
           <ProductCardWrapper
             title="Limited Offers"
-            productsList={{ isLoading: isLimitedOfferLoading, items: limitedOffersData?.results }}
+            productsList={{ isLoading: isLimitedOfferLoading, items: limitedOffersData?.data }}
             showTopPicks={false}
             showAll={false}
           />
