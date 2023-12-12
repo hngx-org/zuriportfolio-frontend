@@ -189,8 +189,8 @@ export interface ShopData {
 export interface SEOProps {
   title: string;
   description: string;
-  image: string;
-  url: string;
+  image?: string;
+  url?: string;
 }
 export interface SuperAdminPagination {
   title: any;
