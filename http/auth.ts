@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const AUTH_HTTP_URL = 'https://zuri-auth.up.railway.app/api/v1';
+export const AUTH_HTTP_URL = 'https://zuri-auth.up.railway.app/api/v1';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
