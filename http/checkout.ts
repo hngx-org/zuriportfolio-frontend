@@ -2,6 +2,7 @@ import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 import { CartItemProps } from '../@types';
 import $http from './axios';
 import axios from 'axios';
+import { AUTH_HTTP_URL } from './auth';
 
 
 
@@ -10,7 +11,6 @@ import axios from 'axios';
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const API_BASE_URL =  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'https://zuriportfolio-backend.onrender.com/api/v1'
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
-export const AUTH_API_ENDPOINT = "https://zuri-auth.up.railway.app/api/auth/api"
 export const CART_ENDPOINT = API_BASE_URL + "/checkout";
 
 
@@ -64,10 +64,10 @@ export const removeFromCart = async (productId: string, token: string) => {
     throw error;
   }
 };
-// https://zuri-auth.up.railway.app/api/auth/api/
+
 export const createTempUser = async (datas: { email: string; firstName: string; lastName: string }) => {
   try {
-    const apiUrl = 'https://zuri-auth.up.railway.app/api/auth/api/auth/signup-guest';
+    const apiUrl = `${AUTH_HTTP_URL}/auth/signup-guest`;
     const response = await $http.post(apiUrl, datas);
     return response.data;
   } catch (error) {
@@ -143,7 +143,7 @@ export const makePayment = async (selectedPaymentMethod: string, token: string) 
 
 const getTokenDetails = async (token: string) => {
   try {
-    const response = await $http.post(`${AUTH_API_ENDPOINT}/authorize`, { token });
+    const response = await $http.post(`${AUTH_HTTP_URL}/authorize`, { token });
     return response.data;
   } catch (error) {
     return error;
