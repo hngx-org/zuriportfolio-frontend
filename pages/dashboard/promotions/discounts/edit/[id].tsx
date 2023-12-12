@@ -144,7 +144,7 @@ const EditDiscunt = () => {
     };
 
     try {
-      const response = await axios.post(`${SHOP_API_URL}/discount', userData, {
+      const response = await axios.post(`${SHOP_API_URL}/discount`, userData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
