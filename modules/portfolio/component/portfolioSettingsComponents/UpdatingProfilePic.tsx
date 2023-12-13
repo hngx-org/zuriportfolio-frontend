@@ -14,12 +14,15 @@ import { API_BASE_URL } from '../../../../http/checkout';
 
 const UpdatingProfilePic = ({userId}:{userId: string}) => {
   const queryClient = useQueryClient();
-  
+
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
-  
+
+  /**  LINES 21 - 35 WAS COPIED to TopBar.tsx Component, from LINE 53.
+   * If anything changes in the below lines(21-35), make sure it is changed in TopBar.tsx
+   */
   const baseUrl = `${API_BASE_URL}/portfolio/` as string;
-  
+
   const {
     data: userData,
     isLoading: isUserDataLoading,
