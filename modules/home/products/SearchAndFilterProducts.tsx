@@ -200,7 +200,7 @@ const SearchAndFilterProducts = (prop: {
 
   const fetchAllProducts = async () => {
     try {
-      const response = await axios.get(`https://staging.zuri.team/api/marketplace/v1/product-list`);
+      const response = await axios.get(`${MARKETPLACE_API_URL}/product-list`);
       const approvedProducts = response?.data?.data
         ?.filter((product: { is_published: boolean }) => product.is_published === true)
         .slice(0, 4);
