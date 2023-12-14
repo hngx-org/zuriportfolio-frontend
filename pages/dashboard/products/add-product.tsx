@@ -17,7 +17,6 @@ import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
 import Head from 'next/head';
-import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
 import { SHOP_API_URL } from '../../../http/checkout';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -177,7 +176,7 @@ const AddProduct = () => {
   };
   const getShopId = async () => {
     try {
-      const { data } = await axios.get(`${MARKETPLACE_API_URL}/shop/shops/merchant`, {
+      const { data } = await axios.get(`${SHOP_API_URL}/shops/merchant`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
