@@ -144,7 +144,7 @@ export const fetchSalesReports = async (timeframe: string) => {
 export const fetchStoreTraffic = async (shop_id: string, timeframe: string) => {
   try {
     const token = localStorage.getItem('zpt');
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/${timeframe}/${shop_id}`, {
+    const res: any = await axiosDashboardInstance.get(`/shop-internal/store-traffic/count/${timeframe}/${shop_id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

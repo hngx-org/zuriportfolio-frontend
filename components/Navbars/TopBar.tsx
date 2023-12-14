@@ -61,7 +61,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   }, []);
   const getShopId = async () => {
     try {
-      const { data } = await axios.get(`${API_BASE_URL}/shop/shops/merchant`, {
+      const { data } = await axios.get(`${API_BASE_URL}/shop-internal/shops/merchant`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
