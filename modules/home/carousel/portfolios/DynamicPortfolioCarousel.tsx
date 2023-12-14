@@ -18,7 +18,7 @@ import { useQuery } from '@tanstack/react-query';
 const DynamicPortfolioCarousel = () => {
   const fetchSlides = async () => {
     const response = await axios.get(
-      'https://hngstage6-eagles.azurewebsites.net/api/explore/GetAllPortfolio?pageNumber=1&pageSize=10',
+      'https://explore-90v6.onrender.com/api/explore/GetAllPortfolio?pageNumber=1&pageSize=10',
     );
     return response.data.data.map((item: any) => ({
       id: item.id,
