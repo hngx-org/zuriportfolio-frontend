@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { countryData } from './countrycode';
 import Loader from '@ui/Loader';
-import { API_BASE_URL } from '../../../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../../../http/checkout';
 
 interface formData {
   referer: string;
@@ -56,7 +56,7 @@ interface EditFormData {
   position?: string;
 }
 
-const API_URL = (`${API_BASE_URL}/portfolio`) as string;
+const API_URL = PORTFOLIO_BASE_URL as string;
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   // console.log(countryData)

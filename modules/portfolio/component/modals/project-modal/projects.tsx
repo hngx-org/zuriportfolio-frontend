@@ -10,7 +10,7 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import { Data, allRouteOptions } from './project-section-modal';
 import Loader from '@ui/Loader';
-import { API_BASE_URL } from '../../../../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../../../../http/checkout';
 
 type ProjectSectionProps = {
   onCloseModal: () => void;
@@ -21,7 +21,7 @@ type ProjectSectionProps = {
   handleSetRoute: (data: allRouteOptions) => void;
 };
 
-const endpoint = (`${API_BASE_URL}/portfolio`) as string;
+const endpoint = PORTFOLIO_BASE_URL as string;
 const ProjectSection: React.FC<ProjectSectionProps> = ({
   dataToEdit,
   onCloseModal,

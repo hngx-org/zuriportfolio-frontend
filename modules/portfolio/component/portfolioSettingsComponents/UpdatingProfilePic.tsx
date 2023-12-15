@@ -10,25 +10,22 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import addPics from '../../../../public/assets/inviteAssets/add-circle.svg';
 import { notify } from '@ui/Toast';
-import { API_BASE_URL } from '../../../../http/checkout';
+import { API_BASE_URL, PORTFOLIO_BASE_URL } from '../../../../http/checkout';
 
 const UpdatingProfilePic = ({userId}:{userId: string}) => {
   const queryClient = useQueryClient();
 
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
-
-  /**  LINES 21 - 35 WAS COPIED to TopBar.tsx Component, from LINE 53.
-   * If anything changes in the below lines(21-35), make sure it is changed in TopBar.tsx
-   */
-  const baseUrl = `${API_BASE_URL}/portfolio/` as string;
-
+  
+  const baseUrl = PORTFOLIO_BASE_URL as string;
+  
   const {
     data: userData,
     isLoading: isUserDataLoading,
     isError: isUserDataError,
   } = useQuery(['userData', userId], async () => {
-    const response = await $http.get(`${baseUrl}users/${userId}`);
+    const response = await $http.get(`${baseUrl}/users/${userId}`);
     if (response.status === 200) {
       return response.data;
     }
@@ -40,7 +37,7 @@ const UpdatingProfilePic = ({userId}:{userId: string}) => {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
 
-      const response = await axios.post(`${baseUrl}profile/image/upload`, formData);
+      const response = await axios.post(`${baseUrl}/profile/image/upload`, formData);
 
       if (response.status === 200) {
         return response.data;

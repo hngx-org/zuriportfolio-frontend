@@ -10,7 +10,7 @@ import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
 import { notify } from '@ui/Toast';
 import { Trash } from 'iconsax-react';
 import Loader from '@ui/Loader';
-import { API_BASE_URL } from '../../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../../http/checkout';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -93,7 +93,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       user_id: userId, // Ensure you have the userId available
     }));
 
-    sendArrayOfObjects(data, `${API_BASE_URL}/portfolio/contacts`)
+    sendArrayOfObjects(data, `${PORTFOLIO_BASE_URL}/contacts`)
       .then((response: any) => {
         setLoading(false);
         notify({
@@ -129,7 +129,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     console.log('delete clicked');
     const id = 5;
     try {
-      const res = await fetch(`${API_BASE_URL}/portfolio/contacts/${id}`, {
+      const res = await fetch(`${PORTFOLIO_BASE_URL}/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getSocialsAvailable = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/portfolio/socials`);
+      const response = await axios.get(`${PORTFOLIO_BASE_URL}/socials`);
       const data = await response.data;
       console.log('getSocialsAvailable', data);
       setAvailableSocials(data?.data);
@@ -165,7 +165,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getAllSocials = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/portfolio/contacts/${userId}`);
+      const response = await axios.get(`${PORTFOLIO_BASE_URL}/contacts/${userId}`);
       const data = await response.data;
       console.log('responseData', data);
     } catch (error) {

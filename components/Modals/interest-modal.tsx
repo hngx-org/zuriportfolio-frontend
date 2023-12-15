@@ -10,9 +10,9 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import Loader from '@ui/Loader';
 import { AiOutlineClose, AiOutlineCloseCircle, AiOutlinePlus } from 'react-icons/ai';
-import { API_BASE_URL } from '../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../http/checkout';
 
-const endpoint = `${API_BASE_URL}/portfolio`;
+const endpoint = PORTFOLIO_BASE_URL;
 
 type interestModalProps = {
   onCloseModal: () => void;

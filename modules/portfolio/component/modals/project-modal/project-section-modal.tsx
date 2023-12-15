@@ -52,7 +52,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     setLoading(data);
   };
 
-  const endpoint = (`${API_BASE_URL}/portfolio`) as string;
+  const endpoint = (`${PORTFOLIO_BASE_URL}`) as string;
   const getAllProjects = () => {
     setLoading(true);
     axios

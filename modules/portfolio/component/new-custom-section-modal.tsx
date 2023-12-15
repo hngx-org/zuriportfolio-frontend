@@ -128,7 +128,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
   };
 
   const createNewCustomSectionOption = useMutation(async () => {
-    const response = await axios.post(`${API_BASE_URL}/portfolio/custom/`, {
+    const response = await axios.post(`${PORTFOLIO_BASE_URL}/custom/`, {
       sectionId: 55,
       title: form?.values?.addList[0]?.title,
       userId: userId,
@@ -174,7 +174,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     );
 
     if (fields.length < 1) {
-      const response = await axios.post(`${API_BASE_URL}/portfolio/custom/field`, {
+      const response = await axios.post(`${PORTFOLIO_BASE_URL}/custom/field`, {
         customUserSectionId: sectionForm?.values?.section[0]?.id,
         fields: fields,
       });

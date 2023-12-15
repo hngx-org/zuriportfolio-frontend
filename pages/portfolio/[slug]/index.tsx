@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
 import SkeletonLoader from '@modules/portfolio/component/landing/SkeletonLoader';
-import { API_BASE_URL } from '../../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../../http/checkout';
 
 const View = () => {
   const router = useRouter();
@@ -20,7 +20,7 @@ const View = () => {
       const getUser = async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(`${API_BASE_URL}/portfolio/portfolio/${urlSlug}`);
+          const response = await fetch(`${PORTFOLIO_BASE_URL}/${urlSlug}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.error);
           setUserData({
@@ -78,7 +78,7 @@ const View = () => {
       const getUser = async () => {
         try {
           setIsLoading(true);
-          const response = await fetch(`${API_BASE_URL}/portfolio/portfolio/${urlSlug}`);
+          const response = await fetch(`${PORTFOLIO_BASE_URL}/${urlSlug}`);
           const data = await response.json();
           if (!response.ok) throw new Error(data.error);
           setUserData({
