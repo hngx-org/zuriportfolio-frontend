@@ -7,7 +7,7 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import Loader from '@ui/Loader';
 import Portfolio from '../../../../context/PortfolioLandingContext';
-import { API_BASE_URL } from '../../../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../../../http/checkout';
 
 
 type skillModalProps = {
@@ -50,7 +50,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
     try {
       // Make a GET request to the API
       setIsLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/portfolio/skills/${userId}`);
+      const response = await axios.get(`${PORTFOLIO_BASE_URL}/skills/${userId}`);
       const data = response.data.skills;
       setValues(data);
       setIsLoading(false);
@@ -112,7 +112,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const getAllSkill = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL}/portfolio/portfolio/${slug}`);
+      const response = await fetch(`${PORTFOLIO_BASE_URL}/portfolio/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -126,7 +126,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
     }
   };
 
-  const apiUrl = `${API_BASE_URL}/portfolio/skills/`;
+  const apiUrl = `${PORTFOLIO_BASE_URL}/skills/`;
   const requestData = {
     skills: values?.map((obj) => obj.skill),
     sectionId: 5,
@@ -160,7 +160,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
 
   async function deleteSkillsData(id: number) {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/portfolio/skills/${id}}`);
+      const response = await axios.delete(`${PORTFOLIO_BASE_URL}/skills/${id}}`);
       if (response.data.successful) {
         fetchSkillData();
       }

@@ -18,7 +18,7 @@ import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-quer
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 import { useRouter } from 'next/router';
-import { API_BASE_URL } from '../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../http/checkout';
 
 type PortfolioContext = {
   portfolioUrl: string;
@@ -117,7 +117,7 @@ const Portfolio = createContext<PortfolioContext>({
 export function PortfolioCtxProvider(props: { children: any }) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const portfolioUrl = `${API_BASE_URL}/portfolio/portfolio`;
+  const portfolioUrl = `${PORTFOLIO_BASE_URL}/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
   const [slug, setSlug] = useState('');
@@ -273,7 +273,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
 
-      const response = await fetch(`${API_BASE_URL}/portfolio/profile/cover/upload`, {
+      const response = await fetch(`${PORTFOLIO_BASE_URL}/profile/cover/upload`, {
         method: 'POST',
         body: formData,
       });

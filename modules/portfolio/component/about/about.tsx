@@ -27,7 +27,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
   const [create, setCreate] = useState(false);
 
   // POST ABOUT VALUE TO DATABASE
-  const API_URL = (`${API_BASE_URL}/portfolio`) as string;
+  const API_URL = (`${PORTFOLIO_BASE_URL}`) as string;
   const createResponse = async () => {
     try {
       const axiosConfig = {

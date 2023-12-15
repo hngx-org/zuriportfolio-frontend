@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../../../context/AuthContext';
 import { notify } from '@ui/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { API_BASE_URL } from '../../../../http/checkout';
+import { PORTFOLIO_BASE_URL } from '../../../../http/checkout';
 
 function DeleteAccount() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -18,7 +18,7 @@ function DeleteAccount() {
   const userId: string = auth?.user.id as string;
   console.log(userId)
   const deleteAccountMutation = useMutation(
-    () => axios.delete(`${API_BASE_URL}/portfolio/delete-user-account/${userId}`),
+    () => axios.delete(`${PORTFOLIO_BASE_URL}/delete-user-account/${userId}`),
     {
       onSuccess: () => {
         // If the delete operation is successful, you can perform any necessary actions here.
