@@ -24,6 +24,9 @@ import { toast } from 'react-toastify';
 import Notifications from '../Modals/Notifications';
 import axios from 'axios';
 import { MARKETPLACE_API_URL } from '@modules/marketplace/http';
+import { returnFirstAndLastLetter } from '../../helpers';
+import { useQuery } from '@tanstack/react-query';
+import $http from '../../http/axios';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -43,17 +46,31 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [dropDown, setDropDown] = useState<string>('Explore');
   const { cartCount, setCartCountNav } = useCart();
   const [shopId, setShopId] = useState('');
+
+  /**  LINES 53 - 61 WAS COPIED FROM UpdatingProfilePic.tsx Component.
+   * If changing anything, make sure it stays the same in UpdatingProfilePic.tsx
+   */
+  const userId = globalAuth?.user.id;
+  const baseUrl = `${API_BASE_URL}/portfolio/` as string;
+
+  const { data: userData, isError: isUserDataError } = useQuery(['userData', userId], async () => {
+    const response = await $http.get(`${baseUrl}users/${userId}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+  });
+
   useEffect(() => {
     async function cartFetch() {
       let carts;
       let token = localStorage.getItem('zpt') as string;
-            
+
       if (token) {
         carts = await getUserCart(token as string);
       } else {
         carts = localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products') as string) : [];
       }
-    
+
       setCartCountNav(carts.length);
     }
     cartFetch();
@@ -499,7 +516,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         )}
 
         {notificationMenu && (
-          <div className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4  md:right-[50px] " ref={notificationsRef}>
+          <div
+            className="absolute bg-white-100 top-full w-fit md:2/4 lg:w-1/4  md:right-[50px] "
+            ref={notificationsRef}
+          >
             <Notifications notificationsRef={notificationsRef} unreadNotifications={setUnreadNotifications} />
           </div>
         )}
@@ -508,6 +528,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   );
 
   function AuthUser(): React.ReactNode {
+    const getUserInitials = (firstName: string, lastName: string) => {
+      return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+    }
+
     return (
       <div className="flex gap-4 justify-center items-center align-middle relative">
         <Link href={'/marketplace/wishlist'}>
@@ -552,7 +576,25 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
           </p>
 
-          <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+          {userData?.data?.user?.profilePic ? (
+            <div className="w-12 h-12 relative rounded-[100px] overflow-hidden">
+              <Image
+                src={userData.data.user.profilePic}
+                width={280}
+                height={180}
+                alt="avatar"
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            globalAuth?.user && (
+              <div className="w-12 h-12 bg-brand-green-shade80 rounded-[50%] flex items-center justify-center">
+                <span className="font-semibold text-xl">
+                  {getUserInitials(globalAuth?.user?.firstName, globalAuth?.user?.lastName)}
+                </span>
+              </div>
+            )
+          )}
         </div>
 
         {/* {notificationMenu && 
@@ -760,9 +802,9 @@ function Cart({ items, style }: { items: number; style?: {} }) {
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative">
         {/* {items > 0 && ( */}
-          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
-            {items}
-          </span>
+        <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+          {items}
+        </span>
         {/* )} */}
 
         <Image src={cartIcon} draggable={false} width={24} height={24} alt="Cart Icon" />

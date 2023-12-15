@@ -100,7 +100,7 @@ const SearchAndFilter = (prop: {
   };
 
   const handleAllTrack = async () => {
-    const { data } = await axios.get('https://hngstage6-eagles.azurewebsites.net/api/track/getAllTracks');
+    const { data } = await axios.get('https://explore-90v6.onrender.com/api/track/getAllTracks');
     return data;
   };
 

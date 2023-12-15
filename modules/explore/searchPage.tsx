@@ -65,7 +65,7 @@ export default function SearchModule() {
 
   const deBounce = useDebounce(`${query}`, 1200);
 
-  const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
+  const baseUrl = `https://explore-90v6.onrender.com/api`,
     searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
     filterUrl = `${baseUrl}/explore/filter`,
     allUsers = `${baseUrl}/explore/GetAllPortfolio`;

@@ -14,7 +14,7 @@ import { API_BASE_URL, PORTFOLIO_BASE_URL } from '../../../../http/checkout';
 
 const UpdatingProfilePic = ({userId}:{userId: string}) => {
   const queryClient = useQueryClient();
-  
+
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
   const [reload, setReload] = React.useState<boolean>(false);
   
