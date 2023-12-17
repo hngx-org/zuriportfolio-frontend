@@ -5,7 +5,7 @@ import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { API_BASE_URL } from '../../../../http/checkout';
+import { API_BASE_URL, PORTFOLIO_BASE_URL } from '../../../../http/checkout';
 
 type aboutModalProps = {
   onCloseModal: () => void;
