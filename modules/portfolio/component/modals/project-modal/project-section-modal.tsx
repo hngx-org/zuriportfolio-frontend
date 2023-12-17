@@ -5,7 +5,7 @@ import axios from 'axios';
 import Loader from '@ui/Loader';
 import AllProjectsModal from './all-projects-modal';
 import SingleProject from './single-project';
-import { API_BASE_URL } from '../../../../../http/checkout';
+import { API_BASE_URL, PORTFOLIO_BASE_URL } from '../../../../../http/checkout';
 
 export type allRouteOptions = 'add-project' | 'view-projects' | 'single-project';
 

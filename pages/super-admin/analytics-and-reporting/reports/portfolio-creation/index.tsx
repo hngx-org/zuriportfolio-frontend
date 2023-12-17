@@ -45,7 +45,7 @@ const PortfolioCreationPage: React.FC = () => {
 
   useEffect(() => {
     const bearerToken = localStorage.getItem('zpt');
-    const apiUrl = 'https://staging.zuri.team/api/v1/super-admin/analytics/portfolio-summary';
+    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/portfolio-summary';
 
     setLoadingState(true);
     axios
@@ -74,7 +74,7 @@ const PortfolioCreationPage: React.FC = () => {
 
       const bearerToken = localStorage.getItem('zpt');
 
-      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/portfolio-summary/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/portfolio-summary/?start_date=${startDate}&end_date=${endDate}`;
 
       setLoadingState(true);
 
@@ -153,7 +153,7 @@ const PortfolioCreationPage: React.FC = () => {
       const bearerToken = localStorage.getItem('zpt');
       setGetReport(true);
 
-      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/export-report/portfolio_summary/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/export-report/portfolio_summary/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl, {

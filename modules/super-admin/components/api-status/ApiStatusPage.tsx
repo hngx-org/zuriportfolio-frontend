@@ -63,7 +63,7 @@ const ApiStatusPage = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch('https://staging.zuri.team/api/v1/admin/health/', {
+        const response = await fetch('https://super-admin-one.onrender.com/api/v1/admin/health/', {
           method: 'GET',
           headers: {
             Accept: 'application/json',

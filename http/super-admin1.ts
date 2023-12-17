@@ -12,7 +12,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
         'Content-Type': 'application/json; charset=UTF-8',
       },
       method,
-      url: `https://staging.zuri.team/api/v1/admin/${apiUrl}`,
+      url: `https://super-admin-one.onrender.com/api/v1/admin/${apiUrl}`,
       data,
       ...config,
     };
