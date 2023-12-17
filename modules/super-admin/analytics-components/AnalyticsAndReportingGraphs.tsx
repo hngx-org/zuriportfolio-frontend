@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,6 +18,11 @@ const fetchData = async (url: any) => {
   }
 };
 
+const getTokenFromLocalStorage = () => {
+  const tokenFromLocalStorage = localStorage.getItem('zpt') as string;
+  return tokenFromLocalStorage;
+};
+
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
   const [graphData, setGraphData] = useState<any[][]>([]);
@@ -27,7 +32,7 @@ const AnalyticsAndReportingGraphs = () => {
   });
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
-  const [bearerToken, setBearerToken] = useState('');
+  const bearerToken = useMemo(() => getTokenFromLocalStorage(), []);
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
@@ -37,49 +42,51 @@ const AnalyticsAndReportingGraphs = () => {
       }));
 
       try {
-        const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
-        const response = await fetch(url, {
-          headers: {
-            Authorization: `Bearer ${bearerToken}`,
-          },
-        });
+        if (bearerToken) {
+          const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
+          const response = await fetch(url, {
+            headers: {
+              Authorization: `Bearer ${bearerToken}`,
+            },
+          });
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        const combineInfo = (entry: any) => {
-          if (period === '12months' || period === '3months') {
-            return entry.month;
-          } else if (period === '30days') {
-            return entry.date_range;
-          } else if (period === '7days' || period === '24hours') {
-            return entry.day_of_week;
+          if (!response.ok) {
+            throw new Error(`Failed to fetch data. Status: ${response.status}`);
           }
-        };
 
-        const newData = data.sales_graph.map((salesEntry: any) => {
-          const ordersEntry = data.orders_graph.find((o: any) => o.month === salesEntry.month);
-          const usersEntry = data.users_graph.find((u: any) => u.month === salesEntry.month);
+          const data = await response.json();
 
-          const monthData = {
-            month: combineInfo(salesEntry),
-            sales: salesEntry.sales,
-            orders: ordersEntry ? ordersEntry.orders : 0,
-            users: usersEntry ? usersEntry.users : 0,
-            combinedInfo: combineInfo(salesEntry),
+          const combineInfo = (entry: any) => {
+            if (period === '12months' || period === '3months') {
+              return entry.month;
+            } else if (period === '30days') {
+              return entry.date_range;
+            } else if (period === '7days' || period === '24hours') {
+              return entry.day_of_week;
+            }
           };
 
-          return monthData;
-        });
+          const newData = data.sales_graph.map((salesEntry: any) => {
+            const ordersEntry = data.orders_graph.find((o: any) => o.month === salesEntry.month);
+            const usersEntry = data.users_graph.find((u: any) => u.month === salesEntry.month);
 
-        setGraphData((prevData: any[][]) => {
-          const updatedData: any[][] = [...prevData];
-          updatedData[graphIndex] = newData;
-          return updatedData;
-        });
+            const monthData = {
+              month: combineInfo(salesEntry),
+              sales: salesEntry.sales,
+              orders: ordersEntry ? ordersEntry.orders : 0,
+              users: usersEntry ? usersEntry.users : 0,
+              combinedInfo: combineInfo(salesEntry),
+            };
+
+            return monthData;
+          });
+
+          setGraphData((prevData: any[][]) => {
+            const updatedData: any[][] = [...prevData];
+            updatedData[graphIndex] = newData;
+            return updatedData;
+          });
+        }
       } catch (error) {
         console.error('Error fetching data for period:', error);
         if (!toast.isActive('error')) {
@@ -97,13 +104,6 @@ const AnalyticsAndReportingGraphs = () => {
     fetchDataForGraph(activePeriodGraph2, 1);
   }, [activePeriodGraph1, activePeriodGraph2, bearerToken]);
 
-  const getTokenFromLocalStorage = () => {
-    const tokenFromLocalStorage = localStorage.getItem('zpt');
-    if (tokenFromLocalStorage) {
-      setBearerToken(tokenFromLocalStorage);
-    }
-  };
-
   useEffect(() => {
     const updateIsGraph = () => {
       setIsGraph(window.innerWidth > 768);
@@ -111,8 +111,6 @@ const AnalyticsAndReportingGraphs = () => {
     updateIsGraph();
 
     window.addEventListener('resize', updateIsGraph);
-
-    getTokenFromLocalStorage();
 
     return () => {
       window.removeEventListener('resize', updateIsGraph);
