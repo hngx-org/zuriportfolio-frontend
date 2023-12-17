@@ -24,7 +24,7 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
       const endDate = dateRange[1].format('YYYY-MM-DD');
       setIsLoading(true);
 
-      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/best-selling-products/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products/?start_date=${startDate}&end_date=${endDate}`;
 
       const bearerToken = localStorage.getItem('zpt');
 
@@ -47,7 +47,7 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
         });
     } else {
       setIsLoading(true);
-      const apiUrl = 'https://staging.zuri.team/api/v1/super-admin/analytics/best-selling-products';
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products';
 
       const bearerToken = localStorage.getItem('zpt');
 

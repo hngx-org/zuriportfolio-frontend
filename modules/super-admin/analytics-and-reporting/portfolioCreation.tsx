@@ -25,7 +25,7 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
       const bearerToken = localStorage.getItem('zpt');
       setLoadingState(true);
 
-      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/portfolio-summary/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/portfolio-summary/?start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl, {
@@ -44,7 +44,7 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         });
     } else {
       const bearerToken = localStorage.getItem('zpt');
-      const apiUrl = 'https://staging.zuri.team/api/v1/super-admin/analytics/portfolio-summary';
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/portfolio-summary';
 
       setLoadingState(true);
       axios

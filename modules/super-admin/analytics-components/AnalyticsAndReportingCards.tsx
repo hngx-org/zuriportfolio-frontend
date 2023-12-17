@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const fetchAnalyticsData = async (bearerToken: string) => {
   try {
-    const apiUrl = 'https://staging.zuri.team/api/v1/super-admin/analytics/data/';
+    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/';
 
     const response = await fetch(apiUrl, {
       headers: {

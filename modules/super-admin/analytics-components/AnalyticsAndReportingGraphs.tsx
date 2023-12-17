@@ -37,7 +37,7 @@ const AnalyticsAndReportingGraphs = () => {
       }));
 
       try {
-        const url = `https://staging.zuri.team/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
+        const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
         const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${bearerToken}`,

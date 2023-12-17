@@ -40,7 +40,7 @@ const AnalyticsAndReport: React.FC = () => {
 
       const bearerToken = localStorage.getItem('zpt');
 
-      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl, {
@@ -99,7 +99,7 @@ const AnalyticsAndReport: React.FC = () => {
       const bearerToken = localStorage.getItem('zpt');
       setGetReport(true);
 
-      const apiUrl = `https://staging.zuri.team/api/v1/super-admin/analytics/export-report/all/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/export-report/all/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl, {
