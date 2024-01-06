@@ -31,9 +31,9 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     };
     const payment = userForm.get('paymentMethod') as string;
     const tempUser = await createTempUser(data);
-    
+
     if (tempUser.data.token) {
-      localStorage.setItem('trans_token',tempUser.data.token);
+      localStorage.setItem('trans_token', tempUser.data.token);
 
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
@@ -75,7 +75,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
               Firstname
             </label>
             <input
-              className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
+              className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary font-medium text-[16px]"
               placeholder="Mark"
               type="text"
               name="first_name"
@@ -87,7 +87,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
               Lastname
             </label>
             <input
-              className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
+              className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary font-medium text-[16px]"
               placeholder="Essein"
               type="text"
               name="last_name"
@@ -99,7 +99,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
               Email
             </label>
             <input
-              className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
+              className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary font-medium text-[16px]"
               placeholder="example@email.com"
               type="email"
               name="email"
@@ -115,7 +115,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
                 name="paymentMethod"
                 value="paystack"
               />
-              <span className="ml-2">Pay with Paystack </span>
+              <span className="ml-2 font-medium text-[16px]">Pay with Paystack </span>
             </label>
             <Image src={paystack} alt="paystack" width={64} height={64} />
           </div>
@@ -128,7 +128,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
                 name="paymentMethod"
                 value="flutterwave"
               />
-              <span className="ml-2">Pay with Flutterwave</span>
+              <span className="ml-2 font-medium text-[16px]">Pay with Flutterwave</span>
             </label>
             <Image src={flutterwave} alt="mastercard" width={76} height={76} />
           </div>
