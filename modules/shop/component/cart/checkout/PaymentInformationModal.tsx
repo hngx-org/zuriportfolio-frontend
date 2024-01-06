@@ -109,7 +109,7 @@ const PaymentInformationModal = ({
             {paymentButtonClicked ? (
               <button
                 type="button"
-                className="bg-green-200 py-2 px-4 w-full rounded-md hover:bg-green-200 rounded text-white-100 flex justify-center items-center"
+                className="bg-green-200 py-2 px-4 w-full rounded-md hover:bg-green-200  text-white-100 flex justify-center items-center"
                 disabled
               >
                 <svg className="animate-spin h-4 w-4 inline mr-2 text-[#f5f6f1]" viewBox="0 0 24 24">
@@ -120,7 +120,7 @@ const PaymentInformationModal = ({
             ) : (
               <button
                 onClick={handlePayment}
-                className="py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
+                className="py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 text-white-100 "
               >
                 Proceed to pay
               </button>
