@@ -3,7 +3,7 @@ import React, { DetailedHTMLProps, InputHTMLAttributes, SelectHTMLAttributes } f
 import { twMerge } from 'tailwind-merge';
 
 const inputVariants = cva(
-  'relative px-4 py-3 flex items-center justify-center gap-3 w-fit h-[48px] rounded-[10px] font-manropeL text-dark-100 hide-caret transition-all select-none focus-within:border-brand-green-primary ',
+  'relative px-4 py-3 flex items-center justify-center gap-3 w-fit h-[48px] rounded-[10px] font-manropeL text-[#111111] font-medium hide-caret transition-all select-none focus-within:border-brand-green-primary ',
   {
     variants: {
       intent: {
