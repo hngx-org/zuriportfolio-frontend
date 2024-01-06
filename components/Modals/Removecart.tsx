@@ -2,6 +2,7 @@ import React, { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import group from '../../public/assets/removecart/Group.png';
 import trash from '../../public/assets/removecart/delete.svg';
+import Modal from '@ui/Modal';
 
 interface RemoveCartProps {
   closeModal: () => void;
@@ -11,7 +12,10 @@ interface RemoveCartProps {
 
 const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, productId }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30"
+      onClick={closeModal}
+    >
       <div id="modal" className="bg-white-100 p-4 rounded-lg w-[90%] md:w-[50%] lg:w-[24%] h-415 text-center ">
         <svg
           onClick={closeModal}

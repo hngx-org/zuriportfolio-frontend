@@ -4,18 +4,15 @@ import $http from './axios';
 import axios from 'axios';
 import { AUTH_HTTP_URL } from './auth';
 
-
-
 // export const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart"
 
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
-export const API_BASE_URL =  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'https://zuriportfolio-backend.onrender.com/api/v1'
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_ENDPOINT_URL || 'https://zuriportfolio-backend.onrender.com/api/v1';
 export const RECENTLY_VIEWED_ENDPOINT = 'https://staging.zuri.team/api/marketplace/v1/recently-viewed';
-export const CART_ENDPOINT = API_BASE_URL + "/checkout";
-export const SHOP_API_URL = `${API_BASE_URL}/shop-internal`
-export const PORTFOLIO_BASE_URL = `${API_BASE_URL}/portfolio`
-
-
+export const CART_ENDPOINT = API_BASE_URL + '/checkout';
+export const SHOP_API_URL = `${API_BASE_URL}/shop-internal`;
+export const PORTFOLIO_BASE_URL = `${API_BASE_URL}/portfolio`;
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
