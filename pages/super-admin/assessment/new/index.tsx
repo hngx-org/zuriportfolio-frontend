@@ -18,7 +18,6 @@ export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [coming, setComing] = useState(false);
   const router = useRouter();
   const data = router.query;
   const skillid: any = data.name;
@@ -146,7 +145,7 @@ const CreateAssessment = () => {
     }
     if (postEnd.ok) {
       if (destination === 'Publishing assessments') {
-        setNewTitle(`${newobject.assessment_name} Succesfully Published!`);
+        setNewTitle(`${newobject.assessment_name} succesfully Published!`);
       } else {
         setNewTitle(`${newobject.assessment_name} added to drafts!`);
       }
@@ -159,9 +158,9 @@ const CreateAssessment = () => {
 
   useEffect(() => {
     if (listupdate === 'post') {
-      publishAssessment();
       setPostLoading(true);
-      setListupdate('waiting');
+      publishAssessment();
+      setListupdate('');
     }
   }, [listupdate, publishAssessment]);
 
@@ -182,9 +181,9 @@ const CreateAssessment = () => {
         <meta property="og:url" content="https://staging.Zuri.team/assessment/new" />
       </Head>
       <ToPushContext.Provider value={[newobject, setObject]}>
-        {postLoading && <Spinner />}
-
         <UpdateContext.Provider value={[listupdate, setListupdate]}>
+          {postLoading && <Spinner />}
+
           {modalopen && (
             <Modal isOpen={!isOpen} closeModal={onOpen} isCloseIconPresent={false} size="sm">
               <div className="w-full grid place-items-center">
@@ -200,7 +199,7 @@ const CreateAssessment = () => {
               </div>
             </Modal>
           )}
-          <main className="w-full">
+          <main className="w-full font-ManropeB">
             <SuperAdminNavbar />
             <AssessmentBanner
               title="Create New Assessment"
@@ -217,14 +216,20 @@ const CreateAssessment = () => {
                 <Image alt="go back" src={backarrow} width={'20'} height={'20'} />
                 <p className="text-dark[100]">Go back</p>
               </div>{' '}
-              <div className="flex space-x-4 items-center">
-                <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={draftsClick}>
-                  Save To Drafts
+              {active === 'button1' ? (
+                <div className="flex space-x-4 items-center">
+                  <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={draftsClick}>
+                    Save To Drafts
+                  </Button>
+                  <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishClick}>
+                    Publish Assesments
+                  </Button>
+                </div>
+              ) : (
+                <Button intent={'primary'} size={'sm'} spinnerColor="#000" onClick={() => setActive('button1')}>
+                  Save Changes
                 </Button>
-                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishClick}>
-                  Publish Assesments
-                </Button>
-              </div>
+              )}
             </div>
             <div className="pt-4 pb-2 flex space-x-10 justify-center">
               <div
