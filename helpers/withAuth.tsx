@@ -41,26 +41,6 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
 
     const { authenticatedState } = useIsAuthenticated();
 
-    useEffect(() => {
-      // there is no token found in the localstorage
-
-      if (authenticatedState === false) {
-        router.replace('/auth/login');
-        console.log(authenticatedState, 'authenticated state');
-        return;
-      }
-
-      // auth is undefined means user just landed on page
-      if (!auth) return;
-
-      if (auth?.user.roleId !== ADMIN_ID) {
-        router.push('/access-denied');
-        return;
-      }
-
-      setIsPageLoading(false);
-    }, [auth, router, authenticatedState]);
-
     if (isPageLoading) {
       return (
         <div className="flex items-center justify-center h-screen">
@@ -84,28 +64,6 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
     useAuthRevalidate();
 
     const { authenticatedState } = useIsAuthenticated();
-
-    // isAuthorized({ token: token as string });
-
-    useEffect(() => {
-      // there is no token found in the localstorage
-
-      if (authenticatedState === false) {
-        router.replace('/auth/login');
-        console.log(authenticatedState, 'authenticated state');
-        return;
-      }
-
-      // auth is undefined means user just landed on page
-      if (!auth) return;
-
-      if (auth?.user.roleId !== USER_ID) {
-        router.push('/access-denied');
-        return;
-      }
-
-      setIsPageLoading(false);
-    }, [auth, router, authenticatedState]);
 
     if (isPageLoading) {
       return (
