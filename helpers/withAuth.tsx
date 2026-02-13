@@ -34,7 +34,7 @@ export default withAuth;
 
 export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
-    const [isPageLoading, setIsPageLoading] = useState(true);
+    const [isPageLoading, setIsPageLoading] = useState(false);
     const router = useRouter();
     const { auth } = useAuth();
     useAuthRevalidate();
@@ -58,7 +58,7 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
 
 export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
-    const [isPageLoading, setIsPageLoading] = useState(true);
+    const [isPageLoading, setIsPageLoading] = useState(false);
     const router = useRouter();
     const { auth } = useAuth();
     useAuthRevalidate();
