@@ -166,14 +166,14 @@ const Previewedit: React.FC = () => {
           >
             Questions &amp; Answers
           </div>
-          <div
+          {/* <div
             className={` cursor-pointer ${
               active === 'button2' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443]' : 'text-dark-100'
             }`}
             onClick={() => handleClick('button2')}
-          >
+          >git 
             Scoring
-          </div>
+          </div> */}
         </div>
         <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
         {/* Actual layouts */}

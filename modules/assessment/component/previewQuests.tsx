@@ -32,6 +32,8 @@ const PreviewQuests = ({
     setCurrentSection((prevStep) => prevStep - 1);
   };
 
+  const handleDeleteQuestion = () => {};
+
   return (
     <React.Fragment>
       <div className="flex flex-col gap-y-3 items-center">
@@ -40,18 +42,20 @@ const PreviewQuests = ({
           return (
             <div
               key={index}
-              className={`w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left ${
+              className={`w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-6 px-6 relative text-left ${
                 index === currentSection ? '' : 'hidden'
               }`}
             >
-              <div className=" text-[20px] text-[#009254]">{`Question ${items.question_no} out of 10`}</div>
-              <Link
-                href={`/super-admin/assessment/preview-edit/${items.question_no}?assessmentId=${assessmentId}`}
-                className="absolute top-2 right-10 cursor-pointer"
-              >
-                Edit
-              </Link>
-
+              <div className="flex justify-end gap-4 mb-4">
+                <Link
+                  href={`/super-admin/assessment/preview-edit/${items.question_no}?assessmentId=${assessmentId}`}
+                  className="cursor-pointer"
+                >
+                  Edit
+                </Link>
+                {/* <p className='cursor-pointer'>Delete</p> */}
+              </div>
+              <div className=" text-[20px] text-[#009254]">{`Question ${items.question_no} out of ${questions.length}`}</div>
               <div className="pt-4 text-[14px]">{items.question_text}</div>
               <p className=" text-blue-100 pt-2">Pick only one correct answer</p>
 
