@@ -79,7 +79,8 @@ export const WishlistProductCard = ({
                   size={'sm'}
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
-                  // onClick={() => moveToCart(product.productId)}
+                  onClick={() => moveToCart(product?.id)}
+                  disabled = {product.quantity > 1 ? false : true}
                 >
                   <span className="text-[12px] md:text-lg ">{product.inCart ? 'Explore Similar' : 'Move To Cart'}</span>
                 </Button>
@@ -123,6 +124,7 @@ export const WishlistProductCard = ({
             size={'sm'}
             intent={'tertiary'}
             spinnerColor="#00894C px-4 py-2"
+            disabled = {product.quantity > 1 ? false : true}
           >
             {product.inCart ? 'Explore Similar' : 'Move To Cart'}
           </Button>
