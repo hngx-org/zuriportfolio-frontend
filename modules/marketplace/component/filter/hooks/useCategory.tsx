@@ -1,6 +1,6 @@
+import http from '@modules/marketplace/http';
 import { ProductList } from '@modules/marketplace/types/filter-types';
-import axios, { isAxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 export type CategoryType = {
   name: string;
@@ -8,34 +8,32 @@ export type CategoryType = {
 };
 
 const useCategory = () => {
-  const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [products, setProducts] = useState<ProductList[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
-    getCategories();
-  }, []);
-  async function getCategories() {
-    try {
-      const { data } = await axios.get<{ data: CategoryType[] }>('/category-name/');
+  const {
+    isLoading: category_loading,
+    error: category_error,
+    data: category_data,
+  } = useQuery({
+    queryKey: ['categoryNameData'],
+    queryFn: async () => await http.get<{ data: CategoryType[] }>('/category-name'),
+  });
 
-      setCategories(data.data ? data.data : []);
-      await getProducts();
-    } catch (error) {
-      if (error instanceof isAxiosError) {
-        console.log(error);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
+  const {
+    isLoading: product_loading,
+    error: product_error,
+    data: product_data,
+  } = useQuery({
+    queryKey: ['productListData'],
+    queryFn: async () => await http.get<{ data: ProductList[] }>('/product-list'),
+  });
 
-  async function getProducts() {
-    const { data } = await axios.get<{ data: ProductList[] }>('product-list/');
-    setProducts(data.data);
-  }
-
-  return { categories, loading, products };
+  return {
+    categories: category_data?.data.data || [],
+    products: product_data?.data.data || [],
+    p_loading: product_loading,
+    c_loading: category_loading,
+    p_error: product_error,
+    c_error: category_error
+  };
 };
 
 export default useCategory;
