@@ -8,7 +8,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 import CountryCityDropdown from './CountryCityDropdown';
-
+// import Badges from './badges';
 import { useAuth } from '../../../../context/AuthContext';
 import { AuthResponse } from '../../../../@types/index';
 import { PORTFOLIO_BASE_URL } from '../../../../http/checkout';
