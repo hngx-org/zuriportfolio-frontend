@@ -22,7 +22,6 @@ const CreateTemplate = () => {
     const newt = { ...newobject };
     newt.questions_and_answers = list;
     setObject(newt);
-    console.log(newobject);
   };
   const handleinputQuestion = (e: any, index: number) => {
     const updatedData = [...list];
