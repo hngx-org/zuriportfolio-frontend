@@ -127,13 +127,13 @@
       </mj-column>
     </mj-section>
 
-      <mj-section>
+       <mj-section>
       <mj-column>
         <mj-spacer mj-class="sp-xl" />
       </mj-column>
     </mj-section>
 
-    <mj-section  background-color="#009254">
+    <mj-section mj-class="bg-green"background-color="#009254" >
       <mj-column width="100%">
         <mj-image
           width="124px"
