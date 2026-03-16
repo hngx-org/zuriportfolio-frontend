@@ -45,6 +45,25 @@ export default function Index() {
     <>
       <Head>
         <title>{`Search Result for ${Query}`}</title>
+        <meta property="og:title" content="Search | Results" key="title" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Zuri Marketplace" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Marketplace" />
+        <meta key="metadescription" itemProp="description" name="description" content="Search Results" />
+        <meta name="keywords" content="Zuri, marketplace, search" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta name="language" content="English" />
+
+        <meta key="twitter:title" name="twitter:title" content="Zuri Marketplace" />
+        <meta key="twitter:description" name="twitter:description" content="Zuri marketplace search" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Zuri Marketplace" />
+        <meta property="og:description" content="Search Results" />
       </Head>
       {results && results?.length > 0 && (
         <CategoryLayout>
