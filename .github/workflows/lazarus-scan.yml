@@ -1,0 +1,55 @@
+# =============================================================================
+# Lazarus Config-Injection Scanner — CI Gate
+# =============================================================================
+# Runs on every push and pull request to detect Lazarus/BeaverTail
+# supply-chain payloads hidden in JS config files before they reach production.
+#
+# Exit code 1 = threat detected → pipeline fails → deployment blocked.
+# =============================================================================
+
+name: Lazarus Security Scan
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+permissions:
+  contents: read
+
+jobs:
+  lazarus-scan:
+    name: 🛡️ Supply-Chain Config Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Lazarus Scanner
+        id: scan
+        run: |
+          echo "::group::Scanning config files for Lazarus/BeaverTail IOCs..."
+
+          python lazarus_scanner.py . \
+            --no-process-check \
+            --json \
+            --log lazarus-report.json
+
+          echo "::endgroup::"
+          echo "✅ No supply-chain threats detected."
+
+      - name: Upload scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lazarus-scan-report
+          path: lazarus-report.json
+          retention-days: 30
