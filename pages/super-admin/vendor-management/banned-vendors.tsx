@@ -13,6 +13,7 @@ import Image from 'next/image';
 import right from '/public/assets/vendor/arrow-right.svg';
 import { useRouter } from 'next/router';
 import SuperAdminBannedVendorsHeader from '@modules/super-admin/components/vendormanagement/BannedVendorsHeader';
+import debounce from '@modules/super-admin/components/debounce';
 
 const Index = () => {
   //Variables for the pagination
@@ -45,9 +46,9 @@ const Index = () => {
             <div className="flex items-center justify-left md:justify-between gap-4">
               {/* <SearchProduct handleSearchChange={handleSearch} /> */}
               <Input
-                onChange={(e) => {
+                onChange={debounce((e: any) => {
                   setSearchVal(e.target.value);
-                }}
+                })}
                 leftIcon={<SearchNormal1 />}
                 type="text"
                 intent={'default'}
